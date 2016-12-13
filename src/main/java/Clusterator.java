@@ -16,7 +16,7 @@ public class Clusterator {
     private static void kMiddle(){
         final double crit=10.0;
         ArrayList<Point> coms=new ArrayList<Point>();
-        Random r=new Random();
+        Random r=StRandom.getR();
         for (int i=0; i<clNum; i++) {
             clusters.add(new Cluster());
             int nextCom= r.nextInt(main.agents.size());

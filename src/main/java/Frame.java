@@ -76,19 +76,23 @@ public class Frame extends JFrame implements ActionListener {
     }
 
     public synchronized void addLine(Point p1, Point p2, Color color){
-        lines.add(new Line(p1,p2,color));
-        this.repaint();
+        if (lines.indexOf(new Line(p1,p2))==-1) {
+            lines.add(new Line(p1, p2, color));
+            this.repaint();
+        }
     }
 
     public synchronized void addLine(Point p1, Point p2){
-        lines.add(new Line(p1,p2));
-        this.repaint();
+        if (lines.indexOf(new Line(p1,p2))==-1){
+            lines.add(new Line(p1, p2));
+            this.repaint();
+        }
     }
 
     public synchronized void  removeLine(Point p1, Point p2){
         for (int i=0; i<lines.size();i++){
             Line l=lines.get(i);
-            if ((l.p1 == p1 && l.p2 == p2) || (l.p1 == p2 && l.p2 == p1)) {
+            if (new Line(p1, p2).equals(l)) {
                 lines.remove(l);
             }
         }
@@ -148,8 +152,8 @@ public class Frame extends JFrame implements ActionListener {
                 int r=a.getR();
                 g.fillOval(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);
             }
-            for (Line l: lines) {
-                l.draw(g);
+            for (int i=0; i<lines.size();i++) {
+                lines.get(i).draw(g);
             }
         }
 
@@ -174,6 +178,16 @@ public class Frame extends JFrame implements ActionListener {
         public void draw(Graphics g){
             g.setColor(color);
             g.drawLine(p1.x+25, p1.y+25, p2.x+25, p2.y+25);
+        }
+
+        @Override
+        public boolean equals(Object obj){
+            Line l=(Line) obj;
+            if ((l.p1 == this.p1 && l.p2 == this.p2) || (l.p1 == this.p2 && l.p2 == this.p1))  {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }

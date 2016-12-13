@@ -18,4 +18,5 @@ public class CONST {
     public final static int CLUSTERS_NUM=8;
     public final static int friendPairNum=50;
     public final static int SEED=0; //if seed=0 {seed=random}
+    public final static int taskNum=30;
 }

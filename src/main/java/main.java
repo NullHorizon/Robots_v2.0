@@ -16,7 +16,7 @@ public class main {
     }
     public static void main(String args[])
     {
-        testA();
+        testC();
     }
 
     public static void testA(){
@@ -51,5 +51,11 @@ public class main {
         }
         Clusterator.clusterisation();
         fr.repaint();
+    }
+
+    public static void testC(){
+        fr=new Frame();
+        Generator.generate();
+        Generator.generateTasks();
     }
 }

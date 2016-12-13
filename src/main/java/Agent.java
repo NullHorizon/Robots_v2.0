@@ -18,7 +18,8 @@ public class Agent {
 
     public Agent()
     {
-        Random rnd = new Random();
+        Random rnd = StRandom.getR();
+        this.Connected= new ArrayList<Agent>();
         int x = rnd.nextInt(CONST.width);
         int y = rnd.nextInt(CONST.height);
         this.setPos(new Point(x, y));
@@ -30,7 +31,8 @@ public class Agent {
 
     public Agent(Color c)
     {
-        Random rnd = new Random();
+        Random rnd = StRandom.getR();
+        this.Connected= new ArrayList<Agent>();
         int x = rnd.nextInt(CONST.width);
         int y = rnd.nextInt(CONST.height);
         this.setPos(new Point(x, y));
@@ -43,16 +45,18 @@ public class Agent {
     public Agent(Point p)
     {
         this.setPos(p);
+        this.Connected= new ArrayList<Agent>();
         this.setColor(CONST.color);
         this.setR(CONST.R);
-        Random rnd = new Random();
+        Random rnd = StRandom.getR();
         this.setId(rnd.nextInt(CONST.MAXID));
         this.q = new Queue(this);
     }
 
     public Agent(int r)
     {
-        Random rnd = new Random();
+        Random rnd = StRandom.getR();
+        this.Connected= new ArrayList<Agent>();
         int x = rnd.nextInt(CONST.width);
         int y = rnd.nextInt(CONST.height);
         this.setPos(new Point(x, y));
@@ -65,16 +69,18 @@ public class Agent {
     public Agent(Point p, Color c)
     {
         this.setPos(p);
+        this.Connected= new ArrayList<Agent>();
         this.setColor(c);
         this.setR(CONST.R);
-        Random rnd = new Random();
+        Random rnd = StRandom.getR();
         this.setId(rnd.nextInt(CONST.MAXID));
         this.q = new Queue(this);
     }
 
     public Agent(Color c, int r)
     {
-        Random rnd = new Random();
+        Random rnd = StRandom.getR();
+        this.Connected= new ArrayList<Agent>();
         int x = rnd.nextInt(CONST.width);
         int y = rnd.nextInt(CONST.height);
         this.setPos(new Point(x, y));
@@ -87,9 +93,10 @@ public class Agent {
     public Agent(Point p, int r)
     {
         this.setPos(p);
+        this.Connected= new ArrayList<Agent>();
         this.setColor(CONST.color);
         this.setR(r);
-        Random rnd = new Random();
+        Random rnd = StRandom.getR();
         this.setId(rnd.nextInt(CONST.MAXID));
         this.q = new Queue(this);
     }
@@ -97,9 +104,10 @@ public class Agent {
     public Agent(Point p, Color c, int r)
     {
         this.setPos(p);
+        this.Connected= new ArrayList<Agent>();
         this.setColor(c);
         this.setR(r);
-        Random rnd = new Random();
+        Random rnd = StRandom.getR();
         this.setId(rnd.nextInt(CONST.MAXID));
         this.q = new Queue(this);
     }
