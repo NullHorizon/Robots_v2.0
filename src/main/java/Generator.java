@@ -10,7 +10,7 @@ public class Generator {
         for (int i=0; i< CONST.N; i++){
             main.agents.add(new Agent());
         }
-        for (int i=0; i<CONST.friendPairNum;i++){
+        for (int i=0; i<CONST.FRIENDS_PAIR_NUM;i++){
             ArrayList<Pair> ar=new ArrayList<Pair>();
             int a=StRandom.nextInt(main.agents.size()), b=StRandom.nextInt(main.agents.size());
             int a1=a, b1=b;
@@ -31,7 +31,7 @@ public class Generator {
     }
 
     public static  void generateTasks(){
-        for (int i=0; i<CONST.taskNum;i++){
+        for (int i=0; i<CONST.TASK_NUM;i++){
             int agA=StRandom.nextInt(main.agents.size()), agB=StRandom.nextInt(main.agents.size());
             final Agent a= main.agents.get(agA);
             if (agA==agB){agB=(agB+1)%main.agents.size();}
