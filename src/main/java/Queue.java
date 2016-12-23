@@ -123,6 +123,14 @@ public class Queue {
 
         if (firstElement.getType().equals("GET")) {
             main.logging(owner.getId() + " READING MESSAGE " + firstElement.getMessage().getContent() + " FROM " + firstElement.getAgent().getId());
+            switch (firstElement.msg.getType()){
+                case ANSWER:
+                    main.taskType.getAnswer(firstElement.getAgent(), owner);
+                    break;
+                case CONNECTION:
+                    main.taskType.getConnection(firstElement.getAgent(),owner);
+                    break;
+            }
         } else {
             main.logging(owner.getId() + " SENDING MESSAGE " + firstElement.getMessage().getContent() + " TO " + firstElement.getAgent().getId());
         }

@@ -25,7 +25,6 @@ public class Generator {
             }
             main.agents.get(b).addConnected(main.agents.get(a));
             main.agents.get(a).addConnected(main.agents.get(b));
-            //main.fr.addLine(main.agents.get(a).getPos(), main.agents.get(b).getPos(), Color.GREEN);
             ar.add(new Pair(main.agents.get(a),main.agents.get(b)));
         }
     }
@@ -37,7 +36,9 @@ public class Generator {
             if (agA==agB){agB=(agB+1)%main.agents.size();}
             Agent b = main.agents.get(agB);
             Message m = new Message("This is message number "+i, new ArrayList<Agent>(){{add(a);}}, b);
-            a.sendMessage(b,m);
+            switch (main.taskType.type){
+                case "simple": a.addTask(new SimpleTask(a, b, m));
+            }
         }
     }
     private static class Pair{

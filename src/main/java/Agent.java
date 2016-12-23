@@ -15,6 +15,7 @@ public class Agent {
     private int R;
     private Queue q;
     private ArrayList<Agent> Connected;
+    private ArrayList<Task> tasks;
 
     public Agent()
     {
@@ -27,6 +28,7 @@ public class Agent {
         this.setR(CONST.R);
         this.setId(rnd.nextInt(CONST.MAXID));
         this.q = new Queue(this);
+        tasks=new ArrayList<Task>();
     }
 
     public Agent(Color c)
@@ -40,6 +42,7 @@ public class Agent {
         this.setR(CONST.R);
         this.setId(rnd.nextInt(CONST.MAXID));
         this.q = new Queue(this);
+        tasks=new ArrayList<Task>();
     }
 
     public Agent(Point p)
@@ -51,6 +54,7 @@ public class Agent {
         Random rnd = StRandom.getR();
         this.setId(rnd.nextInt(CONST.MAXID));
         this.q = new Queue(this);
+        tasks=new ArrayList<Task>();
     }
 
     public Agent(int r)
@@ -64,6 +68,7 @@ public class Agent {
         this.setR(r);
         this.setId(rnd.nextInt(CONST.MAXID));
         this.q = new Queue(this);
+        tasks=new ArrayList<Task>();
     }
 
     public Agent(Point p, Color c)
@@ -75,6 +80,7 @@ public class Agent {
         Random rnd = StRandom.getR();
         this.setId(rnd.nextInt(CONST.MAXID));
         this.q = new Queue(this);
+        tasks=new ArrayList<Task>();
     }
 
     public Agent(Color c, int r)
@@ -88,6 +94,7 @@ public class Agent {
         this.setR(r);
         this.setId(rnd.nextInt(CONST.MAXID));
         this.q = new Queue(this);
+        tasks=new ArrayList<Task>();
     }
 
     public Agent(Point p, int r)
@@ -99,6 +106,7 @@ public class Agent {
         Random rnd = StRandom.getR();
         this.setId(rnd.nextInt(CONST.MAXID));
         this.q = new Queue(this);
+        tasks=new ArrayList<Task>();
     }
 
     public Agent(Point p, Color c, int r)
@@ -110,6 +118,7 @@ public class Agent {
         Random rnd = StRandom.getR();
         this.setId(rnd.nextInt(CONST.MAXID));
         this.q = new Queue(this);
+        tasks=new ArrayList<Task>();
     }
 
     public void setPos(Point p)
@@ -159,10 +168,33 @@ public class Agent {
         this.Connected = agents;
     }
 
+    public void addTask(Task t){
+        tasks.add(t);
+        if (tasks.size()==1){
+            tasks.get(0).step();
+        }
+    }
+
+    public boolean removeTask(Task t){
+        if (this.tasks.indexOf(t)!=-1){
+            this.tasks.remove(this.tasks.indexOf(t));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void nextTaskStep(){
+        if (tasks.size()>0) {
+            tasks.get(0).step();
+        }
+    }
+
     public boolean addConnected(Agent a)
     {
-        if (this.Connected.indexOf(a) != -1) {
+        if (this.Connected.indexOf(a) == -1) {
             this.Connected.add(a);
+            main.fr.addLine(new Point(this.getPos().x+3, this.getPos().y+3),new Point(a.getPos().x+3,a.getPos().y+3),Color.GREEN);
             return true;
         } else {
             return false;

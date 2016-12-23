@@ -8,6 +8,7 @@ import java.util.Date;
 public class main {
     static ArrayList<Agent> agents;
     public static Frame fr;
+    public static Task taskType = new SimpleTask();
     public static void logging(String msg)
     {
         Date date = new Date();

@@ -8,6 +8,16 @@ public class Message
     private String content;
     private ArrayList<Agent> chain;
     private Agent target;
+    private MessageType type;
+
+    public Message(String x,ArrayList<Agent> a, Agent t, MessageType type){
+        this.content = x;
+        this.chain = a;
+        this.target = t;
+        if (this.chain == null)
+            this.chain = new ArrayList<Agent>();
+        this.type=type;
+    }
 
     public Message(String x, ArrayList<Agent> a, Agent t)
     {
@@ -16,6 +26,7 @@ public class Message
         this.target = t;
         if (this.chain == null)
             this.chain = new ArrayList<Agent>();
+        type=MessageType.MESSAGE;
     }
 
     public void setContent(String x)
@@ -67,5 +78,10 @@ public class Message
         for(int i = 0; i < this.chain.size(); i++)
             chainStr += this.chain.get(i).getId();
         return chainStr + " " + this.content;
+    }
+
+    public MessageType getType(){ return type;}
+    public enum MessageType{
+        ANSWER, CONNECTION, MESSAGE
     }
 }
