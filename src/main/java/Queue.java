@@ -96,7 +96,7 @@ public class Queue {
             main.logging(owner.getId() + " READ MESSAGE " + p.getMessage().getContent() + " FROM " + p.getAgent().getId());
             owner.sendMessage(p.getAgent(), new Message(CONST.READMSG, new ArrayList<Agent>() {{
                 add(owner);
-            }}, p.getAgent()));
+            }}, p.getAgent(), owner));
         }
         this.elements.remove(p);
         //main.logging(this.toString());
@@ -123,14 +123,6 @@ public class Queue {
 
         if (firstElement.getType().equals("GET")) {
             main.logging(owner.getId() + " READING MESSAGE " + firstElement.getMessage().getContent() + " FROM " + firstElement.getAgent().getId());
-            switch (firstElement.msg.getType()){
-                case ANSWER:
-                    main.taskType.getAnswer(firstElement.getAgent(), owner);
-                    break;
-                case CONNECTION:
-                    main.taskType.getConnection(firstElement.getAgent(),owner);
-                    break;
-            }
         } else {
             main.logging(owner.getId() + " SENDING MESSAGE " + firstElement.getMessage().getContent() + " TO " + firstElement.getAgent().getId());
         }

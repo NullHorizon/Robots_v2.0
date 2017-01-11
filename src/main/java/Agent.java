@@ -9,6 +9,7 @@ import java.util.TimerTask;
  * Created by AsmodeusX on 30.11.2016.
  */
 public class Agent {
+    private boolean lead=false;
     private int id;
     private Point pos;
     private Color color;
@@ -16,6 +17,7 @@ public class Agent {
     private Queue q;
     private ArrayList<Agent> Connected;
     private ArrayList<Task> tasks;
+    private int clusterId;
 
     public Agent()
     {
@@ -126,6 +128,10 @@ public class Agent {
         this.pos = p;
     }
 
+    public void setClusterId(int id){ this.clusterId=id;}
+
+    public int getClusterId(){return this.clusterId;}
+
     public Point getPos()
     {
         return this.pos;
@@ -162,6 +168,9 @@ public class Agent {
     }
 
     public ArrayList<Agent> getConnected() { return this.Connected; }
+
+    public boolean isLead(){return lead;}
+    public void setLead(boolean t){lead=t;}
 
     public void setConnected(ArrayList<Agent> agents)
     {
@@ -276,6 +285,7 @@ public class Agent {
     public void getMessage(final Agent a, final Message msg)
     {
         main.logging(this.getId() + " GET MESSAGE FROM " + a.getId() + ": " + msg);
+        main.taskType.onGetMessage(msg);
         if (msg.getContent().equals(CONST.READMSG))
         {
             main.logging(this.getId() + " GET CONFIRMATION MESSAGE  FROM " + a.getId());

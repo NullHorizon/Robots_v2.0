@@ -7,33 +7,49 @@ public class SimpleTask extends Task {
     ArrayList<Agent> list;
 
     public SimpleTask(){type="simple";}
-    public SimpleTask(Agent own, Agent rec, Message mes) {
-        super(own, rec, mes);
+    private SimpleTask(Agent own, Agent rec, String mes){
+        super(own, rec,mes);
         list=(ArrayList<Agent>) main.agents.clone();
         type="simple";
     }
+    public Task makeTask(Agent own, Agent rec, String mes) {
+        return new SimpleTask( own, rec, mes);
+    }
 
     public void step() {
-        if (owner.getConnected().indexOf(recipient)==-1){
+        if (agOwner.getConnected().indexOf(recipient)==-1){
             Agent b=list.remove(StRandom.nextInt(list.size()));
-            while (owner.getConnected().indexOf(b)!=-1){
+            while (agOwner.getConnected().indexOf(b)!=-1){
                 b=list.remove(StRandom.nextInt(list.size()));
             }
-            owner.sendMessage(b, new Message("Hello. Who are you?", null,b, Message.MessageType.CONNECTION));
+            agOwner.sendMessage(b, new Message("Hello. Who are you?", null,b, agOwner, Message.MSGType.CONNECTION));
         } else {
-            owner.sendMessage(recipient, message);
+            Message compMsg= new Message(message, null,recipient,agOwner);
+            agOwner.sendMessage(recipient, compMsg);
             status=Status.SOLVED;
-            owner.removeTask(this);
+            agOwner.removeTask(this);
         }
     }
 
     public void getAnswer(Agent from, Agent to) {
         to.addConnected(from);
+        from.addConnected(to);
         to.nextTaskStep();
     }
 
     public void getConnection(Agent from, Agent to) {
-        to.addConnected(from);
-        to.sendMessage(from, new Message("I am "+to.getId(),null, from, Message.MessageType.ANSWER));
+        to.sendMessage(from, new Message("I am "+to.getId(),null, from, to, Message.MSGType.ANSWER));
+    }
+
+    @Override
+    public void onGetMessage(Message msg) {
+        switch (msg.getType()){
+            case ANSWER:
+                getAnswer(msg.getFrom(), msg.getTarget());
+                break;
+            case CONNECTION:
+                getConnection(msg.getFrom(), msg.getTarget());
+                break;
+        }
     }
 }

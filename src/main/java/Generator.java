@@ -6,6 +6,38 @@ import java.util.ArrayList;
  */
 public class Generator {
     public static void generate(){
+        main.fr=new Frame();
+        switch (CONST.LOGIC_TYPE){
+            case "SIMPLE": main.taskType=new SimpleTask(); break;
+            case "LEADER": main.taskType= new LeadTask(); break;
+        }
+        switch (main.taskType.getType()){
+            case "simple": simpleGenerate(); break;
+            case "leader": leaderGenerate(); break;
+        }
+    }
+
+    private static void leaderGenerate(){
+        main.agents=new ArrayList<>();
+        for (int i=0; i< CONST.N; i++){
+            main.agents.add(new Agent());
+        }
+        Clusterator.clusterisation();
+        main.fr.repaint();
+        for (Clusterator.Cluster c : Clusterator.getClusters()){
+            Agent l=c.getLeader();
+            for (Agent a :c.getAgents()){
+                l.addConnected(a);
+                a.addConnected(l);
+            }
+            for (Clusterator.Cluster c1 : Clusterator.getClusters()){
+                l.addConnected(c1.getLeader());
+                c1.getLeader().addConnected(l);
+            }
+        }
+    }
+
+    private static void simpleGenerate(){
         main.agents=new ArrayList<Agent>();
         for (int i=0; i< CONST.N; i++){
             main.agents.add(new Agent());
@@ -35,10 +67,7 @@ public class Generator {
             final Agent a= main.agents.get(agA);
             if (agA==agB){agB=(agB+1)%main.agents.size();}
             Agent b = main.agents.get(agB);
-            Message m = new Message("This is message number "+i, new ArrayList<Agent>(){{add(a);}}, b);
-            switch (main.taskType.type){
-                case "simple": a.addTask(new SimpleTask(a, b, m));
-            }
+            a.addTask(main.taskType.makeTask(a, b, "This is message number "+i));
         }
     }
     private static class Pair{

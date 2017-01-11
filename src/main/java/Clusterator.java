@@ -63,7 +63,7 @@ public class Clusterator {
         }
 
         for (int i=0; i<clusters.size();i++){
-            clusters.get(i).dye();
+            clusters.get(i).finish();
         }
 
     }
@@ -72,6 +72,7 @@ public class Clusterator {
         private Color color;
         private ArrayList<Agent> agents;
         private int id;
+        private Agent lead;
 
         private static final Color[] colors= { Color.green, Color.black, Color.yellow, Color.pink,
                 Color.orange, Color.cyan, Color.GRAY, Color.RED, Color.BLUE};
@@ -98,16 +99,41 @@ public class Clusterator {
             return ans;
         }
 
-        private void dye(){
+        private void finish(){
             for (Agent a:agents){
                 a.setColor(color);
+                a.setClusterId(this.id);
             }
+            double minDist=CONST.height+CONST.width;
+            lead=null;
+            for (Agent a : agents){
+                if (getCom().distance(a.getPos())<minDist){
+                    lead=a;
+                    minDist=getCom().distance(a.getPos());
+                }
+            }
+            lead.setLead(true);
         }
         private void clear(){agents.clear();}
         private void add(Agent a){ agents.add(a);}
         private void remove(Agent a){ agents.remove(a);}
         private Agent getAgent(int i){ return agents.get(i);}
         private Color getColor(){return color;}
+        private int getId(){return id;}
+
+        public Agent getLeader(){return this.lead;}
+        public ArrayList<Agent> getAgents(){return agents;}
 
     }
+
+    public static Cluster getCluster(int id){
+        for (int i=0; i<clusters.size();i++){
+            if (clusters.get(i).getId()==id){
+                return clusters.get(i);
+            }
+        }
+        return null;
+    }
+
+    public static ArrayList<Cluster> getClusters(){return clusters;}
 }

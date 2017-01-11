@@ -66,7 +66,7 @@ public class Frame extends JFrame implements ActionListener {
         but_panel.add(que_panel);
 
 
-        add(but_panel);
+        //add(but_panel);
 
         robots_panel=new RobotsPanel(w-200,h);
         robots_panel.setBounds(200,0,w,h);

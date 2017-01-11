@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -7,26 +8,44 @@ public class Message
 {
     private String content;
     private ArrayList<Agent> chain;
-    private Agent target;
-    private MessageType type;
+    private Agent target, from;
+    private MSGType type;
+    private Agent finalTarget;
 
-    public Message(String x,ArrayList<Agent> a, Agent t, MessageType type){
+    public Message(String x, ArrayList<Agent> a, Agent t, Agent from, Agent ft){
         this.content = x;
         this.chain = a;
         this.target = t;
+        this.from=from;
         if (this.chain == null)
             this.chain = new ArrayList<Agent>();
+        chain.add(from);
+        type=MSGType.MESSAGE;
+        finalTarget=ft;
+    }
+    public Message(String x, ArrayList<Agent> a, Agent t, Agent from, MSGType type){
+        this.content = x;
+        this.chain = a;
+        this.target = t;
+        this.from=from;
+        if (this.chain == null)
+            this.chain = new ArrayList<Agent>();
+        chain.add(from);
         this.type=type;
+        finalTarget=target;
     }
 
-    public Message(String x, ArrayList<Agent> a, Agent t)
+    public Message(String x, ArrayList<Agent> a, Agent t, Agent from)
     {
         this.content = x;
         this.chain = a;
         this.target = t;
+        this.from=from;
         if (this.chain == null)
             this.chain = new ArrayList<Agent>();
-        type=MessageType.MESSAGE;
+        chain.add(from);
+        type=MSGType.MESSAGE;
+        finalTarget=target;
     }
 
     public void setContent(String x)
@@ -46,7 +65,8 @@ public class Message
     {
         return this.target;
     }
-
+    public Agent getFrom() {return this.from;}
+    public Agent getFinalTarget() {return finalTarget;}
     public ArrayList<Agent> getChain()
     {
         return this.chain;
@@ -80,8 +100,9 @@ public class Message
         return chainStr + " " + this.content;
     }
 
-    public MessageType getType(){ return type;}
-    public enum MessageType{
+    public MSGType getType(){ return type;}
+
+    public enum MSGType{
         ANSWER, CONNECTION, MESSAGE
     }
 }

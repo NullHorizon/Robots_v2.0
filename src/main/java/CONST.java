@@ -25,6 +25,7 @@ public class CONST {
     public final static int FRIENDS_PAIR_NUM;
     public final static int SEED; //if seed=0 {seed=random}
     public final static int TASK_NUM;
+    public final static String LOGIC_TYPE; // SIMPLE/LEADER
     static {
         DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
         f.setValidating(false);
@@ -43,7 +44,8 @@ public class CONST {
                 TASK_NUM1 = 30;
         Color color1=Color.BLUE;
         String READMSG1 = "READ",
-                SENTMSG1 = "SENT";
+                SENTMSG1 = "SENT",
+                LOGIC_TYPE1="SIMPLE";
         try {
             DocumentBuilder builder = f.newDocumentBuilder();
             doc = builder.parse(new File("src/params.xml"));
@@ -65,6 +67,7 @@ public class CONST {
             FRIENDS_PAIR_NUM1 = new Integer(e.getAttribute("FRIENDS_PAIR_NUM"));
             SEED1 = new Integer(e.getAttribute("SEED"));
             TASK_NUM1 = new Integer(e.getAttribute("TASK_NUM"));
+            LOGIC_TYPE1 = e.getAttribute("LOGIC_TYPE");
         } catch (Exception e) {
             main.logging("XML parse error!");
         }
@@ -83,5 +86,6 @@ public class CONST {
         DISTKOEF=DISTKOEF1;
         READMSG=READMSG1;
         N=N1;
+        LOGIC_TYPE=LOGIC_TYPE1;
     }
 }

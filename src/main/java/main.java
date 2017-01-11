@@ -8,7 +8,7 @@ import java.util.Date;
 public class main {
     static ArrayList<Agent> agents;
     public static Frame fr;
-    public static Task taskType = new SimpleTask();
+    public static Task taskType;
     public static void logging(String msg)
     {
         Date date = new Date();
@@ -34,10 +34,10 @@ public class main {
         agents.add(D);
         agents.add(E);
         fr.repaint();
-        agents.get(0).sendMessage(agents.get(1), new Message("HelloHelloHello", null, agents.get(1)));
-        agents.get(0).sendMessage(agents.get(2), new Message("HelloHelloHello", null, agents.get(2)));
-        agents.get(0).sendMessage(agents.get(3), new Message("HelloHelloHello", null, agents.get(3)));
-        agents.get(0).sendMessage(agents.get(4), new Message("HelloHelloHello", null, agents.get(4)));
+        agents.get(0).sendMessage(agents.get(1), new Message("HelloHelloHello", null, agents.get(1), agents.get(0)));
+        agents.get(0).sendMessage(agents.get(2), new Message("HelloHelloHello", null, agents.get(2), agents.get(0)));
+        agents.get(0).sendMessage(agents.get(3), new Message("HelloHelloHello", null, agents.get(3), agents.get(0)));
+        agents.get(0).sendMessage(agents.get(4), new Message("HelloHelloHello", null, agents.get(4), agents.get(0)));
         //agents.get(0).sendMessage(agents.get(3), new Message("Hello", null, agents.get(4)));
         /*A.sendMessage(D, "Hello!");
         B.sendMessage(D, "HelloHelloHello!");
@@ -55,7 +55,6 @@ public class main {
     }
 
     public static void testC(){
-        fr=new Frame();
         Generator.generate();
         Generator.generateTasks();
     }
