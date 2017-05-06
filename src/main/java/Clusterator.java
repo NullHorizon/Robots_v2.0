@@ -7,8 +7,12 @@ import java.util.Random;
  */
 public class Clusterator {
     private static ArrayList<Cluster> clusters=new ArrayList<Cluster>();
-    private static int clNum=CONST.CLUSTERS_NUM;
+    private static int clNum=StRandom.nextInt(3)+2;
 
+    public static void reset(){
+        clusters=new ArrayList<Cluster>();
+        clNum=StRandom.nextInt(3)+2;
+    }
     public static void clusterisation(){
         kMiddle();
     }
@@ -41,7 +45,8 @@ public class Clusterator {
             for (Cluster c:clusters){
                 c.clear();
             }
-            for (Agent a : main.agents) {
+            for (int p=0;p< main.agents.size();p++) {
+                Agent a=main.agents.get(p);
                 double minD = a.getPos().distance(coms.get(0));
                 int cluster = 0;
                 for (int i = 1; i < clNum; i++) {
@@ -61,7 +66,6 @@ public class Clusterator {
                 coms.set(i,clusters.get(i).getCom());
             }
         }
-
         for (int i=0; i<clusters.size();i++){
             clusters.get(i).finish();
         }
@@ -74,8 +78,8 @@ public class Clusterator {
         private int id;
         private Agent lead;
 
-        private static final Color[] colors= { Color.green, Color.black, Color.yellow, Color.pink,
-                Color.orange, Color.cyan, Color.GRAY, Color.RED, Color.BLUE};
+        private static final Color[] colors= {  Color.orange ,Color.yellow, Color.pink,
+                Color.orange, Color.cyan, Color.GRAY, Color.magenta, Color.BLUE};
         private static int colorNum=0;
 
         private Cluster(){
@@ -106,7 +110,8 @@ public class Clusterator {
             }
             double minDist=CONST.height+CONST.width;
             lead=null;
-            for (Agent a : agents){
+            for (int i=0; i<agents.size();i++){
+                Agent a= agents.get(i);
                 if (getCom().distance(a.getPos())<minDist){
                     lead=a;
                     minDist=getCom().distance(a.getPos());
@@ -114,6 +119,7 @@ public class Clusterator {
             }
             lead.setLead(true);
         }
+
         private void clear(){agents.clear();}
         private void add(Agent a){ agents.add(a);}
         private void remove(Agent a){ agents.remove(a);}

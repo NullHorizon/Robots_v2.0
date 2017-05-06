@@ -18,6 +18,8 @@ public class Agent {
     private ArrayList<Agent> Connected;
     private ArrayList<Task> tasks;
     private int clusterId;
+    private boolean saboteur=false;
+    private boolean broken=false;
 
     public Agent()
     {
@@ -167,6 +169,17 @@ public class Agent {
         return this.id;
     }
 
+    public boolean isBroken() {
+        return broken;
+    }
+
+    public void setBroken(boolean broken) {
+        this.broken = broken;
+    }
+
+    public boolean isSaboteur(){ return this.saboteur;}
+    public void setSaboteur(boolean saboteur){ this.saboteur=saboteur;}
+
     public ArrayList<Agent> getConnected() { return this.Connected; }
 
     public boolean isLead(){return lead;}
@@ -187,6 +200,9 @@ public class Agent {
     public boolean removeTask(Task t){
         if (this.tasks.indexOf(t)!=-1){
             this.tasks.remove(this.tasks.indexOf(t));
+            if (tasks.size()>0){
+                tasks.get(0).step();
+            }
             return true;
         } else {
             return false;
@@ -199,8 +215,7 @@ public class Agent {
         }
     }
 
-    public boolean addConnected(Agent a)
-    {
+    public boolean addConnected(Agent a) {
         if (this.Connected.indexOf(a) == -1) {
             this.Connected.add(a);
             main.fr.addLine(new Point(this.getPos().x+3, this.getPos().y+3),new Point(a.getPos().x+3,a.getPos().y+3),Color.GREEN);
@@ -210,8 +225,7 @@ public class Agent {
         }
     }
 
-    public boolean removeConnected(Agent a)
-    {
+    public boolean removeConnected(Agent a) {
         if (this.Connected.indexOf(a) != -1) {
             this.Connected.remove(this.Connected.indexOf(a));
             return true;
@@ -227,8 +241,7 @@ public class Agent {
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (o == null) {
             return false;
         }
@@ -243,8 +256,7 @@ public class Agent {
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 31;
         int koef = 17;
         hash += koef * this.getId();
@@ -259,19 +271,16 @@ public class Agent {
         return (int)Math.round(msg.getContent().length() * CONST.LENKOEF);
     }
 
-    private int getDelayFromLenWithAnalyze(Message msg)
-    {
+    private int getDelayFromLenWithAnalyze(Message msg) {
         return (int)Math.round(msg.getContent().length() * CONST.ANALYZKOEF);
     }
 
-    private int getDelayFromDist(Point p)
-    {
+    private int getDelayFromDist(Point p) {
         double dist = Math.sqrt(Math.pow(p.getX() + this.getPos().getX(), 2) - Math.pow(p.getX() + this.getPos().getX(), 2));
         return (int)Math.round(dist * CONST.DISTKOEF);
     }
 
-    public void sendMessage(final Agent a, final Message msg)
-    {
+    public void sendMessage(final Agent a, final Message msg) {
         int delayOnGenerate = getDelayFromLen(msg);
         int delayOnSending = getDelayFromDist(a.getPos());
         this.q.addToQueue(a, delayOnGenerate + delayOnSending, "SEND", msg);
@@ -285,7 +294,6 @@ public class Agent {
     public void getMessage(final Agent a, final Message msg)
     {
         main.logging(this.getId() + " GET MESSAGE FROM " + a.getId() + ": " + msg);
-        main.taskType.onGetMessage(msg);
         if (msg.getContent().equals(CONST.READMSG))
         {
             main.logging(this.getId() + " GET CONFIRMATION MESSAGE  FROM " + a.getId());
@@ -295,5 +303,6 @@ public class Agent {
         }
 
         this.q.addToQueue(a, getDelayFromLenWithAnalyze(msg), "GET", msg);
+        main.taskType.onGetMessage(msg);
     }
 }

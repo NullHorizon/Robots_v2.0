@@ -94,9 +94,8 @@ public class Queue {
         } else
         {
             main.logging(owner.getId() + " READ MESSAGE " + p.getMessage().getContent() + " FROM " + p.getAgent().getId());
-            owner.sendMessage(p.getAgent(), new Message(CONST.READMSG, new ArrayList<Agent>() {{
-                add(owner);
-            }}, p.getAgent(), owner));
+            //owner.sendMessage(p.getAgent(), new Message(CONST.READMSG, null, p.getAgent(), owner));
+            main.fr.removeLine(owner.getPos(), p.getAgent().getPos());
         }
         this.elements.remove(p);
         //main.logging(this.toString());
@@ -126,7 +125,7 @@ public class Queue {
         } else {
             main.logging(owner.getId() + " SENDING MESSAGE " + firstElement.getMessage().getContent() + " TO " + firstElement.getAgent().getId());
         }
-        main.fr.addLine(owner.getPos(), firstElement.getAgent().getPos(), Color.RED);
+        main.fr.addLine(owner.getPos(), firstElement.getAgent().getPos(), Color.red);
 
         Timer tmr = new Timer();
         tmr.schedule(new TimerTask() {

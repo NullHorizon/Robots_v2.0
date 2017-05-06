@@ -11,6 +11,7 @@ public class Message
     private Agent target, from;
     private MSGType type;
     private Agent finalTarget;
+    private boolean negative=false;
 
     public Message(String x, ArrayList<Agent> a, Agent t, Agent from, Agent ft){
         this.content = x;
@@ -19,8 +20,23 @@ public class Message
         this.from=from;
         if (this.chain == null)
             this.chain = new ArrayList<Agent>();
-        chain.add(from);
+        if (type!=MSGType.FEED_BACK) {
+            chain.add(from);
+        }
         type=MSGType.MESSAGE;
+        finalTarget=ft;
+    }
+    public Message(String x, ArrayList<Agent> a, Agent t, Agent from, Agent ft, MSGType type){
+        this.content = x;
+        this.chain = a;
+        this.target = t;
+        this.from=from;
+        if (this.chain == null)
+            this.chain = new ArrayList<Agent>();
+        if (type!=MSGType.FEED_BACK) {
+            chain.add(from);
+        }
+        this.type=type;
         finalTarget=ft;
     }
     public Message(String x, ArrayList<Agent> a, Agent t, Agent from, MSGType type){
@@ -30,7 +46,9 @@ public class Message
         this.from=from;
         if (this.chain == null)
             this.chain = new ArrayList<Agent>();
-        chain.add(from);
+        if (type!=MSGType.FEED_BACK) {
+            chain.add(from);
+        }
         this.type=type;
         finalTarget=target;
     }
@@ -43,7 +61,9 @@ public class Message
         this.from=from;
         if (this.chain == null)
             this.chain = new ArrayList<Agent>();
-        chain.add(from);
+        if (type!=MSGType.FEED_BACK) {
+            chain.add(from);
+        }
         type=MSGType.MESSAGE;
         finalTarget=target;
     }
@@ -102,7 +122,19 @@ public class Message
 
     public MSGType getType(){ return type;}
 
+    public boolean isNegative() {
+        return negative;
+    }
+
+    public void setNegative(boolean negative) {
+        this.negative = negative;
+    }
+
+    public void setType(MSGType type) {
+        this.type = type;
+    }
+
     public enum MSGType{
-        ANSWER, CONNECTION, MESSAGE
+        ANSWER, CONNECTION, MESSAGE, TARGET_MESSAGE, SEARCH, FINDED, SEARCH_FALL, FEED_BACK
     }
 }

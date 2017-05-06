@@ -1,61 +1,63 @@
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimerTask;
 
 /**
  * Created by AsmodeusX on 30.11.2016.
  */
 public class main {
-    static ArrayList<Agent> agents;
+    public static ArrayList<Agent> agents;
+    public static ArrayList<Task> tasks;
+    public static Stats stats;
     public static Frame fr;
     public static Task taskType;
+    public static int cur_exp=1;
+
     public static void logging(String msg)
     {
         Date date = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("hh:mm:ss:SS ");
-        System.out.println(ft.format(date) + msg);
+        //System.out.println(ft.format(date) + msg);
     }
+
+    public static void chekTasks(){
+        boolean flag=true;
+        for (int i=0; i<tasks.size();i++){
+            if (tasks.get(i).status==Task.Status.UNSOLVED){
+                flag=false;
+                break;
+            }
+        }
+        if (flag){
+            stats.calc();
+        }
+    }
+
+    public static void next(){
+        if (cur_exp<CONST.EXPERIMENT_NUM){
+            java.util.Timer timer2 = new java.util.Timer();
+            TimerTask task = new TimerTask() {
+                public void run()
+                {
+
+                    cur_exp++;
+                    Generator.generate();
+                    Generator.generateTasks();
+                }
+            };
+            timer2.schedule( task, 100 );
+        }
+    }
+
     public static void main(String args[])
     {
         testC();
-    }
-
-    public static void testA(){
-        fr = new Frame();
-        agents = new ArrayList<Agent>();
-        Agent A = new Agent();
-        Agent B = new Agent();
-        Agent C = new Agent();
-        Agent D = new Agent();
-        Agent E = new Agent();
-        agents.add(A);
-        agents.add(B);
-        agents.add(C);
-        agents.add(D);
-        agents.add(E);
-        fr.repaint();
-        agents.get(0).sendMessage(agents.get(1), new Message("HelloHelloHello", null, agents.get(1), agents.get(0)));
-        agents.get(0).sendMessage(agents.get(2), new Message("HelloHelloHello", null, agents.get(2), agents.get(0)));
-        agents.get(0).sendMessage(agents.get(3), new Message("HelloHelloHello", null, agents.get(3), agents.get(0)));
-        agents.get(0).sendMessage(agents.get(4), new Message("HelloHelloHello", null, agents.get(4), agents.get(0)));
-        //agents.get(0).sendMessage(agents.get(3), new Message("Hello", null, agents.get(4)));
-        /*A.sendMessage(D, "Hello!");
-        B.sendMessage(D, "HelloHelloHello!");
-        C.sendMessage(D, "HelloHelloHelloHelloHelloHello!");*/
-    }
-
-    public static void testB(){
-        fr = new Frame();
-        agents=new ArrayList<Agent>();
-        for (int i=0; i<CONST.N; i++){
-            agents.add(new Agent());
-        }
-        Clusterator.clusterisation();
-        fr.repaint();
     }
 
     public static void testC(){
         Generator.generate();
         Generator.generateTasks();
     }
+
 }

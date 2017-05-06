@@ -30,7 +30,8 @@ public class Frame extends JFrame implements ActionListener {
         but_panel.setBounds(0,0,200,h);
         but_panel.setLayout(new FlowLayout());
 
-        someButt= new JButton("Some button");
+        someButt= new JButton("Stat button");
+        someButt.addActionListener(this);
         but_panel.add(someButt);
 
         cluster_panel=new JPanel();
@@ -47,7 +48,7 @@ public class Frame extends JFrame implements ActionListener {
         cluster_panel.add(cluster1_butt);
         cluster_panel.add(cluster2_butt);
         cluster_panel.add(cluster3_butt);
-        but_panel.add(cluster_panel);
+        //but_panel.add(cluster_panel);
 
         que_panel=new JPanel();
         que_panel.setBorder(BorderFactory.createLoweredBevelBorder());
@@ -63,16 +64,21 @@ public class Frame extends JFrame implements ActionListener {
         que_panel.add(que1_butt);
         que_panel.add(que2_butt);
         que_panel.add(que3_butt);
-        but_panel.add(que_panel);
+        //but_panel.add(que_panel);
 
 
-        //add(but_panel);
+        add(but_panel);
 
         robots_panel=new RobotsPanel(w-200,h);
         robots_panel.setBounds(200,0,w,h);
         add(robots_panel);
 
         setVisible(true);
+    }
+
+    public void reset(){
+        lines=new ArrayList<Line>();
+        repaint();
     }
 
     public synchronized void addLine(Point p1, Point p2, Color color){
@@ -127,9 +133,10 @@ public class Frame extends JFrame implements ActionListener {
 
 
     public void actionPerformed (ActionEvent e) {
-        /*switch (e.getActionCommand()){
-            case "Some button": main.logging("Something happend");
-        }*/
+
+        switch (e.getActionCommand()){
+            case "Stat button": Table.showTable();  break;
+        }
     }
 
     private class RobotsPanel extends JPanel {
@@ -146,14 +153,23 @@ public class Frame extends JFrame implements ActionListener {
         public synchronized  void paint(Graphics g){
             g.setColor(Color.WHITE);
             g.fillRect(0,0,w,h);
+            for (int i=0; i<lines.size();i++) {
+                lines.get(i).draw(g);
+            }
             for (int i=0; i<main.agents.size();i++){
                 Agent a=main.agents.get(i);
                 g.setColor(a.getColor());
                 int r=a.getR();
                 g.fillOval(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);
-            }
-            for (int i=0; i<lines.size();i++) {
-                lines.get(i).draw(g);
+                if (a.isBroken()) {
+                    g.setColor(Color.BLACK);
+                    g.drawLine(a.getPos().x - r+25, a.getPos().y-r+25,a.getPos().x + r+25, a.getPos().y+r+25);
+                    g.drawLine(a.getPos().x + r+25, a.getPos().y-r+25,a.getPos().x - r+25, a.getPos().y+r+25);
+                }
+                if (a.isSaboteur()){
+                    g.setColor(Color.RED);
+                    g.drawOval(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);
+                }
             }
         }
 

@@ -20,18 +20,24 @@ public class CONST {
     public final static double DISTKOEF;
     public final static String READMSG;
     public final static String SENTMSG;
-    public final static int N;
+    public static int N;
     public final static int CLUSTERS_NUM;
     public final static int FRIENDS_PAIR_NUM;
     public final static int SEED; //if seed=0 {seed=random}
-    public final static int TASK_NUM;
+    public static int TASK_NUM;
     public final static String LOGIC_TYPE; // SIMPLE/LEADER
+    public final static int MAX_MSG_LEN;
+    public final static int MIN_MSG_LEN;;
+    public final static int EXPERIMENT_NUM;
+    public final static int SABOTEUR_PERSENT;
+    public final static int MAX_AGENTS;
     static {
         DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
         f.setValidating(false);
         Document doc;
         int width1 = 500,
                 height1 = 500,
+                MAX_AGENTS1=0,
                 R1 = 6,
                 MAXID1 = 1000000,
                 LENKOEF1 = 64,
@@ -41,9 +47,13 @@ public class CONST {
                 CLUSTERS_NUM1 = 8,
                 FRIENDS_PAIR_NUM1 = 50,
                 SEED1 = 0,
-                TASK_NUM1 = 30;
-        Color color1=Color.BLUE;
-        String READMSG1 = "READ",
+                TASK_NUM1 = 30,
+                MAX_MSG_LEN1=10,
+                MIN_MSG_LEN1=3,
+                EXPERIMENT_NUM1=1,
+                SABOTEUR_PERSENT1=0;
+                Color color1=Color.BLUE;
+                String READMSG1 = "READ",
                 SENTMSG1 = "SENT",
                 LOGIC_TYPE1="SIMPLE";
         try {
@@ -68,6 +78,11 @@ public class CONST {
             SEED1 = new Integer(e.getAttribute("SEED"));
             TASK_NUM1 = new Integer(e.getAttribute("TASK_NUM"));
             LOGIC_TYPE1 = e.getAttribute("LOGIC_TYPE");
+            EXPERIMENT_NUM1=new Integer(e.getAttribute("EXPERIMENT_NUM"));
+            MAX_MSG_LEN1 = new Integer(e.getAttribute("MAX_MSG_LEN"));
+            MIN_MSG_LEN1 = new Integer(e.getAttribute("MIN_MSG_LEN"));
+            SABOTEUR_PERSENT1=new Integer(e.getAttribute("SABOTEUR_PERSENT"));
+            MAX_AGENTS1=new Integer(e.getAttribute("MAX_AGENTS"));
         } catch (Exception e) {
             main.logging("XML parse error!");
         }
@@ -87,5 +102,10 @@ public class CONST {
         READMSG=READMSG1;
         N=N1;
         LOGIC_TYPE=LOGIC_TYPE1;
+        MAX_MSG_LEN=MAX_MSG_LEN1;
+        MIN_MSG_LEN=MIN_MSG_LEN1;
+        EXPERIMENT_NUM=EXPERIMENT_NUM1;
+        SABOTEUR_PERSENT=SABOTEUR_PERSENT1;
+        MAX_AGENTS=MAX_AGENTS1;
     }
 }
