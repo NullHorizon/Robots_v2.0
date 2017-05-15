@@ -11,6 +11,7 @@ import java.util.ArrayList;
  */
 public class Frame extends JFrame implements ActionListener {
 
+    private JProgressBar progressBar;
     private JPanel but_panel, robots_panel, cluster_panel, que_panel ;
     private final int w=CONST.width+200+60, h=CONST.height+60;
     private JRadioButton que1_butt, que2_butt, que3_butt,cluster1_butt, cluster2_butt, cluster3_butt;
@@ -33,6 +34,9 @@ public class Frame extends JFrame implements ActionListener {
         someButt= new JButton("Stat button");
         someButt.addActionListener(this);
         but_panel.add(someButt);
+
+        progressBar=new JProgressBar(0,CONST.EXPERIMENT_NUM);
+        but_panel.add(progressBar);
 
         cluster_panel=new JPanel();
         cluster_panel.setBorder(BorderFactory.createLoweredBevelBorder());
@@ -78,6 +82,7 @@ public class Frame extends JFrame implements ActionListener {
 
     public void reset(){
         lines=new ArrayList<Line>();
+        progressBar.setValue(main.cur_exp);
         repaint();
     }
 
@@ -170,6 +175,18 @@ public class Frame extends JFrame implements ActionListener {
                     g.setColor(Color.RED);
                     g.drawOval(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);
                 }
+                if (a.isLead()){
+                    g.setColor(Color.orange);
+                    g.drawRect(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);
+                }
+                for (int j=0;j<a.getWrongActionNum();j++){
+                    g.setColor(Color.RED);
+                    g.fillOval(a.getPos().x+r+j*6+25,a.getPos().y+25,5,5);
+                }
+            }
+            if (main.taskType.getType()=="InfPhy"){
+                g.setColor(Color.BLUE);
+                g.drawLine(CONST.width/2+25+CONST.R,0,CONST.width/2+CONST.R+25,CONST.height);
             }
         }
 

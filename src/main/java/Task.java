@@ -63,6 +63,15 @@ public abstract class Task {
     public abstract Task makeTask(Agent own, Agent rec, String mes);
     public abstract void onGetMessage(Message msg);
     public abstract void step();
+    protected boolean feedback(Message msg){
+        if (msg.getType()== Message.MSGType.FEED_BACK){
+            return true;
+        } else {
+            Message m= new Message("FEEDBACK", null,msg.getFrom(),msg.getTarget(), Message.MSGType.FEED_BACK);
+            msg.getTarget().sendMessage(msg.getFrom(),m);
+            return false;
+        }
+    }
 
     public enum Status{ UNSOLVED, SOLVED}
 }

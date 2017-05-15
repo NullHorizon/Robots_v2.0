@@ -115,8 +115,11 @@ public class Queue {
 
     private void Work()
     {
-        if (this.elements.isEmpty())
+        if (this.elements.isEmpty()) {
+            working=false;
             return;
+        }
+        working=true;
 
         final messageData firstElement = this.elements.firstElement();
 
@@ -149,4 +152,7 @@ public class Queue {
         return ans;
     }
 
+    public boolean isWorking() {
+        return working;
+    }
 }

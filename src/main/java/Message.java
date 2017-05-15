@@ -12,6 +12,7 @@ public class Message
     private MSGType type;
     private Agent finalTarget;
     private boolean negative=false;
+    private Task task;
 
     public Message(String x, ArrayList<Agent> a, Agent t, Agent from, Agent ft){
         this.content = x;
@@ -134,7 +135,15 @@ public class Message
         this.type = type;
     }
 
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
     public enum MSGType{
-        ANSWER, CONNECTION, MESSAGE, TARGET_MESSAGE, SEARCH, FINDED, SEARCH_FALL, FEED_BACK
+        ANSWER, CONNECTION, MESSAGE, TARGET_MESSAGE, SEARCH, FINDED, SEARCH_FALL, FEED_BACK, LINE_FEED_BACK
     }
 }

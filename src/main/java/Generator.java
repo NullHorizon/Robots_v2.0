@@ -25,23 +25,56 @@ public class Generator {
             case "SIMPLE": main.taskType=new SimpleTask(); break;
             case "LEADER": main.taskType= new LeadTask(); break;
             case "CLUSTER": main.taskType=new ClusterTask(); break;
+            case "InfPhy": main.taskType=new InfPhyTask(); break;
         }
         switch (main.taskType.getType()){
             case "simple": simpleGenerate(); break;
             case "leader": leaderGenerate(); break;
             case "cluster": clusterGenerate(); break;
+            case "InfPhy": infPhyGenerate(); break;
         }
     }
 
-    private static void leaderGenerate(){
+    private static void commonGenerate(){
         main.agents=new ArrayList<>();
         for (int i=0; i< CONST.N; i++){
-            Agent a=new Agent();
+            Agent a = new Agent();
+            if (main.taskType.getType()=="InfPhy") {
+                double R = CONST.width / 2 - 60;
+                int x = CONST.width / 2;
+                int y = CONST.height / 2;
+                double angle=Math.PI*2/CONST.N*i;
+                int xplus = (int)(Math.sin(angle) * R), yplus =  (int)(Math.cos(angle) * R);
+                System.out.println(angle+" "+xplus+" "+yplus+" "+CONST.N);
+                if (x+xplus>CONST.width / 2){
+                    xplus+=50;
+                } else {
+                    xplus-=50;
+                }
+                a.setPos(new Point(x + xplus, y + yplus));
+            }
             if (StRandom.nextInt(100)<CONST.SABOTEUR_PERSENT){
                 a.setSaboteur(true);
             }
             main.agents.add(a);
         }
+
+    }
+    private static void infPhyGenerate(){
+        commonGenerate();
+        ((InfPhyTask)main.taskType).setIterationNum(0);
+        Clusterator.setClNum(2);
+        Clusterator.infPhyClusterisation();
+        for (Agent a:Clusterator.getClusters().get(1).getAgents()){
+            Agent ta=Clusterator.getClusters().get(0).getAgents().get(StRandom.nextInt(Clusterator.getClusters().
+                    get(0).getAgents().size()));
+            ta.addTarget(a);
+            a.setTargeted(ta);
+        }
+        main.fr.repaint();
+    }
+    private static void leaderGenerate(){
+        commonGenerate();
         Clusterator.clusterisation();
         main.fr.repaint();
         for (Clusterator.Cluster c : Clusterator.getClusters()){
@@ -58,14 +91,7 @@ public class Generator {
     }
 
     private static void simpleGenerate(){
-        main.agents=new ArrayList<Agent>();
-        for (int i=0; i< CONST.N; i++){
-            Agent a=new Agent();
-            if (StRandom.nextInt(100)<CONST.SABOTEUR_PERSENT){
-                a.setSaboteur(true);
-            }
-            main.agents.add(a);
-        }
+        commonGenerate();
         ArrayList<Pair> ar=new ArrayList<Pair>();
         int friends_pair_num=CONST.N/4;
         for (int i=0; i<CONST.FRIENDS_PAIR_NUM;i++){
@@ -88,14 +114,7 @@ public class Generator {
     }
 
     private static void clusterGenerate(){
-        main.agents= new ArrayList<Agent>();
-        for (int i=0; i< CONST.N; i++){
-            Agent a=new Agent();
-            if (StRandom.nextInt(100)<CONST.SABOTEUR_PERSENT){
-                a.setSaboteur(true);
-            }
-            main.agents.add(a);
-        }
+        commonGenerate();
         Clusterator.clusterisation();
         main.fr.repaint();
         ArrayList<Pair> ar=new ArrayList<Pair>();
@@ -108,33 +127,54 @@ public class Generator {
                 }
             }
         }
-        //здесь будут межкластерные связи
     }
 
     public static  void generateTasks(){
         main.tasks=new ArrayList<Task>();
         CONST.TASK_NUM=StRandom.nextInt(CONST.N/2)+CONST.N/2;
-        for (int i=0; i<CONST.TASK_NUM;i++){
-            int agA=StRandom.nextInt(main.agents.size()), agB=StRandom.nextInt(main.agents.size());
-            final Agent a= main.agents.get(agA);
-            if (agA==agB){agB=(agB+1)%main.agents.size();}
-            Agent b = main.agents.get(agB);
-            String msg="";
-            int start_len=5, i1=i;
-            while (i1 >0){
-                i1=i1/10;
-                start_len++;
+        switch (main.taskType.getType()) {
+            case "InfPhy":
+                Clusterator.randIPLead();
+                int j=0;
+                for (Agent a:Clusterator.getClusters().get(0).getAgents()){
+                    for (Agent tar: a.getTargets()){
+                        String msg=generateMessage(j);
+                        j++;
+                        Task t = main.taskType.makeTask(a, tar, msg);
+                        a.addTask(t);
+                        main.tasks.add(t);
+                    }
+                }
+                break;
+            default:
+            for (int i = 0; i < CONST.TASK_NUM; i++) {
+                int agA = StRandom.nextInt(main.agents.size()), agB = StRandom.nextInt(main.agents.size());
+                final Agent a = main.agents.get(agA);
+                if (agA == agB) {
+                    agB = (agB + 1) % main.agents.size();
+                }
+                Agent b = main.agents.get(agB);
+                String msg=generateMessage(i);
+                Task t = main.taskType.makeTask(a, b, msg);
+                a.addTask(t);
+                main.tasks.add(t);
             }
-            for (int j=0; j<CONST.MIN_MSG_LEN+StRandom.nextInt(CONST.MAX_MSG_LEN-CONST.MIN_MSG_LEN)-start_len; j++){
-                char c=(char) (StRandom.nextInt(25)+97);
-                msg=msg+c;
-            }
-            Task t =main.taskType.makeTask(a, b, i+"_TARG"+msg);
-            a.addTask(t);
-            main.tasks.add(t);
         }
     }
 
+    private static String generateMessage(int i){
+        String msg = "";
+        int start_len = 5, i1 = i;
+        while (i1 > 0) {
+            i1 = i1 / 10;
+            start_len++;
+        }
+        for (int j = 0; j < CONST.MIN_MSG_LEN + StRandom.nextInt(CONST.MAX_MSG_LEN - CONST.MIN_MSG_LEN) - start_len; j++) {
+            char c = (char) (StRandom.nextInt(25) + 97);
+            msg = msg + c;
+        }
+        return i + "_TARG" + msg;
+    }
     private static class Pair{
         int a, b;
         private Pair(int a, int b){

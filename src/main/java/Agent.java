@@ -5,6 +5,8 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static java.awt.Color.MAGENTA;
+
 /**
  * Created by AsmodeusX on 30.11.2016.
  */
@@ -15,16 +17,39 @@ public class Agent {
     private Color color;
     private int R;
     private Queue q;
-    private ArrayList<Agent> Connected;
+    private ArrayList<Agent> connected;
+    private ArrayList<Agent> targets=new ArrayList<>();
     private ArrayList<Task> tasks;
     private int clusterId;
     private boolean saboteur=false;
     private boolean broken=false;
+    private Agent targeted=null;
+    private int wrongActionNum=0;
+
+    public boolean getTargeted() {
+        if (targeted==null){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void setTargeted(Agent a) {
+        targeted=a;
+    }
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+    }
 
     public Agent()
     {
         Random rnd = StRandom.getR();
-        this.Connected= new ArrayList<Agent>();
+        this.connected= new ArrayList<Agent>();
         int x = rnd.nextInt(CONST.width);
         int y = rnd.nextInt(CONST.height);
         this.setPos(new Point(x, y));
@@ -38,7 +63,7 @@ public class Agent {
     public Agent(Color c)
     {
         Random rnd = StRandom.getR();
-        this.Connected= new ArrayList<Agent>();
+        this.connected= new ArrayList<Agent>();
         int x = rnd.nextInt(CONST.width);
         int y = rnd.nextInt(CONST.height);
         this.setPos(new Point(x, y));
@@ -52,7 +77,7 @@ public class Agent {
     public Agent(Point p)
     {
         this.setPos(p);
-        this.Connected= new ArrayList<Agent>();
+        this.connected= new ArrayList<Agent>();
         this.setColor(CONST.color);
         this.setR(CONST.R);
         Random rnd = StRandom.getR();
@@ -64,7 +89,7 @@ public class Agent {
     public Agent(int r)
     {
         Random rnd = StRandom.getR();
-        this.Connected= new ArrayList<Agent>();
+        this.connected= new ArrayList<Agent>();
         int x = rnd.nextInt(CONST.width);
         int y = rnd.nextInt(CONST.height);
         this.setPos(new Point(x, y));
@@ -78,7 +103,7 @@ public class Agent {
     public Agent(Point p, Color c)
     {
         this.setPos(p);
-        this.Connected= new ArrayList<Agent>();
+        this.connected= new ArrayList<Agent>();
         this.setColor(c);
         this.setR(CONST.R);
         Random rnd = StRandom.getR();
@@ -90,7 +115,7 @@ public class Agent {
     public Agent(Color c, int r)
     {
         Random rnd = StRandom.getR();
-        this.Connected= new ArrayList<Agent>();
+        this.connected= new ArrayList<Agent>();
         int x = rnd.nextInt(CONST.width);
         int y = rnd.nextInt(CONST.height);
         this.setPos(new Point(x, y));
@@ -104,7 +129,7 @@ public class Agent {
     public Agent(Point p, int r)
     {
         this.setPos(p);
-        this.Connected= new ArrayList<Agent>();
+        this.connected= new ArrayList<Agent>();
         this.setColor(CONST.color);
         this.setR(r);
         Random rnd = StRandom.getR();
@@ -116,7 +141,7 @@ public class Agent {
     public Agent(Point p, Color c, int r)
     {
         this.setPos(p);
-        this.Connected= new ArrayList<Agent>();
+        this.connected= new ArrayList<Agent>();
         this.setColor(c);
         this.setR(r);
         Random rnd = StRandom.getR();
@@ -180,14 +205,14 @@ public class Agent {
     public boolean isSaboteur(){ return this.saboteur;}
     public void setSaboteur(boolean saboteur){ this.saboteur=saboteur;}
 
-    public ArrayList<Agent> getConnected() { return this.Connected; }
+    public ArrayList<Agent> getConnected() { return this.connected; }
 
     public boolean isLead(){return lead;}
     public void setLead(boolean t){lead=t;}
 
     public void setConnected(ArrayList<Agent> agents)
     {
-        this.Connected = agents;
+        this.connected = agents;
     }
 
     public void addTask(Task t){
@@ -216,8 +241,8 @@ public class Agent {
     }
 
     public boolean addConnected(Agent a) {
-        if (this.Connected.indexOf(a) == -1) {
-            this.Connected.add(a);
+        if (this.connected.indexOf(a) == -1) {
+            this.connected.add(a);
             main.fr.addLine(new Point(this.getPos().x+3, this.getPos().y+3),new Point(a.getPos().x+3,a.getPos().y+3),Color.GREEN);
             return true;
         } else {
@@ -226,8 +251,8 @@ public class Agent {
     }
 
     public boolean removeConnected(Agent a) {
-        if (this.Connected.indexOf(a) != -1) {
-            this.Connected.remove(this.Connected.indexOf(a));
+        if (this.connected.indexOf(a) != -1) {
+            this.connected.remove(this.connected.indexOf(a));
             return true;
         } else {
             return false;
@@ -281,6 +306,7 @@ public class Agent {
     }
 
     public void sendMessage(final Agent a, final Message msg) {
+        main.stats.addAllMessages();
         int delayOnGenerate = getDelayFromLen(msg);
         int delayOnSending = getDelayFromDist(a.getPos());
         this.q.addToQueue(a, delayOnGenerate + delayOnSending, "SEND", msg);
@@ -304,5 +330,31 @@ public class Agent {
 
         this.q.addToQueue(a, getDelayFromLenWithAnalyze(msg), "GET", msg);
         main.taskType.onGetMessage(msg);
+    }
+
+    public void addTarget(Agent a){
+        if (!targets.contains(a)){
+            main.fr.addLine(new Point(this.getPos().x+1, this.getPos().y+1),
+                    new Point(a.getPos().x,a.getPos().y), MAGENTA);
+            this.targets.add(a);}
+    }
+
+    public ArrayList<Agent> getTargets() {
+        return targets;
+    }
+
+    public void setTargets(ArrayList<Agent> targets) {
+        this.targets = targets;
+    }
+
+    public Queue getQ() {
+        return q;
+    }
+    public void addWrongActionNum(){
+        wrongActionNum++;
+    }
+
+    public int getWrongActionNum() {
+        return wrongActionNum;
     }
 }

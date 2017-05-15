@@ -13,6 +13,11 @@ public class Clusterator {
         clusters=new ArrayList<Cluster>();
         clNum=StRandom.nextInt(3)+2;
     }
+
+    public static void setClNum(int clNum){
+        Clusterator.clNum=clNum;
+    }
+
     public static void clusterisation(){
         kMiddle();
     }
@@ -72,6 +77,30 @@ public class Clusterator {
 
     }
 
+    public static void randIPLead() {
+        Agent ans = null;
+        Cluster c1=Clusterator.getClusters().get(0);
+        while (ans == null) {
+            Agent a = Clusterator.getClusters().get(0).getAgents().get(
+                    StRandom.nextInt(Clusterator.getClusters().get(0).getAgents().size()));
+            if (a.getTargets().size() > 0) {
+                ans = a;
+            }
+        }
+        if (c1.lead!=null){
+            c1.lead.setLead(false);
+        }
+        c1.lead=ans;
+        c1.lead.setLead(true);
+        Agent a=c1.lead.getTargets().get(StRandom.nextInt(c1.lead.getTargets().size()));
+        Cluster c2=Clusterator.getClusters().get(1);
+        if (c2.lead!=null){
+            c2.lead.setLead(false);
+        }
+        c2.lead=a;
+        c2.lead.setLead(true);
+    }
+
     public static class Cluster{
         private Color color;
         private ArrayList<Agent> agents;
@@ -88,6 +117,8 @@ public class Clusterator {
             colorNum=(colorNum+1)%colors.length;
             id=StRandom.nextInt();
         }
+
+
 
         private Point getCom(){
             if (agents.size()==0){
@@ -140,6 +171,23 @@ public class Clusterator {
         }
         return null;
     }
+
+    public static void infPhyClusterisation(){
+        clusters.add(new Cluster());
+        clusters.add(new Cluster());
+        for (Agent a:main.agents){
+            if (a.getPos().x<CONST.width/2){
+                clusters.get(0).add(a);
+                a.setClusterId(clusters.get(0).id);
+            } else {
+                clusters.get(1).add(a);
+                a.setClusterId(clusters.get(1).id);
+            }
+        }
+        clusters.get(0).finish();
+        clusters.get(1).finish();
+    }
+
 
     public static ArrayList<Cluster> getClusters(){return clusters;}
 }

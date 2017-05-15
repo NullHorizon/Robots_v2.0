@@ -23,7 +23,8 @@ public class Table extends JFrame {
             "tasks",
             "neg msg source",
             "neg msg with inter",
-            "neg msg resended"};
+            "neg msg resended",
+            "all messages"};
     private static ArrayList<String[]> data = new ArrayList<String[]>();
 
     public static void addData(String[] s){

@@ -1,6 +1,7 @@
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Timer;
 import java.util.TimerTask;
 
 /**
@@ -22,25 +23,43 @@ public class main {
     }
 
     public static void chekTasks(){
-        boolean flag=true;
         for (int i=0; i<tasks.size();i++){
             if (tasks.get(i).status==Task.Status.UNSOLVED){
-                flag=false;
-                break;
+                return;
             }
         }
-        if (flag){
-            stats.calc();
-        }
+        java.util.Timer timer = new java.util.Timer();
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+                boolean flag = true;
+                while (flag) {
+                    flag = false;
+                    for (int i = 0; i < agents.size(); i++) {
+                        if (agents.get(i).getQ().isWorking()) {
+                            System.out.println(i);
+                            flag = true;
+                            break;
+                        }
+                    }
+                }
+                stats.calc();
+            }
+        };
+        timer.schedule(tt, 100);
     }
 
     public static void next(){
+        if (taskType.getType()=="InfPhy" && ((InfPhyTask)taskType).getIterationNum()<(CONST.ITERATION_NUM-1)){
+            Generator.generateTasks();
+            ((InfPhyTask)taskType).nextIter();
+            return;
+        }
         if (cur_exp<CONST.EXPERIMENT_NUM){
             java.util.Timer timer2 = new java.util.Timer();
             TimerTask task = new TimerTask() {
                 public void run()
                 {
-
                     cur_exp++;
                     Generator.generate();
                     Generator.generateTasks();

@@ -31,6 +31,7 @@ public class CONST {
     public final static int EXPERIMENT_NUM;
     public final static int SABOTEUR_PERSENT;
     public final static int MAX_AGENTS;
+    public final static int ITERATION_NUM;
     static {
         DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
         f.setValidating(false);
@@ -51,7 +52,8 @@ public class CONST {
                 MAX_MSG_LEN1=10,
                 MIN_MSG_LEN1=3,
                 EXPERIMENT_NUM1=1,
-                SABOTEUR_PERSENT1=0;
+                SABOTEUR_PERSENT1=0,
+                ITERATION_NUM1=10;
                 Color color1=Color.BLUE;
                 String READMSG1 = "READ",
                 SENTMSG1 = "SENT",
@@ -83,6 +85,7 @@ public class CONST {
             MIN_MSG_LEN1 = new Integer(e.getAttribute("MIN_MSG_LEN"));
             SABOTEUR_PERSENT1=new Integer(e.getAttribute("SABOTEUR_PERSENT"));
             MAX_AGENTS1=new Integer(e.getAttribute("MAX_AGENTS"));
+            ITERATION_NUM1=new Integer(e.getAttribute("ITERATION_NUM"));
         } catch (Exception e) {
             main.logging("XML parse error!");
         }
@@ -107,5 +110,6 @@ public class CONST {
         EXPERIMENT_NUM=EXPERIMENT_NUM1;
         SABOTEUR_PERSENT=SABOTEUR_PERSENT1;
         MAX_AGENTS=MAX_AGENTS1;
+        ITERATION_NUM=ITERATION_NUM1;
     }
 }

@@ -7,15 +7,13 @@ public class ClusterTask extends Task {
     private ArrayList<Agent> list, noFriendList;
     private Agent search_agent;
 
-    public ClusterTask(){type="cluster";}
+    ClusterTask(){type="cluster";}
 
     private ClusterTask(Agent own, Agent rec, String mes){
         super(own, rec,mes);
-        list=new ArrayList<Agent>();
-        for (int i=0; i<agOwner.getConnected().size(); i++){
-            list.add(agOwner.getConnected().get(i));
-        }
-        noFriendList= new ArrayList<Agent>();
+        list= new ArrayList<>();
+        list.addAll(agOwner.getConnected());
+        noFriendList= new ArrayList<>();
         for (int i=0; i<main.agents.size();i++){
             if (list.indexOf(main.agents.get(i))==-1){
                 noFriendList.add(main.agents.get(i));
@@ -29,13 +27,13 @@ public class ClusterTask extends Task {
         return new ClusterTask( own, rec, mes);
     }
 
-    public void getAnswer(Agent from, Agent to) {
+    private void getAnswer(Agent from, Agent to) {
         to.addConnected(from);
         from.addConnected(to);
         to.nextTaskStep();
     }
 
-    public void getConnection(Agent from, Agent to) {
+    private void getConnection(Agent from, Agent to) {
         to.sendMessage(from, new Message("I am "+to.getId(),null, from, to, Message.MSGType.ANSWER));
     }
 
@@ -46,7 +44,7 @@ public class ClusterTask extends Task {
                 msg.setNegative(false);
             }
         }
-        if (msg.getType()== Message.MSGType.FEED_BACK && msg.getContent().indexOf("_TARG")!=-1){
+        if (msg.getType()== Message.MSGType.FEED_BACK && msg.getContent().contains("_TARG")){
             feedBack(msg);
             return;
         }
@@ -80,7 +78,7 @@ public class ClusterTask extends Task {
                 msg.getTarget().nextTaskStep();
                 break;
             case MESSAGE:
-                if (msg.getContent().indexOf("_TARG")!=-1) {
+                if (msg.getContent().contains("_TARG")) {
                     main.stats.addDistance(msg.getFrom().getPos().distance(msg.getTarget().getPos()));
                     Agent a = msg.getTarget();
                     if (a != msg.getFinalTarget()) {
