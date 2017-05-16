@@ -37,24 +37,25 @@ public class main {
                     flag = false;
                     for (int i = 0; i < agents.size(); i++) {
                         if (agents.get(i).getQ().isWorking()) {
-                            System.out.println(i);
                             flag = true;
                             break;
                         }
                     }
                 }
-                stats.calc();
+                main.next();
             }
         };
         timer.schedule(tt, 100);
     }
 
     public static void next(){
-        if (taskType.getType()=="InfPhy" && ((InfPhyTask)taskType).getIterationNum()<(CONST.ITERATION_NUM-1)){
+        if (taskType.getType()=="InfPhy" && ((InfPhyTask)taskType).getIterationNum()<
+                ((InfPhyTask)taskType).getIterationForThisExp()){
             Generator.generateTasks();
             ((InfPhyTask)taskType).nextIter();
             return;
         }
+        stats.calc();
         if (cur_exp<CONST.EXPERIMENT_NUM){
             java.util.Timer timer2 = new java.util.Timer();
             TimerTask task = new TimerTask() {

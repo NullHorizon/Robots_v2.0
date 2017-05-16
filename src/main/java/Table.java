@@ -24,7 +24,13 @@ public class Table extends JFrame {
             "neg msg source",
             "neg msg with inter",
             "neg msg resended",
-            "all messages"};
+            "all messages",
+            "iteration num",
+            "unique center inf",
+            "unique center phy",
+            "wrong phy action",
+            "all bad messages",
+            "inf agents"};
     private static ArrayList<String[]> data = new ArrayList<String[]>();
 
     public static void addData(String[] s){

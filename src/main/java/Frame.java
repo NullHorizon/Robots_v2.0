@@ -1,8 +1,11 @@
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -19,7 +22,14 @@ public class Frame extends JFrame implements ActionListener {
     private ArrayList<Line> lines;
 
     public Frame(){
-        super("Robots communication");
+        super("Satan caller");
+        BufferedImage icon = null;//new ImageIcon("./src/resources/icon.gif");
+        try {
+            icon = ImageIO.read(getClass().getResource("/resources/icon.gif"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setIconImage(icon);
         setSize(w,h);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

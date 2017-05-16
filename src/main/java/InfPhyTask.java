@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InfPhyTask extends Task {
+    private int iterationForThisExp;
     private Progress progress;
     private int iterationNum;
     private boolean broken_message=false;
@@ -12,6 +13,7 @@ public class InfPhyTask extends Task {
     }
     public InfPhyTask(Agent own, Agent rec, String mes) {
         super(own, rec, mes);
+        iterationForThisExp=10;
         progress=Progress.NOT_SENDED;
         type="InfPhy";
     }
@@ -208,6 +210,22 @@ public class InfPhyTask extends Task {
         if (!unique_center_phy.contains(a)){
             unique_center_phy.add(a);
         }
+    }
+
+    public int getUniqueCenterNumInf(){
+        return unique_center_inf.size();
+    }
+
+    public int getUniqueCenterNumPhy(){
+        return unique_center_phy.size();
+    }
+
+    public int getIterationForThisExp() {
+        return iterationForThisExp;
+    }
+
+    public void setIterationForThisExp(int iterationForThisExp) {
+        this.iterationForThisExp = iterationForThisExp;
     }
 
     enum Progress{

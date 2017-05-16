@@ -45,7 +45,6 @@ public class Generator {
                 int y = CONST.height / 2;
                 double angle=Math.PI*2/CONST.N*i;
                 int xplus = (int)(Math.sin(angle) * R), yplus =  (int)(Math.cos(angle) * R);
-                System.out.println(angle+" "+xplus+" "+yplus+" "+CONST.N);
                 if (x+xplus>CONST.width / 2){
                     xplus+=50;
                 } else {
@@ -65,6 +64,8 @@ public class Generator {
         ((InfPhyTask)main.taskType).setIterationNum(0);
         Clusterator.setClNum(2);
         Clusterator.infPhyClusterisation();
+        ((InfPhyTask)main.taskType).setIterationForThisExp(StRandom.nextInt(CONST.ITERATION_NUM-10)+10);
+        main.stats.setIteration_num(((InfPhyTask)main.taskType).getIterationForThisExp());
         for (Agent a:Clusterator.getClusters().get(1).getAgents()){
             Agent ta=Clusterator.getClusters().get(0).getAgents().get(StRandom.nextInt(Clusterator.getClusters().
                     get(0).getAgents().size()));

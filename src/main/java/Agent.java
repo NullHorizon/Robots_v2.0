@@ -307,6 +307,9 @@ public class Agent {
 
     public void sendMessage(final Agent a, final Message msg) {
         main.stats.addAllMessages();
+        if (msg.isNegative()) {
+            main.stats.addBadMessages();
+        }
         int delayOnGenerate = getDelayFromLen(msg);
         int delayOnSending = getDelayFromDist(a.getPos());
         this.q.addToQueue(a, delayOnGenerate + delayOnSending, "SEND", msg);
@@ -351,6 +354,7 @@ public class Agent {
         return q;
     }
     public void addWrongActionNum(){
+        main.stats.addWrongPhyAction();
         wrongActionNum++;
     }
 

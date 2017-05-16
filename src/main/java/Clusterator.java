@@ -92,6 +92,7 @@ public class Clusterator {
         }
         c1.lead=ans;
         c1.lead.setLead(true);
+        ((InfPhyTask) main.taskType).newCenterInf(ans);
         Agent a=c1.lead.getTargets().get(StRandom.nextInt(c1.lead.getTargets().size()));
         Cluster c2=Clusterator.getClusters().get(1);
         if (c2.lead!=null){
@@ -99,6 +100,7 @@ public class Clusterator {
         }
         c2.lead=a;
         c2.lead.setLead(true);
+        ((InfPhyTask) main.taskType).newCenterPhy(a);
     }
 
     public static class Cluster{

@@ -4,6 +4,10 @@
 public class Stats {
 
     private double
+            inf_agents,                 //кол-во информационных агентов
+            bad_messages,               //все плохие сообщения
+            wrong_phy_action,           //неверное действие phy агента для InfPhy
+            iteration_num,              //кол-во итераций на эксперимент для InfPhy
             unique_center_phy,          //уникальные центры Phy для InfPhy
             unique_center_inf,          //уникальные центры Inf для InfPhy
             all_messages,               //общее кол-во соощений
@@ -20,6 +24,9 @@ public class Stats {
     private int n;
 
     public Stats(){
+        inf_agents=0;
+        wrong_phy_action=0;
+        iteration_num=0;
         unique_center_inf=0;
         unique_center_phy=0;
         all_messages=0;
@@ -35,6 +42,7 @@ public class Stats {
         negative_message_with_intermediaries=0;
     }
 
+    public void addWrongPhyAction(){wrong_phy_action++;}
     public void addSteps(int n){ steps=steps+n; }
     public void addTime(double d){ time=time+d;}
     public void addChain(int n){ chain_length=chain_length+n; }
@@ -42,6 +50,10 @@ public class Stats {
     public void addNegativeSource(){negative_message_source++;}
     public void addNegativeWithInter(){negative_message_with_intermediaries++;}
     public void addNegativeResended(){negative_message_resended++;}
+
+    public void setIteration_num(double iteration_num) {
+        this.iteration_num = iteration_num;
+    }
 
     public void calc(){
         n=CONST.N;
@@ -59,6 +71,15 @@ public class Stats {
         time=time/CONST.TASK_NUM;
         chain_length=chain_length/CONST.TASK_NUM+1;
         distance=distance/CONST.TASK_NUM;
+        if (main.taskType.getType()=="InfPhy"){
+            unique_center_inf=((InfPhyTask) (main.taskType)).getUniqueCenterNumInf();
+            unique_center_phy=((InfPhyTask) (main.taskType)).getUniqueCenterNumPhy();
+            for (int i=0; i<main.agents.size();i++){
+                if (Clusterator.getClusters().get(0).getAgents().contains(main.agents.get(i))){
+                    inf_agents++;
+                }
+            }
+        }
         main.logging("AVERAGE STEPS: "+steps+"\n"+
                 "AVERAGE TIME: "+time+"\n"+
                 "AVERAGE CHAIN LENGTH: "+chain_length+"\n"+
@@ -69,14 +90,21 @@ public class Stats {
                 "NEGATIVE MESSAGE SOURCE: "+negative_message_source+"\n"+
                 "NEGATIVE MESSAGE WITH INTERMEDIARIES: "+negative_message_with_intermediaries+"\n"+
                 "NEGATIVE MESSAGE RESENDED: "+negative_message_resended+"\n"+
-                "ALL MESSAGES: "+all_messages);
+                "ALL MESSAGES: "+all_messages+"\n"+
+                "ITEARTION NUM: "+iteration_num+"\n"+
+                "UNIZUE CENTER INF: "+unique_center_inf+"\n"+
+                "UNIZUE CENTER PHY: "+unique_center_phy+"\n"+
+                "WRONG PHY ACTION: "+wrong_phy_action+"\n"+
+                "BAD MESSAGES: "+bad_messages+"\n"+
+                "INF AGNETS: "+inf_agents);
         String data[]={steps+"", time+"",chain_length+"",distance+"",n+"",broken_agents+"",saboteur+"",tasks+"",
                 negative_message_source+"",negative_message_with_intermediaries+"",negative_message_resended+"",
-                all_messages+""};
+                all_messages+"",iteration_num+"",unique_center_inf+"",unique_center_phy+"",wrong_phy_action+"",
+                bad_messages+"",inf_agents+""};
         Table.addData(data);
-        main.next();
     }
     public void addAllMessages(){
         all_messages++;
     }
+    public void addBadMessages(){bad_messages++;}
 }
