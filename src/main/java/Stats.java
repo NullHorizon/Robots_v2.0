@@ -4,6 +4,7 @@
 public class Stats {
 
     private double
+            bad_center_num,             //кол-во плохих центров
             inf_agents,                 //кол-во информационных агентов
             bad_messages,               //все плохие сообщения
             wrong_phy_action,           //неверное действие phy агента для InfPhy
@@ -24,6 +25,7 @@ public class Stats {
     private int n;
 
     public Stats(){
+        bad_center_num=0;
         inf_agents=0;
         wrong_phy_action=0;
         iteration_num=0;
@@ -96,15 +98,17 @@ public class Stats {
                 "UNIZUE CENTER PHY: "+unique_center_phy+"\n"+
                 "WRONG PHY ACTION: "+wrong_phy_action+"\n"+
                 "BAD MESSAGES: "+bad_messages+"\n"+
-                "INF AGNETS: "+inf_agents);
+                "INF AGNETS: "+inf_agents+"\n"+
+                "BAD CENTER NUM: "+bad_center_num);
         String data[]={steps+"", time+"",chain_length+"",distance+"",n+"",broken_agents+"",saboteur+"",tasks+"",
                 negative_message_source+"",negative_message_with_intermediaries+"",negative_message_resended+"",
                 all_messages+"",iteration_num+"",unique_center_inf+"",unique_center_phy+"",wrong_phy_action+"",
-                bad_messages+"",inf_agents+""};
+                bad_messages+"",inf_agents+"",bad_center_num+""};
         Table.addData(data);
     }
     public void addAllMessages(){
         all_messages++;
     }
     public void addBadMessages(){bad_messages++;}
+    public void addBadCenter(){bad_center_num++;}
 }

@@ -30,7 +30,8 @@ public class Table extends JFrame {
             "unique center phy",
             "wrong phy action",
             "all bad messages",
-            "inf agents"};
+            "inf agents",
+            "bad center num"};
     private static ArrayList<String[]> data = new ArrayList<String[]>();
 
     public static void addData(String[] s){

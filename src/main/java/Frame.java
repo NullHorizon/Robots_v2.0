@@ -23,14 +23,15 @@ public class Frame extends JFrame implements ActionListener {
 
     public Frame(){
         super("Satan caller");
-        BufferedImage icon = null;//new ImageIcon("./src/resources/icon.gif");
+        setSize(w,h);
+        ImageIcon icon=new ImageIcon("src/resources/icon.gif");
+        /*BufferedImage icon = null;//new ImageIcon("./src/resources/icon1.gif");
         try {
-            icon = ImageIO.read(getClass().getResource("/resources/icon.gif"));
+            icon = ImageIO.read(getClass().getResource("src/resources/icon.gif"));
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        setIconImage(icon);
-        setSize(w,h);
+        }*/
+        setIconImage(icon.getImage());
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(null);

@@ -92,6 +92,9 @@ public class Clusterator {
         }
         c1.lead=ans;
         c1.lead.setLead(true);
+        if (ans.isSaboteur()){
+            main.stats.addBadCenter();
+        }
         ((InfPhyTask) main.taskType).newCenterInf(ans);
         Agent a=c1.lead.getTargets().get(StRandom.nextInt(c1.lead.getTargets().size()));
         Cluster c2=Clusterator.getClusters().get(1);
@@ -100,6 +103,9 @@ public class Clusterator {
         }
         c2.lead=a;
         c2.lead.setLead(true);
+        if (a.isSaboteur()){
+            main.stats.addBadCenter();
+        }
         ((InfPhyTask) main.taskType).newCenterPhy(a);
     }
 
