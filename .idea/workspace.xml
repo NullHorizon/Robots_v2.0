@@ -6,7 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ad8baf4-9602-4e62-acc6-a9f17e080032" name="Default" comment="">
+    <list default="true" id="7ad8baf4-9602-4e62-acc6-a9f17e080032" name="Default" comment="stats collection">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="RobotsCommunication.iws" />
@@ -57,8 +58,8 @@
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="5" lean-forward="false" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -349,6 +350,7 @@
     <property name="project.structure.side.proportion" value="0.17471264" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../minecraft/stats_updater" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/shepkan/Desktop/java/Lab SIT/Robots_v2.0/src/main/java/main.java" />
+    <property name="add_unversioned_files" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -836,7 +838,7 @@
       <workItem from="1495007255747" duration="198000" />
       <workItem from="1495184302853" duration="633000" />
       <workItem from="1495276913357" duration="13735000" />
-      <workItem from="1495290716068" duration="35000" />
+      <workItem from="1495290716068" duration="67000" />
     </task>
     <task id="LOCAL-00001" summary="stats collection">
       <created>1494927614669</created>
@@ -866,11 +868,18 @@
       <option name="project" value="LOCAL" />
       <updated>1495290748683</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="stats collection">
+      <created>1495290753322</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1495290753322</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75443000" />
+    <option name="totallyTimeSpent" value="75475000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1501,8 +1510,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="5" lean-forward="false" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
