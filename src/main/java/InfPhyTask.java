@@ -27,18 +27,23 @@ public class InfPhyTask extends Task {
         if (feedback(msg)){
             return;
         }
-        /*for (int i=0; i<main.tasks.size();i++) {
-            System.out.println(((InfPhyTask)main.tasks.get(i)).getProgress()+" "+main.tasks.size());
-        }*/
         InfPhyTask task=(InfPhyTask)msg.getTask();
         if (msg.getTarget().isLead()){
             switch (task.getProgress()){
                 case SENDED_TO_LEAD:
                     task.setProgress(Progress.WAITING_FOR_OTHERS);
+                    if (!msg.getTarget().isSaboteur() && task.broken_message &&
+                            CONST.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100)){
+                        task.setProgress(Progress.FILTERED);
+                        main.stats.addMissingAction();
+                    }
                     if (chekTasks(Progress.WAITING_FOR_OTHERS)){
                         Agent phyLead=Clusterator.getClusters().get(1).getLeader();
                         for (int i=0; i<main.tasks.size();i++){
                             InfPhyTask t=(InfPhyTask)main.tasks.get(i);
+                            if (t.progress==Progress.FILTERED){
+                                continue;
+                            }
                             Message m=new Message(t.message,null,phyLead,msg.getTarget(),t.recipient);
                             m.setTask(t);
                             if (msg.getTarget().isSaboteur()){
@@ -54,9 +59,17 @@ public class InfPhyTask extends Task {
                     break;
                 case SENDED_TO_PHY:
                     task.progress=Progress.WAITING_FOR_OTHERS2;
+                    if (!msg.getTarget().isSaboteur() && task.broken_message &&
+                            CONST.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100)){
+                        task.setProgress(Progress.FILTERED);
+                        main.stats.addMissingAction();
+                    }
                     if (chekTasks(Progress.WAITING_FOR_OTHERS2)) {
                         for (int i=0;i<main.tasks.size();i++) {
                             InfPhyTask t=(InfPhyTask) main.tasks.get(i);
+                            if (t.progress==Progress.FILTERED){
+                                continue;
+                            }
                             if (t.recipient==msg.getTarget()){
                                 t.progress=Progress.LINE_FEED_BACK_WAITING_FOR_OTHER;
                             } else {
@@ -193,7 +206,7 @@ public class InfPhyTask extends Task {
         boolean f=true;
         for (int i=0; i< main.tasks.size();i++){
             InfPhyTask t= ((InfPhyTask)main.tasks.get(i));
-            if (t.progress!=progress){
+            if (t.progress!=progress && t.progress!=Progress.FILTERED){
                 f=false;
                 break;
             }
@@ -231,6 +244,6 @@ public class InfPhyTask extends Task {
     enum Progress{
         SENDED_TO_LEAD, NOT_SENDED, WAITING_FOR_OTHERS, SENDED_TO_PHY,WAITING_FOR_OTHERS2, SENDED_TO_RECIPIENT,
         LINE_FEED_BACK_TO_PHY_LEAD, LINE_FEED_BACK_WAITING_FOR_OTHER, LINE_FEED_BACK_TO_INF_LEAD,
-        LINE_FEED_BACK_WAITING_FOR_OTHER2, LINE_FEED_BACK_TO_SENDER, SOLVED
+        LINE_FEED_BACK_WAITING_FOR_OTHER2, LINE_FEED_BACK_TO_SENDER, SOLVED, FILTERED
     }
 }

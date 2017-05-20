@@ -25,6 +25,33 @@ public class Agent {
     private boolean broken=false;
     private Agent targeted=null;
     private int wrongActionNum=0;
+    private int badCenterTime=0;
+    private Timer badCenterTimer;
+
+    public Agent()
+    {
+        Random rnd = StRandom.getR();
+        this.connected= new ArrayList<Agent>();
+        int x = rnd.nextInt(CONST.width);
+        int y = rnd.nextInt(CONST.height);
+        this.setPos(new Point(x, y));
+        this.setColor(Color.BLUE);
+        this.setR(CONST.R);
+        this.setId(rnd.nextInt(CONST.MAXID));
+        this.q = new Queue(this);
+        tasks=new ArrayList<Task>();
+        badCenterTimer=new Timer();
+        TimerTask tt=new TimerTask() {
+            @Override
+            public void run() {
+                if (isLead() && isSaboteur()) {
+                    badCenterTime += 10;
+                }
+            }
+        };
+        badCenterTimer.schedule(tt,10,10);
+
+    }
 
     public boolean getTargeted() {
         if (targeted==null){
@@ -46,109 +73,6 @@ public class Agent {
         this.tasks = tasks;
     }
 
-    public Agent()
-    {
-        Random rnd = StRandom.getR();
-        this.connected= new ArrayList<Agent>();
-        int x = rnd.nextInt(CONST.width);
-        int y = rnd.nextInt(CONST.height);
-        this.setPos(new Point(x, y));
-        this.setColor(Color.BLUE);
-        this.setR(CONST.R);
-        this.setId(rnd.nextInt(CONST.MAXID));
-        this.q = new Queue(this);
-        tasks=new ArrayList<Task>();
-    }
-
-    public Agent(Color c)
-    {
-        Random rnd = StRandom.getR();
-        this.connected= new ArrayList<Agent>();
-        int x = rnd.nextInt(CONST.width);
-        int y = rnd.nextInt(CONST.height);
-        this.setPos(new Point(x, y));
-        this.setColor(c);
-        this.setR(CONST.R);
-        this.setId(rnd.nextInt(CONST.MAXID));
-        this.q = new Queue(this);
-        tasks=new ArrayList<Task>();
-    }
-
-    public Agent(Point p)
-    {
-        this.setPos(p);
-        this.connected= new ArrayList<Agent>();
-        this.setColor(CONST.color);
-        this.setR(CONST.R);
-        Random rnd = StRandom.getR();
-        this.setId(rnd.nextInt(CONST.MAXID));
-        this.q = new Queue(this);
-        tasks=new ArrayList<Task>();
-    }
-
-    public Agent(int r)
-    {
-        Random rnd = StRandom.getR();
-        this.connected= new ArrayList<Agent>();
-        int x = rnd.nextInt(CONST.width);
-        int y = rnd.nextInt(CONST.height);
-        this.setPos(new Point(x, y));
-        this.setColor(CONST.color);
-        this.setR(r);
-        this.setId(rnd.nextInt(CONST.MAXID));
-        this.q = new Queue(this);
-        tasks=new ArrayList<Task>();
-    }
-
-    public Agent(Point p, Color c)
-    {
-        this.setPos(p);
-        this.connected= new ArrayList<Agent>();
-        this.setColor(c);
-        this.setR(CONST.R);
-        Random rnd = StRandom.getR();
-        this.setId(rnd.nextInt(CONST.MAXID));
-        this.q = new Queue(this);
-        tasks=new ArrayList<Task>();
-    }
-
-    public Agent(Color c, int r)
-    {
-        Random rnd = StRandom.getR();
-        this.connected= new ArrayList<Agent>();
-        int x = rnd.nextInt(CONST.width);
-        int y = rnd.nextInt(CONST.height);
-        this.setPos(new Point(x, y));
-        this.setColor(c);
-        this.setR(r);
-        this.setId(rnd.nextInt(CONST.MAXID));
-        this.q = new Queue(this);
-        tasks=new ArrayList<Task>();
-    }
-
-    public Agent(Point p, int r)
-    {
-        this.setPos(p);
-        this.connected= new ArrayList<Agent>();
-        this.setColor(CONST.color);
-        this.setR(r);
-        Random rnd = StRandom.getR();
-        this.setId(rnd.nextInt(CONST.MAXID));
-        this.q = new Queue(this);
-        tasks=new ArrayList<Task>();
-    }
-
-    public Agent(Point p, Color c, int r)
-    {
-        this.setPos(p);
-        this.connected= new ArrayList<Agent>();
-        this.setColor(c);
-        this.setR(r);
-        Random rnd = StRandom.getR();
-        this.setId(rnd.nextInt(CONST.MAXID));
-        this.q = new Queue(this);
-        tasks=new ArrayList<Task>();
-    }
 
     public void setPos(Point p)
     {
@@ -305,6 +229,10 @@ public class Agent {
         return (int)Math.round(dist * CONST.DISTKOEF);
     }
 
+    public int getBadCenterTime() {
+        return badCenterTime;
+    }
+
     public void sendMessage(final Agent a, final Message msg) {
         main.stats.addAllMessages();
         if (msg.isNegative()) {
@@ -327,7 +255,6 @@ public class Agent {
         {
             main.logging(this.getId() + " GET CONFIRMATION MESSAGE  FROM " + a.getId());
             main.fr.removeLine(a.getPos(), this.getPos());
-            //main.logging("LINE " + a.getPos() + " " + this.getPos() + " REMOVED");
             return;
         }
 
@@ -339,7 +266,8 @@ public class Agent {
         if (!targets.contains(a)){
             main.fr.addLine(new Point(this.getPos().x+1, this.getPos().y+1),
                     new Point(a.getPos().x,a.getPos().y), MAGENTA);
-            this.targets.add(a);}
+            this.targets.add(a);
+        }
     }
 
     public ArrayList<Agent> getTargets() {
@@ -360,5 +288,8 @@ public class Agent {
 
     public int getWrongActionNum() {
         return wrongActionNum;
+    }
+    public void destory(){
+        badCenterTimer.cancel();
     }
 }

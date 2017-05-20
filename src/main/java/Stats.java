@@ -1,9 +1,14 @@
+import java.io.File;
+import java.io.PrintWriter;
+
 /**
  * Created by shepkan on 27.01.2017.
  */
 public class Stats {
 
     private double
+            missing_action,
+            bad_center_time,            //общее время прибывания плохих агентов центрами
             bad_center_num,             //кол-во плохих центров
             inf_agents,                 //кол-во информационных агентов
             bad_messages,               //все плохие сообщения
@@ -25,6 +30,8 @@ public class Stats {
     private int n;
 
     public Stats(){
+        missing_action=0;
+        bad_center_time=0;
         bad_center_num=0;
         inf_agents=0;
         wrong_phy_action=0;
@@ -82,6 +89,10 @@ public class Stats {
                 }
             }
         }
+        for (int i=0; i<main.agents.size();i++){
+            bad_center_time+=main.agents.get(i).getBadCenterTime();
+            main.agents.get(i).destory();
+        }
         main.logging("AVERAGE STEPS: "+steps+"\n"+
                 "AVERAGE TIME: "+time+"\n"+
                 "AVERAGE CHAIN LENGTH: "+chain_length+"\n"+
@@ -99,11 +110,32 @@ public class Stats {
                 "WRONG PHY ACTION: "+wrong_phy_action+"\n"+
                 "BAD MESSAGES: "+bad_messages+"\n"+
                 "INF AGNETS: "+inf_agents+"\n"+
-                "BAD CENTER NUM: "+bad_center_num);
+                "BAD CENTER NUM: "+bad_center_num+"\n"+
+                "BAD CENTER TIME: "+bad_center_time+"\n"+
+                "MISSING ACTION: "+missing_action);
         String data[]={steps+"", time+"",chain_length+"",distance+"",n+"",broken_agents+"",saboteur+"",tasks+"",
                 negative_message_source+"",negative_message_with_intermediaries+"",negative_message_resended+"",
                 all_messages+"",iteration_num+"",unique_center_inf+"",unique_center_phy+"",wrong_phy_action+"",
-                bad_messages+"",inf_agents+"",bad_center_num+""};
+                bad_messages+"",inf_agents+"",bad_center_num+"",bad_center_time+"",missing_action+""};
+        String fileString="";
+        for (String s:data){
+            fileString=fileString+s+";";
+        }
+        fileString+="\n";
+        System.out.print(fileString);
+        File file=main.logFile;
+
+        try {
+            if (main.out==null) {
+                main.out = new PrintWriter(file.getAbsoluteFile());
+            }
+            main.out.print(fileString);
+            if (main.cur_exp==CONST.EXPERIMENT_NUM){
+                main.out.close();
+            }
+        } catch(Exception e) {
+            System.out.println("File error: "+e.toString());
+        }
         Table.addData(data);
     }
     public void addAllMessages(){
@@ -111,4 +143,5 @@ public class Stats {
     }
     public void addBadMessages(){bad_messages++;}
     public void addBadCenter(){bad_center_num++;}
+    public void addMissingAction(){missing_action++;}
 }

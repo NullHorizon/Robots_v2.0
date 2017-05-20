@@ -31,7 +31,10 @@ public class Table extends JFrame {
             "wrong phy action",
             "all bad messages",
             "inf agents",
-            "bad center num"};
+            "bad center num",
+            "bad center time",
+            "missing actions"
+    };
     private static ArrayList<String[]> data = new ArrayList<String[]>();
 
     public static void addData(String[] s){
@@ -44,7 +47,6 @@ public class Table extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         frame = new Table();
         frame.getContentPane().add(scrollPane);
-        //frame.setPreferredSize(new Dimension(900,200));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.pack();
         frame.setLocationRelativeTo(null);

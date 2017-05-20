@@ -78,6 +78,9 @@ public class Clusterator {
     }
 
     public static void randIPLead() {
+        randLPLead(true);
+    }
+    private static void randLPLead(boolean check){
         Agent ans = null;
         Cluster c1=Clusterator.getClusters().get(0);
         while (ans == null) {
@@ -107,6 +110,13 @@ public class Clusterator {
             main.stats.addBadCenter();
         }
         ((InfPhyTask) main.taskType).newCenterPhy(a);
+        if (check){
+            if (c2.lead.isSaboteur() || ans.isSaboteur()){
+                if (CONST.AGENT_CHECK_PERCENT>StRandom.nextInt(100)){
+                    randLPLead(false);
+                }
+            }
+        }
     }
 
     public static class Cluster{

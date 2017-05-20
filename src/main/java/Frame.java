@@ -14,23 +14,17 @@ import java.util.ArrayList;
  */
 public class Frame extends JFrame implements ActionListener {
 
-    private JProgressBar progressBar;
-    private JPanel but_panel, robots_panel, cluster_panel, que_panel ;
+    private JProgressBar progressBar, iterProgressBar;
+    private JPanel but_panel, robots_panel;
     private final int w=CONST.width+200+60, h=CONST.height+60;
-    private JRadioButton que1_butt, que2_butt, que3_butt,cluster1_butt, cluster2_butt, cluster3_butt;
     private JButton someButt;
     private ArrayList<Line> lines;
+    private JTextField logField;
 
     public Frame(){
         super("Satan caller");
         setSize(w,h);
         ImageIcon icon=new ImageIcon("src/resources/icon.gif");
-        /*BufferedImage icon = null;//new ImageIcon("./src/resources/icon1.gif");
-        try {
-            icon = ImageIO.read(getClass().getResource("src/resources/icon.gif"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
         setIconImage(icon.getImage());
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -49,38 +43,14 @@ public class Frame extends JFrame implements ActionListener {
         progressBar=new JProgressBar(0,CONST.EXPERIMENT_NUM);
         but_panel.add(progressBar);
 
-        cluster_panel=new JPanel();
-        cluster_panel.setBorder(BorderFactory.createLoweredBevelBorder());
-        cluster_panel.setLayout(new GridLayout(4,1));
-        cluster_panel.add(new JLabel("Cluster type:"));
-        ButtonGroup cluster_group= new ButtonGroup();
-        cluster1_butt=new JRadioButton("No cluster", true);
-        cluster2_butt=new JRadioButton("Simple cluster", false);
-        cluster3_butt= new JRadioButton("Leader cluster", false);
-        cluster_group.add(cluster1_butt);
-        cluster_group.add(cluster2_butt);
-        cluster_group.add(cluster3_butt);
-        cluster_panel.add(cluster1_butt);
-        cluster_panel.add(cluster2_butt);
-        cluster_panel.add(cluster3_butt);
-        //but_panel.add(cluster_panel);
+        if (main.taskType.getType()=="InfPhy"){
+            iterProgressBar=new JProgressBar(0,10);
+            but_panel.add(iterProgressBar);
+        }
 
-        que_panel=new JPanel();
-        que_panel.setBorder(BorderFactory.createLoweredBevelBorder());
-        que_panel.setLayout(new GridLayout(4,1));
-        que_panel.add(new JLabel("Que type:"));
-        ButtonGroup que_group= new ButtonGroup();
-        que1_butt=new JRadioButton("Que type 1", true);
-        que2_butt=new JRadioButton("Que type 2", false);
-        que3_butt= new JRadioButton("Que type 3", false);
-        que_group.add(que1_butt);
-        que_group.add(que2_butt);
-        que_group.add(que3_butt);
-        que_panel.add(que1_butt);
-        que_panel.add(que2_butt);
-        que_panel.add(que3_butt);
-        //but_panel.add(que_panel);
-
+        logField=new JTextField();
+        logField.setPreferredSize(new Dimension(150,300));
+        but_panel.add(logField);
 
         add(but_panel);
 
@@ -98,8 +68,9 @@ public class Frame extends JFrame implements ActionListener {
     }
 
     public synchronized void addLine(Point p1, Point p2, Color color){
-        if (lines.indexOf(new Line(p1,p2))==-1) {
-            lines.add(new Line(p1, p2, color));
+        Line l=new Line(p1, p2, color);
+        if (!lines.contains(l)) {
+            lines.add(l);
             this.repaint();
         }
     }
@@ -121,38 +92,23 @@ public class Frame extends JFrame implements ActionListener {
         this.repaint();
     }
 
-    public int getQueType(){
-        if (que1_butt.isSelected()){
-            return 1;
-        }
-        if (que1_butt.isSelected()){
-            return 2;
-        }
-        if (que1_butt.isSelected()){
-            return 3;
-        }
-        return 0;
-    }
-
-    public int getClusterType(){
-        if (cluster1_butt.isSelected()){
-            return 1;
-        }
-        if (cluster2_butt.isSelected()){
-            return 2;
-        }
-        if (cluster3_butt.isSelected()){
-            return 3;
-        }
-        return 0;
-    }
-
-
     public void actionPerformed (ActionEvent e) {
 
         switch (e.getActionCommand()){
             case "Stat button": Table.showTable();  break;
         }
+    }
+
+    public void setIterNum(int n){
+        iterProgressBar.setValue(n);
+    }
+
+    public void setMaxIter(int n){
+        iterProgressBar.setMaximum(n);
+    }
+
+    public void log(String s){
+        logField.setText(s);
     }
 
     private class RobotsPanel extends JPanel {
@@ -167,6 +123,9 @@ public class Frame extends JFrame implements ActionListener {
 
         @Override
         public synchronized  void paint(Graphics g){
+            if (CONST.DRAW.equals("false")){
+                return;
+            }
             g.setColor(Color.WHITE);
             g.fillRect(0,0,w,h);
             for (int i=0; i<lines.size();i++) {
@@ -198,6 +157,8 @@ public class Frame extends JFrame implements ActionListener {
             if (main.taskType.getType()=="InfPhy"){
                 g.setColor(Color.BLUE);
                 g.drawLine(CONST.width/2+25+CONST.R,0,CONST.width/2+CONST.R+25,CONST.height);
+                g.drawString("INFORMATION CLUSTER",30,30);
+                g.drawString("PHYSICAL CLUSTER",CONST.width/2+60,30);
             }
         }
 

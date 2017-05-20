@@ -20,6 +20,7 @@ public class CONST {
     public final static double DISTKOEF;
     public final static String READMSG;
     public final static String SENTMSG;
+    public final static String DRAW;
     public static int N;
     public final static int CLUSTERS_NUM;
     public final static int FRIENDS_PAIR_NUM;
@@ -32,6 +33,8 @@ public class CONST {
     public final static int SABOTEUR_PERSENT;
     public final static int MAX_AGENTS;
     public final static int ITERATION_NUM;
+    public final static int MESSAGE_CHECK_PERCENT;
+    public final static int AGENT_CHECK_PERCENT;
     static {
         DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
         f.setValidating(false);
@@ -53,11 +56,14 @@ public class CONST {
                 MIN_MSG_LEN1=3,
                 EXPERIMENT_NUM1=1,
                 SABOTEUR_PERSENT1=0,
-                ITERATION_NUM1=10;
+                ITERATION_NUM1=10,
+                MESSAGE_CHECK_PERCENT1=0,
+                AGENT_CHECK_PERCENT1=0;
                 Color color1=Color.BLUE;
                 String READMSG1 = "READ",
                 SENTMSG1 = "SENT",
-                LOGIC_TYPE1="SIMPLE";
+                LOGIC_TYPE1="SIMPLE",
+                DRAW1="true";
         try {
             DocumentBuilder builder = f.newDocumentBuilder();
             doc = builder.parse(new File("src/params.xml"));
@@ -74,6 +80,7 @@ public class CONST {
             DISTKOEF1 = new Integer(e.getAttribute("DISTKOEF"));
             READMSG1 = e.getAttribute("READMSG");
             SENTMSG1 = e.getAttribute("SENTMSG");
+            DRAW1=e.getAttribute("DRAW");
             N1= new Integer(e.getAttribute("N"));
             CLUSTERS_NUM1 = new Integer(e.getAttribute("CLUSTERS_NUM"));
             FRIENDS_PAIR_NUM1 = new Integer(e.getAttribute("FRIENDS_PAIR_NUM"));
@@ -86,6 +93,8 @@ public class CONST {
             SABOTEUR_PERSENT1=new Integer(e.getAttribute("SABOTEUR_PERSENT"));
             MAX_AGENTS1=new Integer(e.getAttribute("MAX_AGENTS"));
             ITERATION_NUM1=new Integer(e.getAttribute("ITERATION_NUM"));
+            MESSAGE_CHECK_PERCENT1=new Integer(e.getAttribute("MESSAGE_CHECK_PERCENT"));
+            AGENT_CHECK_PERCENT1=new Integer(e.getAttribute("AGENT_CHECK_PERCENT"));
         } catch (Exception e) {
             main.logging("XML parse error!");
         }
@@ -111,5 +120,8 @@ public class CONST {
         SABOTEUR_PERSENT=SABOTEUR_PERSENT1;
         MAX_AGENTS=MAX_AGENTS1;
         ITERATION_NUM=ITERATION_NUM1;
+        AGENT_CHECK_PERCENT=AGENT_CHECK_PERCENT1;
+        MESSAGE_CHECK_PERCENT=MESSAGE_CHECK_PERCENT1;
+        DRAW=DRAW1;
     }
 }

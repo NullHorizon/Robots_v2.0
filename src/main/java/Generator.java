@@ -14,18 +14,18 @@ public class Generator {
         main.tasks=null;
         main.taskType=null;
         main.stats=null;
-        if (main.fr!=null){
-            main.fr.reset();
-        }
-        if (main.fr==null) {
-            main.fr = new Frame();
-        }
         main.stats=new Stats();
         switch (CONST.LOGIC_TYPE){
             case "SIMPLE": main.taskType=new SimpleTask(); break;
             case "LEADER": main.taskType= new LeadTask(); break;
             case "CLUSTER": main.taskType=new ClusterTask(); break;
             case "InfPhy": main.taskType=new InfPhyTask(); break;
+        }
+        if (main.fr!=null){
+            main.fr.reset();
+        }
+        if (main.fr==null) {
+            main.fr = new Frame();
         }
         switch (main.taskType.getType()){
             case "simple": simpleGenerate(); break;
@@ -72,6 +72,8 @@ public class Generator {
             ta.addTarget(a);
             a.setTargeted(ta);
         }
+        main.fr.setMaxIter(((InfPhyTask)main.taskType).getIterationForThisExp());
+        main.fr.setIterNum(0);
         main.fr.repaint();
     }
     private static void leaderGenerate(){
