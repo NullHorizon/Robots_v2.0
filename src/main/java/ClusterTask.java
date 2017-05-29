@@ -14,9 +14,9 @@ public class ClusterTask extends Task {
         list= new ArrayList<>();
         list.addAll(agOwner.getConnected());
         noFriendList= new ArrayList<>();
-        for (int i=0; i<main.agents.size();i++){
-            if (list.indexOf(main.agents.get(i))==-1){
-                noFriendList.add(main.agents.get(i));
+        for (int i = 0; i< Simulator.agents.size(); i++){
+            if (list.indexOf(Simulator.agents.get(i))==-1){
+                noFriendList.add(Simulator.agents.get(i));
             }
         }
         search_agent=null;
@@ -39,7 +39,7 @@ public class ClusterTask extends Task {
 
     public void onGetMessage(Message msg) {
         if (msg.isNegative() && msg.getTarget()!=msg.getFinalTarget()){
-            main.stats.addNegativeResended();
+            Simulator.stats.addNegativeResended();
             if (!msg.getTarget().isSaboteur()){
                 msg.setNegative(false);
             }
@@ -79,7 +79,7 @@ public class ClusterTask extends Task {
                 break;
             case MESSAGE:
                 if (msg.getContent().contains("_TARG")) {
-                    main.stats.addDistance(msg.getFrom().getPos().distance(msg.getTarget().getPos()));
+                    Simulator.stats.addDistance(msg.getFrom().getPos().distance(msg.getTarget().getPos()));
                     Agent a = msg.getTarget();
                     if (a != msg.getFinalTarget()) {
                         if (a.getClusterId() == msg.getFinalTarget().getClusterId()) {
@@ -87,9 +87,9 @@ public class ClusterTask extends Task {
                             if (a.isSaboteur()){
                                 m.setNegative(true);
                                 if (!msg.isNegative()){
-                                    main.stats.addNegativeSource();
+                                    Simulator.stats.addNegativeSource();
                                     if (m.getFinalTarget()!=m.getTarget()){
-                                        main.stats.addNegativeWithInter();
+                                        Simulator.stats.addNegativeWithInter();
                                     }
                                 }
                             }
@@ -103,14 +103,14 @@ public class ClusterTask extends Task {
                                         m.setNegative(true);
                                     }
                                     if (m.getFinalTarget()!=m.getTarget()){
-                                        main.stats.addNegativeWithInter();
+                                        Simulator.stats.addNegativeWithInter();
                                     }
                                     a.sendMessage(a.getConnected().get(i), m);
                                 }
                             }
                         }
                     } else {
-                        main.stats.addChain(msg.getChain().size());
+                        Simulator.stats.addChain(msg.getChain().size());
                         int k = new Integer(msg.getContent().substring(0, msg.getContent().indexOf("_TARG")));
                         if (msg.isNegative()){
                             msg.getTarget().setBroken(true);
@@ -120,13 +120,13 @@ public class ClusterTask extends Task {
                                 msg.getChain().get(0), Message.MSGType.FEED_BACK);
                         if (msg.getTarget().isSaboteur()){
                             feedBack.setNegative(true);
-                            main.stats.addNegativeSource();
+                            Simulator.stats.addNegativeSource();
                             if (feedBack.getFinalTarget()!=feedBack.getTarget()){
-                                main.stats.addNegativeWithInter();
+                                Simulator.stats.addNegativeWithInter();
                             }
                         }
-                        main.taskType.feedBack(feedBack);
-                        //main.tasks.get(k).solve();
+                        Simulator.taskType.feedBack(feedBack);
+                        //Simulator.tasks.get(k).solve();
                     }
                 }
                 break;
@@ -140,9 +140,9 @@ public class ClusterTask extends Task {
             Message m=new Message(message, null, recipient, agOwner);
             if (agOwner.isSaboteur()){
                 m.setNegative(true);
-                main.stats.addNegativeSource();
+                Simulator.stats.addNegativeSource();
                 if (m.getFinalTarget()!=m.getTarget()){
-                    main.stats.addNegativeWithInter();
+                    Simulator.stats.addNegativeWithInter();
                 }
             }
             agOwner.sendMessage(recipient, m);
@@ -155,9 +155,9 @@ public class ClusterTask extends Task {
                     Message m= new Message(message, null,search_agent.getConnected().get(i),agOwner, recipient );
                     if (agOwner.isSaboteur()){
                         m.setNegative(true);
-                        main.stats.addNegativeSource();
+                        Simulator.stats.addNegativeSource();
                         if (m.getFinalTarget()!=m.getTarget()){
-                            main.stats.addNegativeWithInter();
+                            Simulator.stats.addNegativeWithInter();
                         }
                     }
                     agOwner.sendMessage(search_agent.getConnected().get(i),m);
@@ -174,9 +174,9 @@ public class ClusterTask extends Task {
                     Message m=new Message(message, null, list.get(i), agOwner, recipient);
                     if (agOwner.isSaboteur()){
                         m.setNegative(true);
-                        main.stats.addNegativeSource();
+                        Simulator.stats.addNegativeSource();
                         if (m.getFinalTarget()!=m.getTarget()){
-                            main.stats.addNegativeWithInter();
+                            Simulator.stats.addNegativeWithInter();
                         }
                     }
                     agOwner.sendMessage(list.get(i), m);

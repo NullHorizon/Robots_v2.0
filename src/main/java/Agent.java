@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -32,12 +31,12 @@ public class Agent {
     {
         Random rnd = StRandom.getR();
         this.connected= new ArrayList<Agent>();
-        int x = rnd.nextInt(CONST.width);
-        int y = rnd.nextInt(CONST.height);
+        int x = rnd.nextInt(Params.width);
+        int y = rnd.nextInt(Params.height);
         this.setPos(new Point(x, y));
         this.setColor(Color.BLUE);
-        this.setR(CONST.R);
-        this.setId(rnd.nextInt(CONST.MAXID));
+        this.setR(Params.R);
+        this.setId(rnd.nextInt(Params.MAXID));
         this.q = new Queue(this);
         tasks=new ArrayList<Task>();
         badCenterTimer=new Timer();
@@ -167,7 +166,7 @@ public class Agent {
     public boolean addConnected(Agent a) {
         if (this.connected.indexOf(a) == -1) {
             this.connected.add(a);
-            main.fr.addLine(new Point(this.getPos().x+3, this.getPos().y+3),new Point(a.getPos().x+3,a.getPos().y+3),Color.GREEN);
+            Simulator.fr.addLine(new Point(this.getPos().x+3, this.getPos().y+3),new Point(a.getPos().x+3,a.getPos().y+3),Color.GREEN);
             return true;
         } else {
             return false;
@@ -217,16 +216,16 @@ public class Agent {
 
     private int getDelayFromLen(Message msg)
     {
-        return (int)Math.round(msg.getContent().length() * CONST.LENKOEF);
+        return (int)Math.round(msg.getContent().length() * Params.LENKOEF);
     }
 
     private int getDelayFromLenWithAnalyze(Message msg) {
-        return (int)Math.round(msg.getContent().length() * CONST.ANALYZKOEF);
+        return (int)Math.round(msg.getContent().length() * Params.ANALYZKOEF);
     }
 
     private int getDelayFromDist(Point p) {
         double dist = Math.sqrt(Math.pow(p.getX() + this.getPos().getX(), 2) - Math.pow(p.getX() + this.getPos().getX(), 2));
-        return (int)Math.round(dist * CONST.DISTKOEF);
+        return (int)Math.round(dist * Params.DISTKOEF);
     }
 
     public int getBadCenterTime() {
@@ -234,37 +233,37 @@ public class Agent {
     }
 
     public void sendMessage(final Agent a, final Message msg) {
-        main.stats.addAllMessages();
+        Simulator.stats.addAllMessages();
         if (msg.isNegative()) {
-            main.stats.addBadMessages();
+            Simulator.stats.addBadMessages();
         }
         int delayOnGenerate = getDelayFromLen(msg);
         int delayOnSending = getDelayFromDist(a.getPos());
         this.q.addToQueue(a, delayOnGenerate + delayOnSending, "SEND", msg);
 
         /*final Agent currentAgent = this;
-        main.logging("SEND message: " + msg + " from Agent " + currentAgent.getId() + " to Agent " + a.getId());
-        main.fr.addLine(a.getPos(), currentAgent.getPos(), Color.RED);
+        Simulator.logging("SEND message: " + msg + " from Agent " + currentAgent.getId() + " to Agent " + a.getId());
+        Simulator.fr.addLine(a.getPos(), currentAgent.getPos(), Color.RED);
         a.getMessage(currentAgent, msg);*/
     }
 
     public void getMessage(final Agent a, final Message msg)
     {
-        main.logging(this.getId() + " GET MESSAGE FROM " + a.getId() + ": " + msg);
-        if (msg.getContent().equals(CONST.READMSG))
+        Simulator.logging(this.getId() + " GET MESSAGE FROM " + a.getId() + ": " + msg);
+        if (msg.getContent().equals(Params.READMSG))
         {
-            main.logging(this.getId() + " GET CONFIRMATION MESSAGE  FROM " + a.getId());
-            main.fr.removeLine(a.getPos(), this.getPos());
+            Simulator.logging(this.getId() + " GET CONFIRMATION MESSAGE  FROM " + a.getId());
+            Simulator.fr.removeLine(a.getPos(), this.getPos());
             return;
         }
 
         this.q.addToQueue(a, getDelayFromLenWithAnalyze(msg), "GET", msg);
-        main.taskType.onGetMessage(msg);
+        Simulator.taskType.onGetMessage(msg);
     }
 
     public void addTarget(Agent a){
         if (!targets.contains(a)){
-            main.fr.addLine(new Point(this.getPos().x+1, this.getPos().y+1),
+            Simulator.fr.addLine(new Point(this.getPos().x+1, this.getPos().y+1),
                     new Point(a.getPos().x,a.getPos().y), MAGENTA);
             this.targets.add(a);
         }
@@ -282,7 +281,7 @@ public class Agent {
         return q;
     }
     public void addWrongActionNum(){
-        main.stats.addWrongPhyAction();
+        Simulator.stats.addWrongPhyAction();
         wrongActionNum++;
     }
 

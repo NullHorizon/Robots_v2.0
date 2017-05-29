@@ -36,10 +36,10 @@ public abstract class Task {
 
     public void solve(){
         timer.stop();
-        main.stats.addSteps(steps);
-        main.stats.addTime(time);
+        Simulator.stats.addSteps(steps);
+        Simulator.stats.addTime(time);
         status=Status.SOLVED;
-        main.chekTasks();
+        Simulator.chekTasks();
     }
 
     public void feedBack(Message msg){
@@ -50,13 +50,13 @@ public abstract class Task {
             Message m = new Message(msg.getContent(), chain, next, cur, chain.get(0), Message.MSGType.FEED_BACK);
             m.setNegative(msg.isNegative());
             cur.sendMessage(next, m);
-            main.logging(m.toString());
+            Simulator.logging(m.toString());
         } else {
             if (msg.isNegative()){
                 msg.getFinalTarget().setBroken(true);
             }
             int k = new Integer(msg.getContent().substring(0, msg.getContent().indexOf("_TARG")));
-            main.tasks.get(k).solve();
+            Simulator.tasks.get(k).solve();
         }
     }
 

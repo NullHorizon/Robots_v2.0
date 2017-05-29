@@ -28,19 +28,19 @@ public class Clusterator {
         Random r=StRandom.getR();
         for (int i=0; i<clNum; i++) {
             clusters.add(new Cluster());
-            int nextCom= r.nextInt(main.agents.size());
+            int nextCom= r.nextInt(Simulator.agents.size());
             boolean f=true;
             while (f){
                 f=false;
                 for (int j=0; j<i; j++){
-                    if (coms.get(j)==main.agents.get(nextCom).getPos()){
+                    if (coms.get(j)== Simulator.agents.get(nextCom).getPos()){
                         f=true;
                     }
                 }
-                nextCom=(nextCom+1)%main.agents.size();
+                nextCom=(nextCom+1)% Simulator.agents.size();
             }
-            coms.add(main.agents.get(nextCom).getPos());
-            clusters.get(i).add(main.agents.get(nextCom));
+            coms.add(Simulator.agents.get(nextCom).getPos());
+            clusters.get(i).add(Simulator.agents.get(nextCom));
         }
 
 
@@ -50,8 +50,8 @@ public class Clusterator {
             for (Cluster c:clusters){
                 c.clear();
             }
-            for (int p=0;p< main.agents.size();p++) {
-                Agent a=main.agents.get(p);
+            for (int p = 0; p< Simulator.agents.size(); p++) {
+                Agent a= Simulator.agents.get(p);
                 double minD = a.getPos().distance(coms.get(0));
                 int cluster = 0;
                 for (int i = 1; i < clNum; i++) {
@@ -96,9 +96,9 @@ public class Clusterator {
         c1.lead=ans;
         c1.lead.setLead(true);
         if (ans.isSaboteur()){
-            main.stats.addBadCenter();
+            Simulator.stats.addBadCenter();
         }
-        ((InfPhyTask) main.taskType).newCenterInf(ans);
+        ((InfPhyTask) Simulator.taskType).newCenterInf(ans);
         Agent a=c1.lead.getTargets().get(StRandom.nextInt(c1.lead.getTargets().size()));
         Cluster c2=Clusterator.getClusters().get(1);
         if (c2.lead!=null){
@@ -107,12 +107,12 @@ public class Clusterator {
         c2.lead=a;
         c2.lead.setLead(true);
         if (a.isSaboteur()){
-            main.stats.addBadCenter();
+            Simulator.stats.addBadCenter();
         }
-        ((InfPhyTask) main.taskType).newCenterPhy(a);
+        ((InfPhyTask) Simulator.taskType).newCenterPhy(a);
         if (check){
             if (c2.lead.isSaboteur() || ans.isSaboteur()){
-                if (CONST.AGENT_CHECK_PERCENT>StRandom.nextInt(100)){
+                if (Params.AGENT_CHECK_PERCENT>StRandom.nextInt(100)){
                     randLPLead(false);
                 }
             }
@@ -140,7 +140,7 @@ public class Clusterator {
 
         private Point getCom(){
             if (agents.size()==0){
-                return main.agents.get(StRandom.nextInt(main.agents.size())).getPos();
+                return Simulator.agents.get(StRandom.nextInt(Simulator.agents.size())).getPos();
             }
             Point ans = new Point(0,0);
             for (Agent a: agents){
@@ -157,7 +157,7 @@ public class Clusterator {
                 a.setColor(color);
                 a.setClusterId(this.id);
             }
-            double minDist=CONST.height+CONST.width;
+            double minDist= Params.height+ Params.width;
             lead=null;
             for (int i=0; i<agents.size();i++){
                 Agent a= agents.get(i);
@@ -193,8 +193,8 @@ public class Clusterator {
     public static void infPhyClusterisation(){
         clusters.add(new Cluster());
         clusters.add(new Cluster());
-        for (Agent a:main.agents){
-            if (a.getPos().x<CONST.width/2){
+        for (Agent a: Simulator.agents){
+            if (a.getPos().x< Params.width/2){
                 clusters.get(0).add(a);
                 a.setClusterId(clusters.get(0).id);
             } else {

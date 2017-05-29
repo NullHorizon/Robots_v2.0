@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /**
  * Created by shepkan on 05.01.2017.
  */
@@ -18,7 +16,7 @@ public class LeadTask extends Task {
     @Override
     public void onGetMessage(Message msg) {
         if (msg.isNegative() && (msg.getTarget()!=msg.getFinalTarget())){
-            main.stats.addNegativeResended();
+            Simulator.stats.addNegativeResended();
             if (!msg.getTarget().isSaboteur()){
                 msg.setNegative(false);
             }
@@ -28,7 +26,7 @@ public class LeadTask extends Task {
             return;
         }
         if (msg.getContent().indexOf("_TARG")!=-1){
-            main.stats.addDistance(msg.getFrom().getPos().distance(msg.getTarget().getPos()));
+            Simulator.stats.addDistance(msg.getFrom().getPos().distance(msg.getTarget().getPos()));
         }
         Agent t=msg.getTarget(), ft =msg.getFinalTarget();
         if (t!=ft){
@@ -39,9 +37,9 @@ public class LeadTask extends Task {
                     if (t.isSaboteur()){
                         m.setNegative(true);
                         if (!msg.isNegative()){
-                            main.stats.addNegativeSource();
+                            Simulator.stats.addNegativeSource();
                             if (m.getFinalTarget()!=m.getTarget()){
-                                main.stats.addNegativeWithInter();
+                                Simulator.stats.addNegativeWithInter();
                             }
                         }
                     }
@@ -52,9 +50,9 @@ public class LeadTask extends Task {
                     if (t.isSaboteur()){
                         m.setNegative(true);
                         if (!msg.isNegative()){
-                            main.stats.addNegativeSource();
+                            Simulator.stats.addNegativeSource();
                             if (m.getFinalTarget()!=m.getTarget()){
-                                main.stats.addNegativeWithInter();
+                                Simulator.stats.addNegativeWithInter();
                             }
                         }
                     }
@@ -66,9 +64,9 @@ public class LeadTask extends Task {
                 if (t.isSaboteur()){
                     m.setNegative(true);
                     if (!msg.isNegative()){
-                        main.stats.addNegativeSource();
+                        Simulator.stats.addNegativeSource();
                         if (m.getFinalTarget()!=m.getTarget()){
-                            main.stats.addNegativeWithInter();
+                            Simulator.stats.addNegativeWithInter();
                         }
                     }
                 }
@@ -76,7 +74,7 @@ public class LeadTask extends Task {
             }
         } else {
             if (msg.getContent().indexOf("_TARG")!=-1) {
-                main.stats.addChain(msg.getChain().size());
+                Simulator.stats.addChain(msg.getChain().size());
                 int n = new Integer(msg.getContent().substring(0, msg.getContent().indexOf("_TARG")));
                 if (msg.isNegative()){
                     msg.getFinalTarget().setBroken(true);
@@ -87,12 +85,12 @@ public class LeadTask extends Task {
                 if (msg.getTarget().isSaboteur()){
                     feedBack.setNegative(true);
                     if (feedBack.getFinalTarget()!=feedBack.getTarget()){
-                        main.stats.addNegativeWithInter();
+                        Simulator.stats.addNegativeWithInter();
                     }
-                    main.stats.addNegativeSource();
+                    Simulator.stats.addNegativeSource();
                 }
-                main.taskType.feedBack(feedBack);
-                //main.tasks.get(n).solve();
+                Simulator.taskType.feedBack(feedBack);
+                //Simulator.tasks.get(n).solve();
             }
         }
     }
@@ -105,9 +103,9 @@ public class LeadTask extends Task {
                 Message m=new Message(message, null, recipient, agOwner, recipient);
                 if (agOwner.isSaboteur()){
                     m.setNegative(true);
-                    main.stats.addNegativeSource();
+                    Simulator.stats.addNegativeSource();
                     if (m.getFinalTarget()!=m.getTarget()){
-                        main.stats.addNegativeWithInter();
+                        Simulator.stats.addNegativeWithInter();
                     }
                 }
                 agOwner.sendMessage(recipient, m);
@@ -116,9 +114,9 @@ public class LeadTask extends Task {
                 Message m=new Message(message, null, l, agOwner, recipient);
                 if (agOwner.isSaboteur()){
                     m.setNegative(true);
-                    main.stats.addNegativeSource();
+                    Simulator.stats.addNegativeSource();
                     if (m.getFinalTarget()!=m.getTarget()){
-                        main.stats.addNegativeWithInter();
+                        Simulator.stats.addNegativeWithInter();
                     }
                 }
                 agOwner.sendMessage(l, m);
@@ -128,9 +126,9 @@ public class LeadTask extends Task {
             Message m=new Message(message, null, l, agOwner, recipient);
             if (agOwner.isSaboteur()){
                 m.setNegative(true);
-                main.stats.addNegativeSource();
+                Simulator.stats.addNegativeSource();
                 if (m.getFinalTarget()!=m.getTarget()){
-                    main.stats.addNegativeWithInter();
+                    Simulator.stats.addNegativeWithInter();
                 }
             }
             agOwner.sendMessage(l, m);

@@ -12,8 +12,8 @@ public class SimpleTask extends Task {
         super(own, rec,mes);
         steps=0;
         list=new ArrayList<Agent>();
-        for (int i=0; i<main.agents.size(); i++){
-            list.add(main.agents.get(i));
+        for (int i = 0; i< Simulator.agents.size(); i++){
+            list.add(Simulator.agents.get(i));
         }
         type="simple";
     }
@@ -27,9 +27,9 @@ public class SimpleTask extends Task {
             Message compMsg= new Message(message, null,recipient,agOwner);
             if (agOwner.isSaboteur()) {
                 compMsg.setNegative(true);
-                main.stats.addNegativeSource();
+                Simulator.stats.addNegativeSource();
                 if (compMsg.getFinalTarget()!=compMsg.getTarget()){
-                    main.stats.addNegativeWithInter();
+                    Simulator.stats.addNegativeWithInter();
                 }
             }
             agOwner.sendMessage(recipient, compMsg);
@@ -58,7 +58,7 @@ public class SimpleTask extends Task {
     @Override
     public void onGetMessage(Message msg) {
         if (msg.isNegative() && msg.getFinalTarget()!=msg.getTarget()){
-            main.stats.addNegativeResended();
+            Simulator.stats.addNegativeResended();
         }
         if (msg.getType()== Message.MSGType.FEED_BACK && msg.getContent().indexOf("_TARG")!=-1){
             feedBack(msg);
@@ -74,8 +74,8 @@ public class SimpleTask extends Task {
             case MESSAGE:
                 if (msg.getContent().indexOf("_TARG")!=-1) {
                     int n = new Integer(msg.getContent().substring(0, msg.getContent().indexOf("_TARG")));
-                    main.stats.addChain(msg.getChain().size());
-                    main.stats.addDistance(msg.getFrom().getPos().distance(msg.getTarget().getPos()));
+                    Simulator.stats.addChain(msg.getChain().size());
+                    Simulator.stats.addDistance(msg.getFrom().getPos().distance(msg.getTarget().getPos()));
                     if (msg.isNegative()){
                         msg.getTarget().setBroken(true);
                     }
@@ -85,16 +85,16 @@ public class SimpleTask extends Task {
                     if (msg.getTarget().isSaboteur()){
                         feedBack.setNegative(true);
                         if (feedBack.getFinalTarget()!=feedBack.getTarget()){
-                            main.stats.addNegativeWithInter();
+                            Simulator.stats.addNegativeWithInter();
                         }
                         if (feedBack.getFinalTarget()!=feedBack.getTarget()){
-                            main.stats.addNegativeWithInter();
+                            Simulator.stats.addNegativeWithInter();
                         }
-                        main.stats.addNegativeSource();
+                        Simulator.stats.addNegativeSource();
                     }
-                    main.taskType.feedBack(feedBack);
+                    Simulator.taskType.feedBack(feedBack);
 
-                    //main.tasks.get(n).solve();
+                    //Simulator.tasks.get(n).solve();
                 }
                 break;
         }

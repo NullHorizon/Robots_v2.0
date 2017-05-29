@@ -9,12 +9,12 @@ public class StRandom {
     private static int seed;
     private StRandom(){
         if (!exist){
-            if (CONST.SEED==0) {
+            if (Params.SEED==0) {
                 seed= new Random().nextInt();
             } else {
-                seed= CONST.SEED;
+                seed= Params.SEED;
             }
-            main.logging("Seed: "+seed);
+            Simulator.logging("Seed: "+seed);
             r = new Random(seed);
             exist = true;
         }

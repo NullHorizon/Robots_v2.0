@@ -33,14 +33,14 @@ public class InfPhyTask extends Task {
                 case SENDED_TO_LEAD:
                     task.setProgress(Progress.WAITING_FOR_OTHERS);
                     if (!msg.getTarget().isSaboteur() && task.broken_message &&
-                            CONST.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100)){
+                            Params.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100)){
                         task.setProgress(Progress.FILTERED);
-                        main.stats.addMissingAction();
+                        Simulator.stats.addMissingAction();
                     }
                     if (chekTasks(Progress.WAITING_FOR_OTHERS)){
                         Agent phyLead=Clusterator.getClusters().get(1).getLeader();
-                        for (int i=0; i<main.tasks.size();i++){
-                            InfPhyTask t=(InfPhyTask)main.tasks.get(i);
+                        for (int i = 0; i< Simulator.tasks.size(); i++){
+                            InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
                             if (t.progress==Progress.FILTERED){
                                 continue;
                             }
@@ -60,13 +60,13 @@ public class InfPhyTask extends Task {
                 case SENDED_TO_PHY:
                     task.progress=Progress.WAITING_FOR_OTHERS2;
                     if (!msg.getTarget().isSaboteur() && task.broken_message &&
-                            CONST.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100)){
+                            Params.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100)){
                         task.setProgress(Progress.FILTERED);
-                        main.stats.addMissingAction();
+                        Simulator.stats.addMissingAction();
                     }
                     if (chekTasks(Progress.WAITING_FOR_OTHERS2)) {
-                        for (int i=0;i<main.tasks.size();i++) {
-                            InfPhyTask t=(InfPhyTask) main.tasks.get(i);
+                        for (int i = 0; i< Simulator.tasks.size(); i++) {
+                            InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
                             if (t.progress==Progress.FILTERED){
                                 continue;
                             }
@@ -92,8 +92,8 @@ public class InfPhyTask extends Task {
                     task.setProgress(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER);
                     if (chekTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER)){
                         Agent infLead=Clusterator.getClusters().get(0).getLeader();
-                        for (int i=0; i<main.tasks.size();i++){
-                            InfPhyTask t=(InfPhyTask)main.tasks.get(i);
+                        for (int i = 0; i< Simulator.tasks.size(); i++){
+                            InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
                             Message m=new Message("LINE FEEDBACK",null,infLead,msg.getTarget(),t.agOwner);
                             m.setTask(t);
                             if (msg.getTarget().isSaboteur()){
@@ -111,8 +111,8 @@ public class InfPhyTask extends Task {
                     Agent infLead=Clusterator.getClusters().get(0).getLeader();
                     task.setProgress(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER2);
                     if (chekTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER2)){
-                        for (int i=0; i<main.tasks.size();i++){
-                            InfPhyTask t=(InfPhyTask)main.tasks.get(i);
+                        for (int i = 0; i< Simulator.tasks.size(); i++){
+                            InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
                             if (t.agOwner==infLead){
                                 t.progress=Progress.SOLVED;
                                 if (t.broken_message){
@@ -204,8 +204,8 @@ public class InfPhyTask extends Task {
 
     private boolean chekTasks(Progress progress){
         boolean f=true;
-        for (int i=0; i< main.tasks.size();i++){
-            InfPhyTask t= ((InfPhyTask)main.tasks.get(i));
+        for (int i = 0; i< Simulator.tasks.size(); i++){
+            InfPhyTask t= ((InfPhyTask) Simulator.tasks.get(i));
             if (t.progress!=progress && t.progress!=Progress.FILTERED){
                 f=false;
                 break;

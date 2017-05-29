@@ -2,21 +2,21 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Timer;
 import java.util.TimerTask;
 
 /**
  * Created by AsmodeusX on 30.11.2016.
  */
-public class main {
+public class Simulator {
     public static ArrayList<Agent> agents;
     public static ArrayList<Task> tasks;
     public static Stats stats;
-    public static Frame fr;
+    public static View fr;
     public static Task taskType;
     public static int cur_exp=1;
     public static File logFile=new File("./log.csv");
     public static PrintWriter out;
+    private static Status status=null;
 
     public static void logging(String msg)
     {
@@ -27,9 +27,6 @@ public class main {
     public static void alert(String msg){
         Date date = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("hh:mm:ss:SS ");
-        if (fr!=null) {
-            fr.log(ft.format(date)+msg);
-        }
 
     }
 
@@ -60,7 +57,7 @@ public class main {
                         }
                     }
                 }
-                main.next();
+                Simulator.next();
             }
         };
         timer.schedule(tt, 100);
@@ -75,7 +72,7 @@ public class main {
             return;
         }
         stats.calc();
-        if (cur_exp<CONST.EXPERIMENT_NUM){
+        if (cur_exp< Params.EXPERIMENT_NUM){
             cur_exp++;
             Generator.generate();
             Generator.generateTasks();
@@ -92,14 +89,26 @@ public class main {
         }
     }
 
-    public static void main(String args[])
-    {
-        testC();
+    public static void init(){
+        fr=new View();
+        status=Status.READY;
     }
 
-    public static void testC(){
+    public static void go(){
         Generator.generate();
         Generator.generateTasks();
+    }
+
+    public static Status getStatus() {
+        return status;
+    }
+
+    public static void setStatus(Status status) {
+        Simulator.status = status;
+    }
+
+    enum Status{
+        READY, WORKING, GENERATED
     }
 
 }

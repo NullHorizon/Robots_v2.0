@@ -65,10 +65,10 @@ public class Stats {
     }
 
     public void calc(){
-        n=CONST.N;
-        tasks=CONST.TASK_NUM;
-        for (int i=0; i<main.agents.size();i++){
-            Agent a=main.agents.get(i);
+        n= Params.N;
+        tasks= Params.TASK_NUM;
+        for (int i = 0; i< Simulator.agents.size(); i++){
+            Agent a= Simulator.agents.get(i);
             if (a.isBroken()&&!a.isSaboteur()){
                 broken_agents++;
             }
@@ -76,24 +76,24 @@ public class Stats {
                 saboteur++;
             }
         }
-        steps=steps/CONST.TASK_NUM;
-        time=time/CONST.TASK_NUM;
-        chain_length=chain_length/CONST.TASK_NUM+1;
-        distance=distance/CONST.TASK_NUM;
-        if (main.taskType.getType()=="InfPhy"){
-            unique_center_inf=((InfPhyTask) (main.taskType)).getUniqueCenterNumInf();
-            unique_center_phy=((InfPhyTask) (main.taskType)).getUniqueCenterNumPhy();
-            for (int i=0; i<main.agents.size();i++){
-                if (Clusterator.getClusters().get(0).getAgents().contains(main.agents.get(i))){
+        steps=steps/ Params.TASK_NUM;
+        time=time/ Params.TASK_NUM;
+        chain_length=chain_length/ Params.TASK_NUM+1;
+        distance=distance/ Params.TASK_NUM;
+        if (Simulator.taskType.getType()=="InfPhy"){
+            unique_center_inf=((InfPhyTask) (Simulator.taskType)).getUniqueCenterNumInf();
+            unique_center_phy=((InfPhyTask) (Simulator.taskType)).getUniqueCenterNumPhy();
+            for (int i = 0; i< Simulator.agents.size(); i++){
+                if (Clusterator.getClusters().get(0).getAgents().contains(Simulator.agents.get(i))){
                     inf_agents++;
                 }
             }
         }
-        for (int i=0; i<main.agents.size();i++){
-            bad_center_time+=main.agents.get(i).getBadCenterTime();
-            main.agents.get(i).destory();
+        for (int i = 0; i< Simulator.agents.size(); i++){
+            bad_center_time+= Simulator.agents.get(i).getBadCenterTime();
+            Simulator.agents.get(i).destory();
         }
-        main.logging("AVERAGE STEPS: "+steps+"\n"+
+        Simulator.logging("AVERAGE STEPS: "+steps+"\n"+
                 "AVERAGE TIME: "+time+"\n"+
                 "AVERAGE CHAIN LENGTH: "+chain_length+"\n"+
                 "AVERAGE DISTANCE: "+distance+"\n"+"NUM OF AGENTS: "+n+"\n"+
@@ -123,15 +123,15 @@ public class Stats {
         }
         fileString+="\n";
         System.out.print(fileString);
-        File file=main.logFile;
+        File file= Simulator.logFile;
 
         try {
-            if (main.out==null) {
-                main.out = new PrintWriter(file.getAbsoluteFile());
+            if (Simulator.out==null) {
+                Simulator.out = new PrintWriter(file.getAbsoluteFile());
             }
-            main.out.print(fileString);
-            if (main.cur_exp==CONST.EXPERIMENT_NUM){
-                main.out.close();
+            Simulator.out.print(fileString);
+            if (Simulator.cur_exp== Params.EXPERIMENT_NUM){
+                Simulator.out.close();
             }
         } catch(Exception e) {
             System.out.println("File error: "+e.toString());
