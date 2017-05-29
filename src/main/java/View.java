@@ -27,8 +27,8 @@ public class View extends JFrame {
         //------------------настройки окна---------------------
         super("Friendly robots");
         setSize(w+50,h+50);
-        ImageIcon icon=new ImageIcon("src/resources/icon.gif");
-        setIconImage(icon.getImage());
+        //ImageIcon icon=new ImageIcon("src/resources/icon.gif");
+        //setIconImage(icon.getImage());
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new FlowLayout(FlowLayout.CENTER));
