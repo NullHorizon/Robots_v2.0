@@ -24,22 +24,26 @@ public class Params {
     public static double LENKOEF=5;
     public static double ANALYZKOEF=0;
     public static double DISTKOEF=0;
+    public static String LOGIC_TYPE="SIMPLE"; // SIMPLE/LEADER
+    public static int EXPERIMENT_NUM=2;
     public static String DRAW="true";
-    public static int CLUSTERS_NUM=3;
-    public static int FRIENDS_PAIR_NUM=10;
     public static int SEED=0; //if seed=0 {seed=random}
     public static int TASK_NUM=0;
-    public static String LOGIC_TYPE="SIMPLE"; // SIMPLE/LEADER
-    public static int MAX_MSG_LEN=20;
-    public static int MIN_MSG_LEN=10;
-    public static int EXPERIMENT_NUM=2;
+    //интервалы
     public static int SABOTEUR_PERSENT_MIN=10;
     public static int SABOTEUR_PERSENT_MAX=20;
     public static int MAX_AGENTS=30;
     public static int MIN_AGENTS=10;
-    public static int ITERATION_NUM=15;
     public static int MESSAGE_CHECK_PERCENT_MIN=0;
     public static int MESSAGE_CHECK_PERCENT_MAX=0;
+    public static int MAX_CENTER_CHECK=0;
+    public static int MIN_CENTER_CHECK=0;
+    public static int MAX_MSG_LEN=20;
+    public static int MIN_MSG_LEN=10;
+
+    public static int ITERATION_NUM=15;
+    public static int CLUSTERS_NUM=3;
+    public static int FRIENDS_PAIR_NUM=10;
 
     //на итерацию
     public static int N=20;
@@ -59,6 +63,18 @@ public class Params {
         LENKOEF=f.getLenKoef();
         DISTKOEF=f.getDistKoef();
         ANALYZKOEF=f.getAnalyseKeefe();
+        SEED=f.getSeed();
+        MAX_MSG_LEN=f.getMaxMsgLen();
+        MIN_MSG_LEN=f.getMinMsgLen();
+        EXPERIMENT_NUM=f.getExpNum();
+        TASK_NUM=f.getTaskNum();
+        MAX_CENTER_CHECK=f.getMaxCenterFilterPercent();
+        MIN_CENTER_CHECK=f.getMinCenterFilterPercent();
+        if (f.getDrawable()){
+            DRAW="true";
+        } else {
+            DRAW="false";
+        }
     }
 
     public static void initFromXml() {
@@ -71,12 +87,6 @@ public class Params {
             doc = builder.parse(new File("src/params.xml"));
             Element e=doc.getDocumentElement();
             e.normalize();
-            width = new Integer(e.getAttribute("width"));
-            height = new Integer(e.getAttribute("height"));
-            R = new Integer(e.getAttribute("R"));
-            Field field = Class.forName("java.awt.Color").getField(e.getAttribute("color"));
-            color = (Color)field.get(null);
-            MAXID = new Integer(e.getAttribute("MAXID"));
             LENKOEF = new Integer(e.getAttribute("LENKOEF"));
             ANALYZKOEF = new Integer(e.getAttribute("ANALYZKOEF"));
             DISTKOEF = new Integer(e.getAttribute("DISTKOEF"));

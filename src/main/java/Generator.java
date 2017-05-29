@@ -6,7 +6,13 @@ import java.util.ArrayList;
  */
 public class Generator {
     public static void generate(){
-        Params.initFromFrame();
+        Params.N=StRandom.nextInt(Params.MAX_AGENTS-Params.MIN_AGENTS)+Params.MIN_AGENTS;
+        Params.SABOTEUR_PERSENT=StRandom.nextInt(Params.SABOTEUR_PERSENT_MAX-Params.SABOTEUR_PERSENT_MIN)
+                + Params.SABOTEUR_PERSENT_MIN;
+        Params.MESSAGE_CHECK_PERCENT=StRandom.nextInt(Params.MESSAGE_CHECK_PERCENT_MAX-Params.MESSAGE_CHECK_PERCENT_MIN)
+                + Params.MESSAGE_CHECK_PERCENT_MIN;
+        Params.AGENT_CHECK_PERCENT=StRandom.nextInt(Params.MAX_CENTER_CHECK-Params.MIN_CENTER_CHECK)
+                + Params.MIN_CENTER_CHECK;
         if (!(Params.MAX_AGENTS==0)){
             Params.N=10+StRandom.nextInt(Params.MAX_AGENTS-10);
         }
@@ -16,18 +22,14 @@ public class Generator {
         Simulator.taskType=null;
         Simulator.stats=null;
         Simulator.stats=new Stats();
+        Simulator.fr.reset();
         switch (Params.LOGIC_TYPE){
             case "SIMPLE": Simulator.taskType=new SimpleTask(); break;
             case "LEADER": Simulator.taskType= new LeadTask(); break;
             case "CLUSTER": Simulator.taskType=new ClusterTask(); break;
             case "InfPhy": Simulator.taskType=new InfPhyTask(); break;
         }
-        if (Simulator.fr!=null){
-            Simulator.fr.reset();
-        }
-        if (Simulator.fr==null) {
-            Simulator.fr = new View();
-        }
+
         switch (Simulator.taskType.getType()){
             case "simple": simpleGenerate(); break;
             case "leader": leaderGenerate(); break;

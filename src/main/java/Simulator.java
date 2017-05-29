@@ -76,16 +76,6 @@ public class Simulator {
             cur_exp++;
             Generator.generate();
             Generator.generateTasks();
-            /*java.util.Timer timer2 = new java.util.Timer();
-            TimerTask task = new TimerTask() {
-                public void run()
-                {
-                    cur_exp++;
-                    Generator.generate();
-                    Generator.generateTasks();
-                }
-            };
-            timer2.schedule( task, 100 );*/
         }
     }
 
@@ -95,6 +85,7 @@ public class Simulator {
     }
 
     public static void go(){
+        Params.initFromFrame();
         Generator.generate();
         Generator.generateTasks();
     }

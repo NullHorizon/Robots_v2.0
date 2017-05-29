@@ -20,7 +20,8 @@ public class View extends JFrame {
     private JRadioButton infPhy_rb, cluster_rb, leader_rb, simple_rb;
     private JTextField agent_min_num, agent_max_num, saboteur_percent_min, saboteur_percent_max,
             message_filter_percent_min, message_filter_percent_max, center_filter_percent_min, center_filter_percent_max,
-    len_koef, dist_koef, analys_koef;
+    len_koef, dist_koef, analys_koef, experiment_num, seed, min_msg_len, max_msg_len, task_num;
+    private JCheckBox draw;
 
     public View(){
         //------------------настройки окна---------------------
@@ -87,6 +88,39 @@ public class View extends JFrame {
         });
         but_panel.add(stats_but);
 
+        //----------прогрессбар--------------------
+        progressBar=new JProgressBar(0, Params.EXPERIMENT_NUM);
+        but_panel.add(progressBar);
+        iterProgressBar=new JProgressBar(0,10);
+        iterProgressBar.setVisible(false);
+        but_panel.add(iterProgressBar);
+
+        //------------------------общие настройки-----------------
+        JPanel common_panel=new CastomPanel();
+        common_panel.setPreferredSize(new Dimension(panel_w,200));
+        draw=new JCheckBox("Отрисовка");
+        draw.setSelected(true);
+        experiment_num=new EntryField();
+        experiment_num.setText("1");
+        max_msg_len=new EntryField();
+        max_msg_len.setText("20");
+        min_msg_len=new EntryField();
+        min_msg_len.setText("10");
+        task_num=new EntryField();
+        seed=new EntryField();
+        common_panel.add(new JLabel("Количество экспериментов:"));
+        common_panel.add(experiment_num);
+        common_panel.add(new JLabel("Зерно:"));
+        common_panel.add(seed);
+        common_panel.add(draw);
+        common_panel.add(new JLabel("Минимальная длина сообщения:"));
+        common_panel.add(min_msg_len);
+        common_panel.add(new JLabel("Максимальная длина сообщения:"));
+        common_panel.add(max_msg_len);
+        common_panel.add(new JLabel("Количество заданий (агенты/2 если 0):"));
+        common_panel.add(task_num);
+        but_panel.add(common_panel);
+
         //---------------------------------выбор логики------------------------
         JPanel logic_panel=new CastomPanel();
         logic_panel.setPreferredSize(new Dimension(panel_w,150));
@@ -147,7 +181,6 @@ public class View extends JFrame {
         len_koef=new EntryField();
         len_koef.setText("10");
         dist_koef=new EntryField();
-        dist_koef.setText("10");
         analys_koef=new EntryField();
         JPanel koef_panel=new CastomPanel();
         koef_panel.setPreferredSize(new Dimension(panel_w, 170));
@@ -159,15 +192,6 @@ public class View extends JFrame {
         koef_panel.add(new JLabel("Коэффициент анализа сообщения:"));
         koef_panel.add(analys_koef);
         but_panel.add(koef_panel);
-
-
-
-        progressBar=new JProgressBar(0, Params.EXPERIMENT_NUM);
-        but_panel.add(progressBar);
-
-        iterProgressBar=new JProgressBar(0,10);
-        iterProgressBar.setVisible(false);
-        but_panel.add(iterProgressBar);
 
         final JScrollPane sp=new JScrollPane(but_panel);
         sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -240,6 +264,30 @@ public class View extends JFrame {
 
     public int getAnalyseKeefe() {
         return Integer.parseInt(analys_koef.getText());
+    }
+
+    public int getExpNum(){
+        return Integer.parseInt(experiment_num.getText());
+    }
+
+    public int getSeed(){
+        return Integer.parseInt(seed.getText());
+    }
+
+    public int getMinMsgLen(){
+        return Integer.parseInt(min_msg_len.getText());
+    }
+
+    public int getMaxMsgLen(){
+        return Integer.parseInt(max_msg_len.getText());
+    }
+
+    public boolean getDrawable(){
+        return draw.isSelected();
+    }
+
+    public int getTaskNum(){
+        return Integer.parseInt(task_num.getText());
     }
 
     public void reset(){

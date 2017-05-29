@@ -21,6 +21,9 @@ public class StRandom {
     }
 
     public static int nextInt(int max){
+        if (max==0){
+            return 0;
+        }
         new StRandom();
         return r.nextInt(max);
     }
