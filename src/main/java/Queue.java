@@ -9,6 +9,7 @@ import java.util.Vector;
 public class Queue {
 
     static class messageData {
+        private int curDelay;
         private Agent agent;
         private int delay;
         private String type;
@@ -20,6 +21,7 @@ public class Queue {
             this.delay = b;
             this.type = t;
             this.msg = c;
+            curDelay=delay;
         }
 
         public Agent getAgent()
@@ -86,26 +88,23 @@ public class Queue {
 
     public void removeFromQueue(final messageData p)
     {
-        //precessing animation
         if (p.getType() == "SEND") {
             Simulator.logging(owner.getId() + " SENT MESSAGE " + p.getMessage().getContent() + " TO " + p.getAgent().getId());
             p.getAgent().getMessage(owner, p.getMessage());
         } else
         {
             Simulator.logging(owner.getId() + " READ MESSAGE " + p.getMessage().getContent() + " FROM " + p.getAgent().getId());
-            //owner.sendMessage(p.getAgent(), new Message(Params.READMSG, null, p.getAgent(), owner));
             Simulator.fr.removeLine(owner.getPos(), p.getAgent().getPos());
         }
         this.elements.remove(p);
-        //Simulator.logging(this.toString());
     }
 
-    public Agent nowInWork()
+    public messageData nowInWork()
     {
         if (this.elements.isEmpty()) {
             return null;
         }
-        return this.elements.firstElement().getAgent();
+        return this.elements.firstElement();
     }
 
     public int getLength() {
@@ -128,16 +127,26 @@ public class Queue {
             Simulator.logging(owner.getId() + " SENDING MESSAGE " + firstElement.getMessage().getContent() + " TO " + firstElement.getAgent().getId());
         }
         Simulator.fr.addLine(owner.getPos(), firstElement.getAgent().getPos(), Color.red);
+//
+//        Timer tmr = new Timer();
+//        tmr.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                this.cancel();
+//                removeFromQueue(firstElement);
+//                Work();
+//            }
+//        }, firstElement.getDelay());
+    }
 
-        Timer tmr = new Timer();
-        tmr.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                this.cancel();
-                removeFromQueue(firstElement);
+    public void step(){
+        if (nowInWork()!=null){
+            nowInWork().curDelay--;
+            if (nowInWork().curDelay<=0){
+                removeFromQueue(nowInWork());
                 Work();
             }
-        }, firstElement.getDelay());
+        }
     }
 
     @Override

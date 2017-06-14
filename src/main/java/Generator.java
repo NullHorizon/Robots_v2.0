@@ -20,7 +20,6 @@ public class Generator {
         Simulator.agents=null;
         Simulator.tasks=null;
         Simulator.taskType=null;
-        Simulator.stats=null;
         Simulator.stats=new Stats();
         Simulator.fr.reset();
         switch (Params.LOGIC_TYPE){

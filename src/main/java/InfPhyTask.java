@@ -1,5 +1,3 @@
-import com.sun.org.apache.xpath.internal.SourceTree;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +13,6 @@ public class InfPhyTask extends Task {
     }
     public InfPhyTask(Agent own, Agent rec, String mes) {
         super(own, rec, mes);
-        iterationForThisExp=10;
         progress=Progress.NOT_SENDED;
         type="InfPhy";
     }
@@ -29,23 +26,15 @@ public class InfPhyTask extends Task {
         if (feedback(msg)){
             return;
         }
-//        InfPhyTask itt=(InfPhyTask)msg.getTask();
-//        Progress pr=itt.getProgress();
-//        System.out.println("!-------------"+pr);
-//        int debug_flag=0;
-//        for (Task t: Simulator.tasks){
-//            InfPhyTask it=(InfPhyTask)t;
-//            System.out.print(it.getProgress()+" ");
-//            if (it.getProgress()==Progress.SENDED_TO_PHY){
-//                debug_flag++;
-//            } else {
-//                if (it.getProgress()!=Progress.FILTERED){
-//                    debug_flag+=1000;
-//                }
-//            }
-//        }
-
         InfPhyTask task=(InfPhyTask)msg.getTask();
+
+        //дебаг------------------------------
+        System.out.println();
+        System.out.println("ПРИШЛО: "+task.getProgress());
+        for (Task t: Simulator.tasks){
+            System.out.println(((InfPhyTask)t).getProgress());
+        }
+
         if (msg.getTarget().isLead()){
             switch (task.getProgress()){
                 case SENDED_TO_LEAD:
@@ -58,7 +47,7 @@ public class InfPhyTask extends Task {
                         msg.getTask().agOwner.setDetected(true);
                         Simulator.stats.addMissingAction();
                     }
-                    if (chekTasks(Progress.WAITING_FOR_OTHERS)){
+                    if (checkTasks(Progress.WAITING_FOR_OTHERS)){
                         Agent phyLead=Clusterator.getClusters().get(1).getLeader();
                         for (int i = 0; i< Simulator.tasks.size(); i++){
                             InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
@@ -77,18 +66,30 @@ public class InfPhyTask extends Task {
                             t.progress=Progress.SENDED_TO_PHY;
                         }
                     }
-                    break;
+                    return;
                 case SENDED_TO_PHY:
+
+                    //дебаг-----------------------
+                    System.out.println("ЗАШЛО В КЕЙС");
+
                     task.progress=Progress.WAITING_FOR_OTHERS2;
                     if (!msg.getTarget().isSaboteur() &&
                             (task.broken_message && Params.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100))
                             || msg.getTask().agOwner.isDetected()
                             || 3>StRandom.nextInt(100)){
+
+                        //дебаг-----------------------
+                        System.out.println("ЗАШЛО В ФИЛЬТР");
+
                         task.setProgress(Progress.FILTERED);
                         msg.getTask().agOwner.setDetected(true);
                         Simulator.stats.addMissingAction();
                     }
-                    if (chekTasks(Progress.WAITING_FOR_OTHERS2)) {
+                    if (checkTasks(Progress.WAITING_FOR_OTHERS2)) {
+
+                        //дебаг-----------------------
+                        System.out.println("ПРОШЛО ТАСК ЧЕК");
+
                         for (int i = 0; i< Simulator.tasks.size(); i++) {
                             InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
                             if (t.progress==Progress.FILTERED){
@@ -96,6 +97,28 @@ public class InfPhyTask extends Task {
                             }
                             if (t.recipient==msg.getTarget()){
                                 t.progress=Progress.LINE_FEED_BACK_WAITING_FOR_OTHER;
+                                if (checkTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER)) {
+                                    Agent infLead=Clusterator.getClusters().get(0).getLeader();
+                                    Message m=new Message("LINE FEEDBACK",null,infLead,msg.getTarget(),t.agOwner);
+                                    m.setTask(t);
+                                    if (msg.getTarget().isSaboteur()){
+                                        t.broken_message=true;
+                                    }
+                                    if (t.broken_message){
+                                        m.setNegative(true);
+                                    }
+                                    msg.getTarget().sendMessage(infLead,m);
+
+                                    //дебаг-----------------------
+                                    System.out.println("ОТПРАВИЛИ К ИНФ ЛИД");
+
+                                    t.progress=Progress.LINE_FEED_BACK_TO_INF_LEAD;
+
+                                }
+
+                                //дебаг-----------------------
+                                System.out.println("ОЖИДАЕТ");
+
                             } else {
                                 Message m = new Message(t.message, null, t.recipient,
                                         msg.getTarget());
@@ -108,13 +131,17 @@ public class InfPhyTask extends Task {
                                 }
                                 msg.getTarget().sendMessage(t.recipient, m);
                                 t.setProgress(Progress.SENDED_TO_RECIPIENT);
+
+                                //дебаг-----------------------
+                                System.out.println("ЧТО-ТО ОТПРАВЛЕНО");
+
                             }
                         }
                     }
-                    return;//weryu
+                    return;
                 case LINE_FEED_BACK_TO_PHY_LEAD:
                     task.setProgress(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER);
-                    if (chekTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER)){
+                    if (checkTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER)){
                         Agent infLead=Clusterator.getClusters().get(0).getLeader();
                         for (int i = 0; i< Simulator.tasks.size(); i++){
                             InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
@@ -130,11 +157,11 @@ public class InfPhyTask extends Task {
                             t.progress=Progress.LINE_FEED_BACK_TO_INF_LEAD;
                         }
                     }
-                    break;
+                    return;
                 case LINE_FEED_BACK_TO_INF_LEAD:
                     Agent infLead=Clusterator.getClusters().get(0).getLeader();
                     task.setProgress(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER2);
-                    if (chekTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER2)){
+                    if (checkTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER2)){
                         for (int i = 0; i< Simulator.tasks.size(); i++){
                             InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
                             if (t.agOwner==infLead){
@@ -167,7 +194,7 @@ public class InfPhyTask extends Task {
                     }
                     task.progress=Progress.SOLVED;
                     task.solve();
-                    break;
+                    return;
                 case SENDED_TO_RECIPIENT:
                     if (msg.isNegative()){
                         task.recipient.addWrongActionNum();
@@ -226,7 +253,7 @@ public class InfPhyTask extends Task {
         iterationNum++;
     }
 
-    private boolean chekTasks(Progress progress){
+    private boolean checkTasks(Progress progress){
         boolean f=true;
         int not_only_filtered=0;
         for (int i = 0; i< Simulator.tasks.size(); i++){
@@ -239,8 +266,9 @@ public class InfPhyTask extends Task {
                 break;
             }
         }
-        if (not_only_filtered==0){
-            Simulator.chekTasks();
+        if (f && not_only_filtered==0){
+            Simulator.checkTasks();
+            f=false;
         }
         return f;
     }

@@ -1,6 +1,3 @@
-import javax.swing.Timer;
-import java.awt.event.ActionListener;
-import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +8,6 @@ public abstract class Task {
     String message;
     Status status;
     protected String type;
-    protected Timer timer;
     protected int steps, time;
 
     public Task(){}
@@ -21,25 +17,16 @@ public abstract class Task {
         message=mes;
         steps=0;
         time=0;
-        timer = new javax.swing.Timer( 100, new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                time=time+100;
-            }
-        } );
-        timer.start();
         status=Status.UNSOLVED;
     }
 
     public String getType(){return type;}
 
     public void solve(){
-        timer.stop();
         Simulator.stats.addSteps(steps);
         Simulator.stats.addTime(time);
         status=Status.SOLVED;
-        Simulator.chekTasks();
+        Simulator.checkTasks();
     }
 
     public void feedBack(Message msg){

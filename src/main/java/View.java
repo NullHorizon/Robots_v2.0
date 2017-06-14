@@ -183,7 +183,7 @@ public class View extends JFrame {
 
         //----------------------------коэфициенты------------------------------------
         len_koef=new EntryField();
-        len_koef.setText("2");
+        len_koef.setText("1");
         dist_koef=new EntryField();
         analys_koef=new EntryField();
         JPanel koef_panel=new CastomPanel();

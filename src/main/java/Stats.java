@@ -101,7 +101,6 @@ public class Stats {
         }
         for (int i = 0; i< Simulator.agents.size(); i++){
             bad_center_time+= Simulator.agents.get(i).getBadCenterTime();
-            Simulator.agents.get(i).destory();
         }
         Simulator.logging("AVERAGE STEPS: "+steps+"\n"+
                 "AVERAGE TIME: "+time+"\n"+

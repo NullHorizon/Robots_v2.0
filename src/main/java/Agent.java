@@ -1,9 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import static java.awt.Color.MAGENTA;
 
 /**
@@ -25,7 +22,6 @@ public class Agent {
     private Agent targeted=null;
     private int wrongActionNum=0;
     private int badCenterTime=0;
-    private Timer badCenterTimer;
     private boolean detected=false;
 
     public Agent()
@@ -40,16 +36,6 @@ public class Agent {
         this.setId(rnd.nextInt(Params.MAXID));
         this.q = new Queue(this);
         tasks=new ArrayList<Task>();
-        badCenterTimer=new Timer();
-        TimerTask tt=new TimerTask() {
-            @Override
-            public void run() {
-                if (isLead() && isSaboteur()) {
-                    badCenterTime += 10;
-                }
-            }
-        };
-        badCenterTimer.schedule(tt,10,10);
 
     }
 
@@ -288,9 +274,6 @@ public class Agent {
 
     public int getWrongActionNum() {
         return wrongActionNum;
-    }
-    public void destory(){
-        badCenterTimer.cancel();
     }
 
     public boolean isDetected() {
