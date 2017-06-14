@@ -111,7 +111,7 @@ public class InfPhyTask extends Task {
                             }
                         }
                     }
-                    return;
+                    return;//weryu
                 case LINE_FEED_BACK_TO_PHY_LEAD:
                     task.setProgress(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER);
                     if (chekTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER)){
