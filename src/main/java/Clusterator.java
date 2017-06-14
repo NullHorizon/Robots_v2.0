@@ -193,8 +193,9 @@ public class Clusterator {
     public static void infPhyClusterisation(){
         clusters.add(new Cluster());
         clusters.add(new Cluster());
+        Params.divide=Params.width/2-((Params.width/2-60)*7/10)+StRandom.nextInt((Params.width/2-60)*3/10);
         for (Agent a: Simulator.agents){
-            if (a.getPos().x< Params.width/2){
+            if (a.getPos().x< Params.divide){
                 clusters.get(0).add(a);
                 a.setClusterId(clusters.get(0).id);
             } else {

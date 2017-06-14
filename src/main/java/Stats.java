@@ -7,7 +7,9 @@ import java.io.PrintWriter;
 public class Stats {
 
     private double
-            missing_action,
+            detected=0,                 //вычислено диверсантов
+            mistake_detect=0,           //хорошие агенты выданные за плохих
+            missing_action,             //действий не выполнено
             bad_center_time,            //общее время прибывания плохих агентов центрами
             bad_center_num,             //кол-во плохих центров
             inf_agents,                 //кол-во информационных агентов
@@ -25,8 +27,9 @@ public class Stats {
             time,                       //время от появления задания, до доставки сообщения
             chain_length,               //колличество агентов, через которых прошло целевое сообщение
             distance;                   //дистанция пройденная целевым сообщением
-    private int broken_agents,          //сломанные агенты
-                saboteur;               //диверсанты
+    private int start_saboteur,         //диверсанты на начало симуляции
+                broken_agents,          //сломанные агенты
+                saboteur;               //диверсанты на конец симуляции
     private int n;
 
     public Stats(){
@@ -59,6 +62,7 @@ public class Stats {
     public void addNegativeSource(){negative_message_source++;}
     public void addNegativeWithInter(){negative_message_with_intermediaries++;}
     public void addNegativeResended(){negative_message_resended++;}
+    public void addStartSaboteur(){start_saboteur++;}
 
     public void setIteration_num(double iteration_num) {
         this.iteration_num = iteration_num;
@@ -74,6 +78,12 @@ public class Stats {
             }
             if (a.isSaboteur()){
                 saboteur++;
+            }
+            if (a.isDetected()&&!a.isSaboteur()){
+                mistake_detect++;
+            }
+            if (a.isDetected()&& a.isSaboteur()){
+                detected++;
             }
         }
         steps=steps/ Params.TASK_NUM;
@@ -116,13 +126,13 @@ public class Stats {
         String data[]={steps+"", time+"",chain_length+"",distance+"",n+"",broken_agents+"",saboteur+"",tasks+"",
                 negative_message_source+"",negative_message_with_intermediaries+"",negative_message_resended+"",
                 all_messages+"",iteration_num+"",unique_center_inf+"",unique_center_phy+"",wrong_phy_action+"",
-                bad_messages+"",inf_agents+"",bad_center_num+"",bad_center_time+"",missing_action+""};
+                bad_messages+"",inf_agents+"",bad_center_num+"",bad_center_time+"",missing_action+"",detected+"",
+                mistake_detect+"",start_saboteur+""};
         String fileString="";
         for (String s:data){
             fileString=fileString+s+";";
         }
         fileString+="\n";
-        System.out.print(fileString);
         File file= Simulator.logFile;
 
         try {

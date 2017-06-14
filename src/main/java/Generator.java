@@ -49,15 +49,11 @@ public class Generator {
                 int y = Params.height / 2;
                 double angle=Math.PI*2/ Params.N*i;
                 int xplus = (int)(Math.sin(angle) * R), yplus =  (int)(Math.cos(angle) * R);
-                if (x+xplus> Params.width / 2){
-                    xplus+=50;
-                } else {
-                    xplus-=50;
-                }
                 a.setPos(new Point(x + xplus, y + yplus));
             }
             if (StRandom.nextInt(100)< Params.SABOTEUR_PERSENT){
                 a.setSaboteur(true);
+                Simulator.stats.addStartSaboteur();
             }
             Simulator.agents.add(a);
         }

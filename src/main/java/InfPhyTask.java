@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.SourceTree;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,14 +29,33 @@ public class InfPhyTask extends Task {
         if (feedback(msg)){
             return;
         }
+//        InfPhyTask itt=(InfPhyTask)msg.getTask();
+//        Progress pr=itt.getProgress();
+//        System.out.println("!-------------"+pr);
+//        int debug_flag=0;
+//        for (Task t: Simulator.tasks){
+//            InfPhyTask it=(InfPhyTask)t;
+//            System.out.print(it.getProgress()+" ");
+//            if (it.getProgress()==Progress.SENDED_TO_PHY){
+//                debug_flag++;
+//            } else {
+//                if (it.getProgress()!=Progress.FILTERED){
+//                    debug_flag+=1000;
+//                }
+//            }
+//        }
+
         InfPhyTask task=(InfPhyTask)msg.getTask();
         if (msg.getTarget().isLead()){
             switch (task.getProgress()){
                 case SENDED_TO_LEAD:
                     task.setProgress(Progress.WAITING_FOR_OTHERS);
-                    if (!msg.getTarget().isSaboteur() && task.broken_message &&
-                            Params.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100)){
+                    if (!msg.getTarget().isSaboteur() &&
+                            (task.broken_message && Params.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100))
+                            || msg.getTask().agOwner.isDetected()
+                            || 3>StRandom.nextInt(100)){
                         task.setProgress(Progress.FILTERED);
+                        msg.getTask().agOwner.setDetected(true);
                         Simulator.stats.addMissingAction();
                     }
                     if (chekTasks(Progress.WAITING_FOR_OTHERS)){
@@ -59,9 +80,12 @@ public class InfPhyTask extends Task {
                     break;
                 case SENDED_TO_PHY:
                     task.progress=Progress.WAITING_FOR_OTHERS2;
-                    if (!msg.getTarget().isSaboteur() && task.broken_message &&
-                            Params.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100)){
+                    if (!msg.getTarget().isSaboteur() &&
+                            (task.broken_message && Params.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100))
+                            || msg.getTask().agOwner.isDetected()
+                            || 3>StRandom.nextInt(100)){
                         task.setProgress(Progress.FILTERED);
+                        msg.getTask().agOwner.setDetected(true);
                         Simulator.stats.addMissingAction();
                     }
                     if (chekTasks(Progress.WAITING_FOR_OTHERS2)) {
@@ -87,7 +111,7 @@ public class InfPhyTask extends Task {
                             }
                         }
                     }
-                    break;
+                    return;
                 case LINE_FEED_BACK_TO_PHY_LEAD:
                     task.setProgress(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER);
                     if (chekTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER)){
@@ -204,12 +228,19 @@ public class InfPhyTask extends Task {
 
     private boolean chekTasks(Progress progress){
         boolean f=true;
+        int not_only_filtered=0;
         for (int i = 0; i< Simulator.tasks.size(); i++){
             InfPhyTask t= ((InfPhyTask) Simulator.tasks.get(i));
+            if (t.progress==progress){
+                not_only_filtered++;
+            }
             if (t.progress!=progress && t.progress!=Progress.FILTERED){
                 f=false;
                 break;
             }
+        }
+        if (not_only_filtered==0){
+            Simulator.chekTasks();
         }
         return f;
     }

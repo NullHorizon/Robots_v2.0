@@ -50,6 +50,7 @@ public class Params {
     public static int SABOTEUR_PERSENT=15;
     public static int MESSAGE_CHECK_PERCENT=0;
     public static int AGENT_CHECK_PERCENT=0;
+    public static int divide=width/2;
 
     public static void initFromFrame(){
         View f=Simulator.fr;

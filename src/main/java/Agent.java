@@ -26,6 +26,7 @@ public class Agent {
     private int wrongActionNum=0;
     private int badCenterTime=0;
     private Timer badCenterTimer;
+    private boolean detected=false;
 
     public Agent()
     {
@@ -290,5 +291,13 @@ public class Agent {
     }
     public void destory(){
         badCenterTimer.cancel();
+    }
+
+    public boolean isDetected() {
+        return detected;
+    }
+
+    public void setDetected(boolean detected) {
+        this.detected = detected;
     }
 }

@@ -27,8 +27,8 @@ public class View extends JFrame {
         //------------------настройки окна---------------------
         super("Friendly robots");
         setSize(w+50,h+50);
-        //ImageIcon icon=new ImageIcon("src/resources/icon.gif");
-        //setIconImage(icon.getImage());
+        ImageIcon icon=new ImageIcon("src/resources/icon.gif");
+        setIconImage(icon.getImage());
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -101,11 +101,11 @@ public class View extends JFrame {
         draw=new JCheckBox("Отрисовка");
         draw.setSelected(true);
         experiment_num=new EntryField();
-        experiment_num.setText("1");
+        experiment_num.setText("100");
         max_msg_len=new EntryField();
-        max_msg_len.setText("20");
+        max_msg_len.setText("10");
         min_msg_len=new EntryField();
-        min_msg_len.setText("10");
+        min_msg_len.setText("8");
         task_num=new EntryField();
         seed=new EntryField();
         common_panel.add(new JLabel("Количество экспериментов:"));
@@ -133,7 +133,7 @@ public class View extends JFrame {
         logic_group.add(simple_rb);
         logic_group.add(leader_rb);
         logic_group.add(cluster_rb);
-        simple_rb.setSelected(true);
+        infPhy_rb.setSelected(true);
         logic_panel.add(new JLabel("Модель поведения:"));
         logic_panel.add(simple_rb);
         logic_panel.add(cluster_rb);
@@ -144,8 +144,8 @@ public class View extends JFrame {
         //-----------------------число агентов-------------------------------------
         agent_min_num=new EntryField();
         agent_max_num=new EntryField();
-        agent_min_num.setText("10");
-        agent_max_num.setText("30");
+        agent_min_num.setText("40");
+        agent_max_num.setText("60");
         JPanel agent_num_panel=new CastomPanel();
         agent_num_panel.setPreferredSize(new Dimension(panel_w,100));
         agent_num_panel.add(new JLabel("Минимальное количество агентов:"));
@@ -156,10 +156,14 @@ public class View extends JFrame {
 
         //------------------диверсанты--------------------------------
         saboteur_percent_min=new EntryField();
+        saboteur_percent_min.setText("5");
         message_filter_percent_min=new EntryField();
+        message_filter_percent_min.setText("80");
         center_filter_percent_min=new EntryField();
         saboteur_percent_max=new EntryField();
+        saboteur_percent_max.setText("30");
         message_filter_percent_max=new EntryField();
+        message_filter_percent_max.setText("80");
         center_filter_percent_max=new EntryField();
         JPanel saboteur_panel=new CastomPanel();
         saboteur_panel.setPreferredSize(new Dimension(panel_w,300));
@@ -179,7 +183,7 @@ public class View extends JFrame {
 
         //----------------------------коэфициенты------------------------------------
         len_koef=new EntryField();
-        len_koef.setText("10");
+        len_koef.setText("2");
         dist_koef=new EntryField();
         analys_koef=new EntryField();
         JPanel koef_panel=new CastomPanel();
@@ -292,6 +296,7 @@ public class View extends JFrame {
 
     public void reset(){
         lines=new ArrayList<Line>();
+        progressBar.setMaximum(Params.EXPERIMENT_NUM);
         progressBar.setValue(Simulator.cur_exp);
         repaint();
     }
@@ -383,7 +388,7 @@ public class View extends JFrame {
             }
             if (Simulator.taskType.getType()=="InfPhy"){
                 g.setColor(Color.BLUE);
-                g.drawLine(Params.width/2+25+ Params.R,0, Params.width/2+ Params.R+25, Params.height);
+                g.drawLine(Params.divide+25+ Params.R,0, Params.divide+ Params.R+25, Params.height);
                 g.drawString("INFORMATION CLUSTER",30,30);
                 g.drawString("PHYSICAL CLUSTER", Params.width/2+60,30);
             }

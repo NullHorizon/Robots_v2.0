@@ -33,7 +33,10 @@ public class Table extends JFrame {
             "inf agents",
             "bad center num",
             "bad center time",
-            "missing actions"
+            "missing actions",
+            "detected",
+            "mistake detect",
+            "start saboteur"
     };
     private static ArrayList<String[]> data = new ArrayList<String[]>();
 
