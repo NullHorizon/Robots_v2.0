@@ -2,9 +2,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by shepkan on 01.12.2016.
- */
 public class Clusterator {
     private static ArrayList<Cluster> clusters=new ArrayList<Cluster>();
     private static int clNum=StRandom.nextInt(3)+2;
@@ -28,19 +25,19 @@ public class Clusterator {
         Random r=StRandom.getR();
         for (int i=0; i<clNum; i++) {
             clusters.add(new Cluster());
-            int nextCom= r.nextInt(Simulator.agents.size());
+            int nextCom= r.nextInt(Simulator.getAgents().size());
             boolean f=true;
             while (f){
                 f=false;
                 for (int j=0; j<i; j++){
-                    if (coms.get(j)== Simulator.agents.get(nextCom).getPos()){
+                    if (coms.get(j)== Simulator.getAgents().get(nextCom).getPos()){
                         f=true;
                     }
                 }
-                nextCom=(nextCom+1)% Simulator.agents.size();
+                nextCom=(nextCom+1)% Simulator.getAgents().size();
             }
-            coms.add(Simulator.agents.get(nextCom).getPos());
-            clusters.get(i).add(Simulator.agents.get(nextCom));
+            coms.add(Simulator.getAgents().get(nextCom).getPos());
+            clusters.get(i).add(Simulator.getAgents().get(nextCom));
         }
 
 
@@ -50,8 +47,8 @@ public class Clusterator {
             for (Cluster c:clusters){
                 c.clear();
             }
-            for (int p = 0; p< Simulator.agents.size(); p++) {
-                Agent a= Simulator.agents.get(p);
+            for (int p = 0; p< Simulator.getAgents().size(); p++) {
+                Agent a= Simulator.getAgents().get(p);
                 double minD = a.getPos().distance(coms.get(0));
                 int cluster = 0;
                 for (int i = 1; i < clNum; i++) {
@@ -140,7 +137,7 @@ public class Clusterator {
 
         private Point getCom(){
             if (agents.size()==0){
-                return Simulator.agents.get(StRandom.nextInt(Simulator.agents.size())).getPos();
+                return Simulator.getAgents().get(StRandom.nextInt(Simulator.getAgents().size())).getPos();
             }
             Point ans = new Point(0,0);
             for (Agent a: agents){
@@ -194,7 +191,7 @@ public class Clusterator {
         clusters.add(new Cluster());
         clusters.add(new Cluster());
         Params.divide=Params.width/2-((Params.width/2-60)*7/10)+StRandom.nextInt((Params.width/2-60)*3/10);
-        for (Agent a: Simulator.agents){
+        for (Agent a: Simulator.getAgents()){
             if (a.getPos().x< Params.divide){
                 clusters.get(0).add(a);
                 a.setClusterId(clusters.get(0).id);

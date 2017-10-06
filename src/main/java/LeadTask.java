@@ -1,6 +1,3 @@
-/**
- * Created by shepkan on 05.01.2017.
- */
 public class LeadTask extends Task {
     public LeadTask(){type="leader";}
     private LeadTask( Agent own, Agent rec, String mes){

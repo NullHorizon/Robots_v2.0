@@ -1,9 +1,5 @@
-import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * Created by AsmodeusX on 13.12.2016.
- */
 public class Message
 {
     private String content;

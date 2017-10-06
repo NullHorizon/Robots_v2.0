@@ -1,8 +1,5 @@
 import java.util.ArrayList;
 
-/**
- * Created by shepkan on 27.01.2017.
- */
 public class ClusterTask extends Task {
     private ArrayList<Agent> list, noFriendList;
     private Agent search_agent;
@@ -14,9 +11,9 @@ public class ClusterTask extends Task {
         list= new ArrayList<>();
         list.addAll(agOwner.getConnected());
         noFriendList= new ArrayList<>();
-        for (int i = 0; i< Simulator.agents.size(); i++){
-            if (list.indexOf(Simulator.agents.get(i))==-1){
-                noFriendList.add(Simulator.agents.get(i));
+        for (int i = 0; i< Simulator.getAgents().size(); i++){
+            if (list.indexOf(Simulator.getAgents().get(i))==-1){
+                noFriendList.add(Simulator.getAgents().get(i));
             }
         }
         search_agent=null;

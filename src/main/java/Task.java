@@ -1,8 +1,5 @@
 import java.util.ArrayList;
 
-/**
- * Created by shepkan on 21.12.2016.
- */
 public abstract class Task {
     Agent agOwner, recipient;
     String message;

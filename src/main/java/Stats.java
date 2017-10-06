@@ -1,9 +1,6 @@
 import java.io.File;
 import java.io.PrintWriter;
 
-/**
- * Created by shepkan on 27.01.2017.
- */
 public class Stats {
 
     private double
@@ -71,8 +68,8 @@ public class Stats {
     public void calc(){
         n= Params.N;
         tasks= Params.TASK_NUM;
-        for (int i = 0; i< Simulator.agents.size(); i++){
-            Agent a= Simulator.agents.get(i);
+        for (int i = 0; i< Simulator.getAgents().size(); i++){
+            Agent a= Simulator.getAgents().get(i);
             if (a.isBroken()&&!a.isSaboteur()){
                 broken_agents++;
             }
@@ -93,14 +90,14 @@ public class Stats {
         if (Simulator.taskType.getType()=="InfPhy"){
             unique_center_inf=((InfPhyTask) (Simulator.taskType)).getUniqueCenterNumInf();
             unique_center_phy=((InfPhyTask) (Simulator.taskType)).getUniqueCenterNumPhy();
-            for (int i = 0; i< Simulator.agents.size(); i++){
-                if (Clusterator.getClusters().get(0).getAgents().contains(Simulator.agents.get(i))){
+            for (int i = 0; i< Simulator.getAgents().size(); i++){
+                if (Clusterator.getClusters().get(0).getAgents().contains(Simulator.getAgents().get(i))){
                     inf_agents++;
                 }
             }
         }
-        for (int i = 0; i< Simulator.agents.size(); i++){
-            bad_center_time+= Simulator.agents.get(i).getBadCenterTime();
+        for (int i = 0; i< Simulator.getAgents().size(); i++){
+            bad_center_time+= Simulator.getAgents().get(i).getBadCenterTime();
         }
         Simulator.logging("AVERAGE STEPS: "+steps+"\n"+
                 "AVERAGE TIME: "+time+"\n"+

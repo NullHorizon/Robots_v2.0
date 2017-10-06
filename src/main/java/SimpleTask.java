@@ -1,8 +1,5 @@
 import java.util.ArrayList;
 
-/**
- * Created by shepkan on 22.12.2016.
- */
 public class SimpleTask extends Task {
     private ArrayList<Agent> list;
 
@@ -12,8 +9,8 @@ public class SimpleTask extends Task {
         super(own, rec,mes);
         steps=0;
         list=new ArrayList<Agent>();
-        for (int i = 0; i< Simulator.agents.size(); i++){
-            list.add(Simulator.agents.get(i));
+        for (int i = 0; i< Simulator.getAgents().size(); i++){
+            list.add(Simulator.getAgents().get(i));
         }
         type="simple";
     }

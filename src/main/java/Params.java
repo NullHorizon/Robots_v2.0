@@ -1,17 +1,14 @@
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import javax.swing.*;
 import javax.xml.parsers.*;
 import java.awt.*;
 import java.io.File;
-import java.lang.reflect.Field;
 
 /**
  * Created by AsmodeusX on 30.11.2016.
  */
 public class Params {
-    //захардкожено
     public static int width=700;
     public static int height=600;
     public static int R=6;
@@ -20,16 +17,15 @@ public class Params {
     public static String SENTMSG="SENT";
     public static int MAXID=1000000;
 
-    //общие для симуляции
     public static double LENKOEF=5;
     public static double ANALYZKOEF=0;
     public static double DISTKOEF=0;
-    public static String LOGIC_TYPE="SIMPLE"; // SIMPLE/LEADER
+    public static String LOGIC_TYPE="SIMPLE"; // SIMPLE/LEADER/CLUSTER/InfPhy
     public static int EXPERIMENT_NUM=2;
     public static String DRAW="true";
     public static int SEED=0; //if seed=0 {seed=random}
     public static int TASK_NUM=0;
-    //интервалы
+
     public static int SABOTEUR_PERSENT_MIN=10;
     public static int SABOTEUR_PERSENT_MAX=20;
     public static int MAX_AGENTS=30;
@@ -45,7 +41,6 @@ public class Params {
     public static int CLUSTERS_NUM=3;
     public static int FRIENDS_PAIR_NUM=10;
 
-    //на итерацию
     public static int N=20;
     public static int SABOTEUR_PERSENT=15;
     public static int MESSAGE_CHECK_PERCENT=0;

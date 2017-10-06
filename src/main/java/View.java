@@ -1,14 +1,9 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-
-/**
- * Created by shepkan on 30.11.2016.
- */
 public class View extends JFrame {
 
     private JProgressBar progressBar, iterProgressBar;
@@ -357,14 +352,17 @@ public class View extends JFrame {
             }
             g.setColor(Color.WHITE);
             g.fillRect(0,0,w,h);
-            for (int i=0; i<lines.size();i++) {
+            for (int i=0;i<lines.size();i++) {
                 lines.get(i).draw(g);
             }
             if (Simulator.getStatus()!= Simulator.Status.WORKING){
                 return;
             }
-            for (int i = 0; i< Simulator.agents.size(); i++){
-                Agent a= Simulator.agents.get(i);
+            if (Simulator.getAgents()==null){
+                return;
+            }
+            for (int i = 0; i< Simulator.getAgents().size(); i++){
+                Agent a= Simulator.getAgents().get(i);
                 g.setColor(a.getColor());
                 int r=a.getR();
                 g.fillOval(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);

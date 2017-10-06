@@ -21,170 +21,159 @@ public class InfPhyTask extends Task {
         return new InfPhyTask(own, rec, mes);
     }
 
+    private void getSendedToLead(Message msg){
+        InfPhyTask task=(InfPhyTask)msg.getTask();
+        task.setProgress(Progress.WAITING_FOR_OTHERS);
+        if (!msg.getTarget().isSaboteur() &&
+                (task.broken_message && Params.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100))
+                || msg.getTask().agOwner.isDetected()
+                || 0>StRandom.nextInt(100)){
+            task.setProgress(Progress.FILTERED);
+            msg.getTask().agOwner.setDetected(true);
+            Simulator.stats.addMissingAction();
+        }
+        if (checkTasks(Progress.WAITING_FOR_OTHERS)){
+            Agent phyLead=Clusterator.getClusters().get(1).getLeader();
+            for (int i = 0; i< Simulator.tasks.size(); i++){
+                InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
+                if (t.progress==Progress.FILTERED){
+                    continue;
+                }
+                Message m=new Message(t.message,null,phyLead,msg.getTarget(),t.recipient);
+                m.setTask(t);
+                if (msg.getTarget().isSaboteur()){
+                    t.broken_message=true;
+                }
+                if (t.broken_message){
+                    m.setNegative(true);
+                }
+                msg.getTarget().sendMessage(phyLead,m);
+                t.progress=Progress.SENDED_TO_PHY;
+            }
+        }
+
+    }
+
+    private void getSendedToPhy(Message msg){
+        InfPhyTask task=(InfPhyTask)msg.getTask();
+        task.progress=Progress.WAITING_FOR_OTHERS2;
+        if (!msg.getTarget().isSaboteur() &&
+                (task.broken_message && Params.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100))
+                || msg.getTask().agOwner.isDetected()
+                || 0>StRandom.nextInt(100)){
+            task.setProgress(Progress.FILTERED);
+            Clusterator.getClusters().get(0).getLeader().setDetected(true);
+            for (Task t: Simulator.tasks){
+                InfPhyTask it=(InfPhyTask) t;
+                it.setProgress(Progress.FILTERED);
+                Simulator.stats.addMissingAction();
+            }
+//            msg.getTask().agOwner.setDetected(true);
+//            Simulator.stats.addMissingAction();
+        }
+        if (checkTasks(Progress.WAITING_FOR_OTHERS2)) {
+            for (int i = 0; i< Simulator.tasks.size(); i++) {
+                InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
+                if (t.progress==Progress.FILTERED){
+                    continue;
+                }
+                if (t.recipient==msg.getTarget()){
+                    t.progress=Progress.LINE_FEED_BACK_WAITING_FOR_OTHER;
+                    if (checkTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER)) {
+                        Agent infLead=Clusterator.getClusters().get(0).getLeader();
+                        Message m=new Message("LINE FEEDBACK",null,infLead,msg.getTarget(),t.agOwner);
+                        m.setTask(t);
+                        if (msg.getTarget().isSaboteur()){
+                            t.broken_message=true;
+                        }
+                        if (t.broken_message){
+                            m.setNegative(true);
+                        }
+                        msg.getTarget().sendMessage(infLead,m);
+                        t.progress=Progress.LINE_FEED_BACK_TO_INF_LEAD;
+
+                    }
+                } else {
+                    Message m = new Message(t.message, null, t.recipient,
+                            msg.getTarget());
+                    m.setTask(t);
+                    if (msg.getTarget().isSaboteur()){
+                        t.broken_message=true;
+                    }
+                    if (t.broken_message){
+                        m.setNegative(true);
+                    }
+                    msg.getTarget().sendMessage(t.recipient, m);
+                    t.setProgress(Progress.SENDED_TO_RECIPIENT);
+                }
+            }
+        }
+
+    }
+
+    private void getLineFeedBackToPhyLead(Message msg){
+        InfPhyTask task=(InfPhyTask)msg.getTask();
+        task.setProgress(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER);
+        if (checkTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER)){
+            Agent infLead=Clusterator.getClusters().get(0).getLeader();
+            for (int i = 0; i< Simulator.tasks.size(); i++){
+                InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
+                Message m=new Message("LINE FEEDBACK",null,infLead,msg.getTarget(),t.agOwner);
+                m.setTask(t);
+                if (msg.getTarget().isSaboteur()){
+                    t.broken_message=true;
+                }
+                if (t.broken_message){
+                    m.setNegative(true);
+                }
+                msg.getTarget().sendMessage(infLead,m);
+                t.progress=Progress.LINE_FEED_BACK_TO_INF_LEAD;
+            }
+        }
+
+    }
+
+    private void getLineFeedBackToInfLead(Message msg){
+        InfPhyTask task=(InfPhyTask)msg.getTask();
+        Agent infLead=Clusterator.getClusters().get(0).getLeader();
+        task.setProgress(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER2);
+        if (checkTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER2)){
+            for (int i = 0; i< Simulator.tasks.size(); i++){
+                InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
+                if (t.agOwner==infLead){
+                    t.progress=Progress.SOLVED;
+                    if (t.broken_message){
+                        infLead.setSaboteur(true);
+                    }
+                    t.solve();
+                } else {
+                    Message m = new Message("LINE FEEDBACK", null, t.agOwner, infLead, t.agOwner);
+                    m.setTask(t);
+                    if (msg.getTarget().isSaboteur()){
+                        t.broken_message=true;
+                    }
+                    if (t.broken_message){
+                        m.setNegative(true);
+                    }
+                    infLead.sendMessage(t.agOwner, m);
+                    t.progress = Progress.LINE_FEED_BACK_TO_SENDER;
+                }
+            }
+        }
+    }
+
     @Override
     public void onGetMessage(Message msg) {
         if (feedback(msg)){
             return;
         }
         InfPhyTask task=(InfPhyTask)msg.getTask();
-
-        //дебаг------------------------------
-        System.out.println();
-        System.out.println("ПРИШЛО: "+task.getProgress());
-        for (Task t: Simulator.tasks){
-            System.out.println(((InfPhyTask)t).getProgress());
-        }
-
         if (msg.getTarget().isLead()){
             switch (task.getProgress()){
-                case SENDED_TO_LEAD:
-                    task.setProgress(Progress.WAITING_FOR_OTHERS);
-                    if (!msg.getTarget().isSaboteur() &&
-                            (task.broken_message && Params.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100))
-                            || msg.getTask().agOwner.isDetected()
-                            || 3>StRandom.nextInt(100)){
-                        task.setProgress(Progress.FILTERED);
-                        msg.getTask().agOwner.setDetected(true);
-                        Simulator.stats.addMissingAction();
-                    }
-                    if (checkTasks(Progress.WAITING_FOR_OTHERS)){
-                        Agent phyLead=Clusterator.getClusters().get(1).getLeader();
-                        for (int i = 0; i< Simulator.tasks.size(); i++){
-                            InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
-                            if (t.progress==Progress.FILTERED){
-                                continue;
-                            }
-                            Message m=new Message(t.message,null,phyLead,msg.getTarget(),t.recipient);
-                            m.setTask(t);
-                            if (msg.getTarget().isSaboteur()){
-                                t.broken_message=true;
-                            }
-                            if (t.broken_message){
-                                m.setNegative(true);
-                            }
-                            msg.getTarget().sendMessage(phyLead,m);
-                            t.progress=Progress.SENDED_TO_PHY;
-                        }
-                    }
-                    return;
-                case SENDED_TO_PHY:
-
-                    //дебаг-----------------------
-                    System.out.println("ЗАШЛО В КЕЙС");
-
-                    task.progress=Progress.WAITING_FOR_OTHERS2;
-                    if (!msg.getTarget().isSaboteur() &&
-                            (task.broken_message && Params.MESSAGE_CHECK_PERCENT>StRandom.nextInt(100))
-                            || msg.getTask().agOwner.isDetected()
-                            || 3>StRandom.nextInt(100)){
-
-                        //дебаг-----------------------
-                        System.out.println("ЗАШЛО В ФИЛЬТР");
-
-                        task.setProgress(Progress.FILTERED);
-                        msg.getTask().agOwner.setDetected(true);
-                        Simulator.stats.addMissingAction();
-                    }
-                    if (checkTasks(Progress.WAITING_FOR_OTHERS2)) {
-
-                        //дебаг-----------------------
-                        System.out.println("ПРОШЛО ТАСК ЧЕК");
-
-                        for (int i = 0; i< Simulator.tasks.size(); i++) {
-                            InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
-                            if (t.progress==Progress.FILTERED){
-                                continue;
-                            }
-                            if (t.recipient==msg.getTarget()){
-                                t.progress=Progress.LINE_FEED_BACK_WAITING_FOR_OTHER;
-                                if (checkTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER)) {
-                                    Agent infLead=Clusterator.getClusters().get(0).getLeader();
-                                    Message m=new Message("LINE FEEDBACK",null,infLead,msg.getTarget(),t.agOwner);
-                                    m.setTask(t);
-                                    if (msg.getTarget().isSaboteur()){
-                                        t.broken_message=true;
-                                    }
-                                    if (t.broken_message){
-                                        m.setNegative(true);
-                                    }
-                                    msg.getTarget().sendMessage(infLead,m);
-
-                                    //дебаг-----------------------
-                                    System.out.println("ОТПРАВИЛИ К ИНФ ЛИД");
-
-                                    t.progress=Progress.LINE_FEED_BACK_TO_INF_LEAD;
-
-                                }
-
-                                //дебаг-----------------------
-                                System.out.println("ОЖИДАЕТ");
-
-                            } else {
-                                Message m = new Message(t.message, null, t.recipient,
-                                        msg.getTarget());
-                                m.setTask(t);
-                                if (msg.getTarget().isSaboteur()){
-                                    t.broken_message=true;
-                                }
-                                if (t.broken_message){
-                                    m.setNegative(true);
-                                }
-                                msg.getTarget().sendMessage(t.recipient, m);
-                                t.setProgress(Progress.SENDED_TO_RECIPIENT);
-
-                                //дебаг-----------------------
-                                System.out.println("ЧТО-ТО ОТПРАВЛЕНО");
-
-                            }
-                        }
-                    }
-                    return;
-                case LINE_FEED_BACK_TO_PHY_LEAD:
-                    task.setProgress(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER);
-                    if (checkTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER)){
-                        Agent infLead=Clusterator.getClusters().get(0).getLeader();
-                        for (int i = 0; i< Simulator.tasks.size(); i++){
-                            InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
-                            Message m=new Message("LINE FEEDBACK",null,infLead,msg.getTarget(),t.agOwner);
-                            m.setTask(t);
-                            if (msg.getTarget().isSaboteur()){
-                                t.broken_message=true;
-                            }
-                            if (t.broken_message){
-                                m.setNegative(true);
-                            }
-                            msg.getTarget().sendMessage(infLead,m);
-                            t.progress=Progress.LINE_FEED_BACK_TO_INF_LEAD;
-                        }
-                    }
-                    return;
-                case LINE_FEED_BACK_TO_INF_LEAD:
-                    Agent infLead=Clusterator.getClusters().get(0).getLeader();
-                    task.setProgress(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER2);
-                    if (checkTasks(Progress.LINE_FEED_BACK_WAITING_FOR_OTHER2)){
-                        for (int i = 0; i< Simulator.tasks.size(); i++){
-                            InfPhyTask t=(InfPhyTask) Simulator.tasks.get(i);
-                            if (t.agOwner==infLead){
-                                t.progress=Progress.SOLVED;
-                                if (t.broken_message){
-                                    infLead.setSaboteur(true);
-                                }
-                                t.solve();
-                            } else {
-                                Message m = new Message("LINE FEEDBACK", null, t.agOwner, infLead, t.agOwner);
-                                m.setTask(t);
-                                if (msg.getTarget().isSaboteur()){
-                                    t.broken_message=true;
-                                }
-                                if (t.broken_message){
-                                    m.setNegative(true);
-                                }
-                                infLead.sendMessage(t.agOwner, m);
-                                t.progress = Progress.LINE_FEED_BACK_TO_SENDER;
-                            }
-                        }
-                    }
-
+                case SENDED_TO_LEAD: getSendedToLead(msg); break;
+                case SENDED_TO_PHY: getSendedToPhy(msg);; break;
+                case LINE_FEED_BACK_TO_PHY_LEAD: getLineFeedBackToPhyLead(msg); break;
+                case LINE_FEED_BACK_TO_INF_LEAD: getLineFeedBackToInfLead(msg); break;
             }
         } else {
             switch (task.progress){

@@ -3,9 +3,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import static java.awt.Color.MAGENTA;
 
-/**
- * Created by AsmodeusX on 30.11.2016.
- */
 public class Agent {
     private boolean lead=false;
     private int id;
@@ -227,11 +224,6 @@ public class Agent {
         int delayOnGenerate = getDelayFromLen(msg);
         int delayOnSending = getDelayFromDist(a.getPos());
         this.q.addToQueue(a, delayOnGenerate + delayOnSending, "SEND", msg);
-
-        /*final Agent currentAgent = this;
-        Simulator.logging("SEND message: " + msg + " from Agent " + currentAgent.getId() + " to Agent " + a.getId());
-        Simulator.fr.addLine(a.getPos(), currentAgent.getPos(), Color.RED);
-        a.getMessage(currentAgent, msg);*/
     }
 
     public void getMessage(final Agent a, final Message msg)

@@ -1,11 +1,6 @@
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.Vector;
 
-/**
- * Created by AsmodeusX on 30.11.2016.
- */
 public class Queue {
 
     static class messageData {

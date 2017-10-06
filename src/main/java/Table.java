@@ -1,8 +1,4 @@
-/**
- * Created by shepkan on 30.01.2017.
- */
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 
 /**

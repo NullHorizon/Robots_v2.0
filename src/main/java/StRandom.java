@@ -1,8 +1,5 @@
 import java.util.Random;
 
-/**
- * Created by shepkan on 13.12.2016.
- */
 public class StRandom {
     private static Random r;
     private static boolean exist=false;

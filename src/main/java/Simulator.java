@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Simulator {
-    static ArrayList<Agent> agents;
+    private static ArrayList<Agent> agents;
     static ArrayList<Task> tasks;
     static Stats stats;
     static View fr;
@@ -39,6 +39,7 @@ public class Simulator {
     }
 
     private static void next(){
+        simulationThread.setExpFinished(true);
         if (taskType.getType().equals("InfPhy") && ((InfPhyTask)taskType).getIterationNum()<
                 ((InfPhyTask)taskType).getIterationForThisExp()){
             Generator.generateTasks();
@@ -62,6 +63,7 @@ public class Simulator {
     }
 
     static void go(){
+        Simulator.cur_exp=1;
         if (simulationThread!=null) {
             simulationThread.interrupt();
         }
@@ -78,20 +80,35 @@ public class Simulator {
     }
 
     static class SimulationThread extends Thread{
+        private boolean expFinished=false;
+
+        public void setExpFinished(boolean expFinished) {
+            this.expFinished = expFinished;
+        }
         public void run(){
             while (!isInterrupted()){
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
+                if (fr.getDrawable()) {
+                    try {
+                        Thread.sleep(1);
+                    } catch (InterruptedException e) {
 
+                    }
                 }
                 for (int i=0;i<agents.size();i++){
                     if (isInterrupted() || agents==null){
                         break;
                     }
+                    int a=agents.size();
                     agents.get(i).getQ().step();
+                    if (expFinished){
+                        expFinished=false;
+                        break;
+                    }
+                    if (a!=agents.size()){
+                        System.out.println("ALARM! "+a+" "+agents.size());
+                        //System.out.println(((InfPhyTask) taskType).getIterationNum()+" "+((InfPhyTask) taskType).getIterationForThisExp());
+                    }
                 }
-
             }
         }
     }
@@ -102,6 +119,14 @@ public class Simulator {
 
     static void setStatus(Status status) {
         Simulator.status = status;
+    }
+
+    public static void setAgents(ArrayList<Agent> agents) {
+        Simulator.agents = agents;
+    }
+
+    public static ArrayList<Agent> getAgents() {
+        return agents;
     }
 
     enum Status{
