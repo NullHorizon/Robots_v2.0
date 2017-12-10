@@ -3,16 +3,21 @@ import java.util.ArrayList;
 
 public class Generator {
     public static void generate(){
-        Params.N=StRandom.nextInt(Params.MAX_AGENTS-Params.MIN_AGENTS)+Params.MIN_AGENTS;
-        Params.SABOTEUR_PERSENT=StRandom.nextInt(Params.SABOTEUR_PERSENT_MAX-Params.SABOTEUR_PERSENT_MIN)
-                + Params.SABOTEUR_PERSENT_MIN;
+        if (Params.MAX_AGENTS==0){
+            Params.N=Params.MIN_AGENTS;
+        } else {
+            Params.N = StRandom.nextInt(Params.MAX_AGENTS - Params.MIN_AGENTS) + Params.MIN_AGENTS;
+        }
+        if (Params.SABOTEUR_PERSENT_MAX==0){
+            Params.SABOTEUR_PERSENT=Params.SABOTEUR_PERSENT_MIN;
+        } else {
+            Params.SABOTEUR_PERSENT = StRandom.nextInt(Params.SABOTEUR_PERSENT_MAX - Params.SABOTEUR_PERSENT_MIN)
+                    + Params.SABOTEUR_PERSENT_MIN;
+        }
         Params.MESSAGE_CHECK_PERCENT=StRandom.nextInt(Params.MESSAGE_CHECK_PERCENT_MAX-Params.MESSAGE_CHECK_PERCENT_MIN)
                 + Params.MESSAGE_CHECK_PERCENT_MIN;
         Params.AGENT_CHECK_PERCENT=StRandom.nextInt(Params.MAX_CENTER_CHECK-Params.MIN_CENTER_CHECK)
                 + Params.MIN_CENTER_CHECK;
-        if (!(Params.MAX_AGENTS==0)){
-            Params.N=10+StRandom.nextInt(Params.MAX_AGENTS-10);
-        }
         Clusterator.reset();
         Simulator.setAgents(null);
         Simulator.tasks=null;
@@ -47,11 +52,16 @@ public class Generator {
                 int xplus = (int)(Math.sin(angle) * R), yplus =  (int)(Math.cos(angle) * R);
                 a.setPos(new Point(x + xplus, y + yplus));
             }
-            if (StRandom.nextInt(100)< Params.SABOTEUR_PERSENT){
+            /*if (StRandom.nextInt(100)< Params.SABOTEUR_PERSENT){
                 a.setSaboteur(true);
                 Simulator.stats.addStartSaboteur();
-            }
+            }*/
             Simulator.getAgents().add(a);
+        }
+        int sub=Params.N*Params.SABOTEUR_PERSENT/100;
+        for (int i=0; i<sub;i++){
+            Simulator.getAgents().get(StRandom.nextInt(Simulator.getAgents().size())).setSaboteur(true);
+            Simulator.stats.addStartSaboteur();
         }
 
     }
@@ -130,7 +140,6 @@ public class Generator {
 
     public static  void generateTasks(){
         Simulator.tasks=new ArrayList<Task>();
-        Params.TASK_NUM=StRandom.nextInt(Params.N/2)+ Params.N/2;
         if (Simulator.taskType.getType()=="InfPhy") {
             Clusterator.randIPLead();
             int j = 0;

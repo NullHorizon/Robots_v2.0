@@ -96,7 +96,7 @@ public class View extends JFrame {
         draw=new JCheckBox("Отрисовка");
         draw.setSelected(true);
         experiment_num=new EntryField();
-        experiment_num.setText("100");
+        experiment_num.setText("20");
         max_msg_len=new EntryField();
         max_msg_len.setText("10");
         min_msg_len=new EntryField();
@@ -113,6 +113,7 @@ public class View extends JFrame {
         common_panel.add(new JLabel("Максимальная длина сообщения:"));
         common_panel.add(max_msg_len);
         common_panel.add(new JLabel("Количество заданий (агенты/2 если 0):"));
+        task_num.setText("500");
         common_panel.add(task_num);
         but_panel.add(common_panel);
 
@@ -128,7 +129,7 @@ public class View extends JFrame {
         logic_group.add(simple_rb);
         logic_group.add(leader_rb);
         logic_group.add(cluster_rb);
-        infPhy_rb.setSelected(true);
+        simple_rb.setSelected(true);
         logic_panel.add(new JLabel("Модель поведения:"));
         logic_panel.add(simple_rb);
         logic_panel.add(cluster_rb);
@@ -139,8 +140,8 @@ public class View extends JFrame {
         //-----------------------число агентов-------------------------------------
         agent_min_num=new EntryField();
         agent_max_num=new EntryField();
-        agent_min_num.setText("40");
-        agent_max_num.setText("60");
+        agent_min_num.setText("100");
+        agent_max_num.setText("0");
         JPanel agent_num_panel=new CastomPanel();
         agent_num_panel.setPreferredSize(new Dimension(panel_w,100));
         agent_num_panel.add(new JLabel("Минимальное количество агентов:"));
@@ -153,12 +154,12 @@ public class View extends JFrame {
         saboteur_percent_min=new EntryField();
         saboteur_percent_min.setText("5");
         message_filter_percent_min=new EntryField();
-        message_filter_percent_min.setText("80");
+        message_filter_percent_min.setText("95");
         center_filter_percent_min=new EntryField();
         saboteur_percent_max=new EntryField();
-        saboteur_percent_max.setText("30");
+        saboteur_percent_max.setText("0");
         message_filter_percent_max=new EntryField();
-        message_filter_percent_max.setText("80");
+        message_filter_percent_max.setText("95");
         center_filter_percent_max=new EntryField();
         JPanel saboteur_panel=new CastomPanel();
         saboteur_panel.setPreferredSize(new Dimension(panel_w,300));
@@ -346,7 +347,8 @@ public class View extends JFrame {
         }
 
         @Override
-        public synchronized  void paint(Graphics g){
+        public synchronized  void paint(Graphics g1){
+            Graphics2D g=(Graphics2D) g1;
             if (Params.DRAW.equals("false")){
                 return;
             }
@@ -363,9 +365,25 @@ public class View extends JFrame {
             }
             for (int i = 0; i< Simulator.getAgents().size(); i++){
                 Agent a= Simulator.getAgents().get(i);
-                g.setColor(a.getColor());
+                //g.setColor(a.getColor());
+                g.setColor(new Color(12,12,64));
                 int r=a.getR();
-                g.fillOval(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);
+                if (a.getColor()==Color.pink) {
+                    g.fillOval(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);
+                } else {
+                    if (a.getColor() == Color.orange) {
+                        g.fillRect(a.getPos().x -r+ 25, a.getPos().y -r+ 25, r * 2, r * 2);
+                    } else {
+                        if (a.getColor() == Color.yellow) {
+                            int[] y={a.getPos().y-r+25,a.getPos().y+r+25,a.getPos().y+25},
+                                    x={a.getPos().x-r+25,a.getPos().x-r+25,a.getPos().x+r+25};
+                            g.fillPolygon(x,y,3);
+                        } else {
+                            g.fillOval(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);
+                        }
+                    }
+                }
+                //g.fillOval(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);
                 if (a.isBroken()) {
                     g.setColor(Color.BLACK);
                     g.drawLine(a.getPos().x - r+25, a.getPos().y-r+25,a.getPos().x + r+25, a.getPos().y+r+25);
@@ -410,9 +428,14 @@ public class View extends JFrame {
             this.color=Color.black;
         }
 
-        public void draw(Graphics g){
+        public void draw(Graphics2D g){
             g.setColor(color);
+            if (Color.green==color){
+                float[] dashPattern = {2.0f, 5.0f};
+                g.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 10.0f, dashPattern, 0));
+            }
             g.drawLine(p1.x+25, p1.y+25, p2.x+25, p2.y+25);
+            g.setStroke(new BasicStroke());
         }
 
         @Override

@@ -37,7 +37,7 @@ public class Params {
     public static int MAX_MSG_LEN=20;
     public static int MIN_MSG_LEN=10;
 
-    public static int ITERATION_NUM=15;
+    public static int ITERATION_NUM=10;
     public static int CLUSTERS_NUM=3;
     public static int FRIENDS_PAIR_NUM=10;
 

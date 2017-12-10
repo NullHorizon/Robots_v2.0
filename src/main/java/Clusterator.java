@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Clusterator {
     private static ArrayList<Cluster> clusters=new ArrayList<Cluster>();
-    private static int clNum=StRandom.nextInt(3)+2;
+    private static int clNum=3;//StRandom.nextInt(3)+2;
 
     public static void reset(){
         clusters=new ArrayList<Cluster>();
@@ -122,8 +122,7 @@ public class Clusterator {
         private int id;
         private Agent lead;
 
-        private static final Color[] colors= {  Color.orange ,Color.yellow, Color.pink,
-                Color.orange, Color.cyan, Color.GRAY, Color.magenta, Color.BLUE};
+        private static final Color[] colors= {  Color.orange ,Color.yellow, Color.pink};
         private static int colorNum=0;
 
         private Cluster(){
