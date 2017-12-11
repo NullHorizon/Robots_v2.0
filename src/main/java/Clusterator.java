@@ -153,20 +153,25 @@ public class Clusterator {
                 a.setColor(color);
                 a.setClusterId(this.id);
             }
-            double minDist= Params.height+ Params.width;
-            lead=null;
-            for (int i=0; i<agents.size();i++){
-                Agent a= agents.get(i);
-                if (getCom().distance(a.getPos())<minDist){
-                    lead=a;
-                    minDist=getCom().distance(a.getPos());
+            if (!(Simulator.taskType instanceof  IterableInfPhyTask)) {
+                double minDist = Params.height + Params.width;
+                lead = null;
+                for (int i = 0; i < agents.size(); i++) {
+                    Agent a = agents.get(i);
+                    if (getCom().distance(a.getPos()) < minDist) {
+                        lead = a;
+                        minDist = getCom().distance(a.getPos());
+                    }
                 }
+                lead.setLead(true);
             }
-            lead.setLead(true);
         }
 
         private void clear(){agents.clear();}
-        private void add(Agent a){ agents.add(a);}
+        private void add(Agent a){
+            agents.add(a);
+            a.setClusterId(id);
+        }
         private void remove(Agent a){ agents.remove(a);}
         private Agent getAgent(int i){ return agents.get(i);}
         private Color getColor(){return color;}
@@ -203,6 +208,45 @@ public class Clusterator {
         clusters.get(1).finish();
     }
 
+    public static void iterableInfPhyClusterisation(){
+        clusters=new ArrayList<>();
+        for (Agent a: Simulator.getAgents()){
+            a.setLead(false);
+        }
+        ArrayList<Agent> infAgents=new ArrayList<>();
+        for (Agent a:Simulator.getAgents()){
+            if (a.getLogicType()== Agent.LogicType.INF){
+                infAgents.add(a);
+            }
+        }
+        for (int i=0; i<clNum;i++){
+            Agent lead=infAgents.remove(StRandom.nextInt(infAgents.size()));
+            while (lead.getTargets().size()==0){
+                infAgents.add(lead);
+                lead=infAgents.remove(StRandom.nextInt(infAgents.size()));
+            }
+            Cluster cluster=new Cluster();
+            clusters.add(cluster);
+            cluster.add(lead);
+            lead.setClusterId(cluster.id);
+            cluster.lead=lead;
+            lead.setLead(true);
+            lead.getTargets().get(StRandom.nextInt(lead.getTargets().size())).setLead(true);
+            for (Agent a: lead.getTargets()){
+                cluster.add(a);
+            }
+        }
+        for (Agent a:infAgents){
+            Cluster cluster=clusters.get(StRandom.nextInt(clNum));
+            cluster.add(a);
+            for (Agent ta:a.getTargets()){
+                cluster.add(ta);
+            }
+        }
+        for (Cluster cluster:clusters){
+            cluster.finish();
+        }
+    }
 
     public static ArrayList<Cluster> getClusters(){return clusters;}
 }

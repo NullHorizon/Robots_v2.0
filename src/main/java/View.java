@@ -12,10 +12,11 @@ public class View extends JFrame {
     private JButton stats_but, start_but;
     private ArrayList<Line> lines=new ArrayList<>();
     private JLabel log_string;
-    private JRadioButton infPhy_rb, cluster_rb, leader_rb, simple_rb;
+    private JRadioButton infPhy_rb, cluster_rb, leader_rb, simple_rb, iterable_inf_phy_rb;
     private JTextField agent_min_num, agent_max_num, saboteur_percent_min, saboteur_percent_max,
             message_filter_percent_min, message_filter_percent_max, center_filter_percent_min, center_filter_percent_max,
-    len_koef, dist_koef, analys_koef, experiment_num, seed, min_msg_len, max_msg_len, task_num;
+    len_koef, dist_koef, analys_koef, experiment_num, seed, min_msg_len, max_msg_len, task_num, agent_num,
+    iteration_num, sub_groups_num,suboteur_percent;
     private JCheckBox draw;
 
     public View(){
@@ -81,7 +82,7 @@ public class View extends JFrame {
                 Table.showTable();
             }
         });
-        but_panel.add(stats_but);
+        //but_panel.add(stats_but);
 
         //----------прогрессбар--------------------
         progressBar=new JProgressBar(0, Params.EXPERIMENT_NUM);
@@ -108,34 +109,53 @@ public class View extends JFrame {
         common_panel.add(new JLabel("Зерно:"));
         common_panel.add(seed);
         common_panel.add(draw);
-        common_panel.add(new JLabel("Минимальная длина сообщения:"));
+        common_panel.add(new JLabel("Количество агентов:"));
+        agent_num=new EntryField();
+        agent_num.setText("30");
+        common_panel.add(agent_num);
+        common_panel.add(new JLabel("Количество подгрупп:"));
+        sub_groups_num=new EntryField();
+        sub_groups_num.setText("3");
+        common_panel.add(sub_groups_num);
+        common_panel.add(new JLabel("Количество итераций:"));
+        iteration_num=new EntryField();
+        iteration_num.setText("3");
+        common_panel.add(iteration_num);
+        common_panel.add(new JLabel("Процент диверсантов:"));
+        suboteur_percent=new EntryField();
+        suboteur_percent.setText("30");
+        common_panel.add(suboteur_percent);
+        /*common_panel.add(new JLabel("Минимальная длина сообщения:"));
         common_panel.add(min_msg_len);
         common_panel.add(new JLabel("Максимальная длина сообщения:"));
         common_panel.add(max_msg_len);
         common_panel.add(new JLabel("Количество заданий (агенты/2 если 0):"));
         task_num.setText("500");
-        common_panel.add(task_num);
+        common_panel.add(task_num);*/
         but_panel.add(common_panel);
 
         //---------------------------------выбор логики------------------------
         JPanel logic_panel=new CastomPanel();
-        logic_panel.setPreferredSize(new Dimension(panel_w,150));
+        logic_panel.setPreferredSize(new Dimension(panel_w,180));
         infPhy_rb=new JRadioButton("Информационно-физическая модель");
         simple_rb=new JRadioButton("Модель без посредников");
         leader_rb=new JRadioButton("Модель с определенными посредниками");
         cluster_rb=new JRadioButton("Модель с динамическими посредниками");
+        iterable_inf_phy_rb=new JRadioButton("Итерационная информационно-физическая модель");
         ButtonGroup logic_group=new ButtonGroup();
         logic_group.add(infPhy_rb);
         logic_group.add(simple_rb);
         logic_group.add(leader_rb);
         logic_group.add(cluster_rb);
-        simple_rb.setSelected(true);
+        logic_group.add(iterable_inf_phy_rb);
+        iterable_inf_phy_rb.setSelected(true);
         logic_panel.add(new JLabel("Модель поведения:"));
         logic_panel.add(simple_rb);
         logic_panel.add(cluster_rb);
         logic_panel.add(leader_rb);
         logic_panel.add(infPhy_rb);
-        but_panel.add(logic_panel);
+        logic_panel.add(iterable_inf_phy_rb);
+        //but_panel.add(logic_panel);
 
         //-----------------------число агентов-------------------------------------
         agent_min_num=new EntryField();
@@ -143,12 +163,12 @@ public class View extends JFrame {
         agent_min_num.setText("100");
         agent_max_num.setText("0");
         JPanel agent_num_panel=new CastomPanel();
-        agent_num_panel.setPreferredSize(new Dimension(panel_w,100));
+        agent_num_panel.setPreferredSize(new Dimension(panel_w,30));
         agent_num_panel.add(new JLabel("Минимальное количество агентов:"));
         agent_num_panel.add(agent_min_num);
         agent_num_panel.add(new JLabel("Максимальное количество агентов:"));
         agent_num_panel.add(agent_max_num);
-        but_panel.add(agent_num_panel);
+        //but_panel.add(agent_num_panel);
 
         //------------------диверсанты--------------------------------
         saboteur_percent_min=new EntryField();
@@ -175,7 +195,7 @@ public class View extends JFrame {
         saboteur_panel.add(center_filter_percent_min);
         saboteur_panel.add(new JLabel("Максимальный % фильтрации выбора центра:"));
         saboteur_panel.add(center_filter_percent_max);
-        but_panel.add(saboteur_panel);
+        //but_panel.add(saboteur_panel);
 
         //----------------------------коэфициенты------------------------------------
         len_koef=new EntryField();
@@ -191,7 +211,7 @@ public class View extends JFrame {
         koef_panel.add(dist_koef);
         koef_panel.add(new JLabel("Коэффициент анализа сообщения:"));
         koef_panel.add(analys_koef);
-        but_panel.add(koef_panel);
+        //but_panel.add(koef_panel);
 
         final JScrollPane sp=new JScrollPane(but_panel);
         sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -219,8 +239,20 @@ public class View extends JFrame {
         if (cluster_rb.isSelected()){
             return "CLUSTER";
         }
+        if (iterable_inf_phy_rb.isSelected()){
+            return "IterableInfPhy";
+        }
         return null;
     }
+
+    //--------------------Актуально------------------
+    public int getAgentsNum(){ return Integer.parseInt(agent_num.getText());}
+    public int getIterationNum(){return Integer.parseInt(iteration_num.getText());}
+    public int getSubGroupsNum(){return Integer.parseInt(sub_groups_num.getText());}
+    public int getSuboteurPercent(){return Integer.parseInt(suboteur_percent.getText());}
+    //-------------------------------------
+
+
 
     public int getMinAgent(){
         return Integer.parseInt(agent_min_num.getText());
@@ -358,17 +390,17 @@ public class View extends JFrame {
                 lines.get(i).draw(g);
             }
             if (Simulator.getStatus()!= Simulator.Status.WORKING){
-                return;
+                //return;
             }
             if (Simulator.getAgents()==null){
                 return;
             }
             for (int i = 0; i< Simulator.getAgents().size(); i++){
                 Agent a= Simulator.getAgents().get(i);
-                //g.setColor(a.getColor());
-                g.setColor(new Color(12,12,64));
+                g.setColor(a.getColor());
+                //g.setColor(new Color(12,12,64));
                 int r=a.getR();
-                if (a.getColor()==Color.pink) {
+                /*if (a.getColor()==Color.pink) {
                     g.fillOval(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);
                 } else {
                     if (a.getColor() == Color.orange) {
@@ -382,8 +414,8 @@ public class View extends JFrame {
                             g.fillOval(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);
                         }
                     }
-                }
-                //g.fillOval(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);
+                }*/
+                g.fillOval(a.getPos().x-r+25,a.getPos().y-r+25,r*2,r*2);
                 if (a.isBroken()) {
                     g.setColor(Color.BLACK);
                     g.drawLine(a.getPos().x - r+25, a.getPos().y-r+25,a.getPos().x + r+25, a.getPos().y+r+25);
@@ -402,7 +434,7 @@ public class View extends JFrame {
                     g.fillOval(a.getPos().x+r+j*6+25,a.getPos().y+25,5,5);
                 }
             }
-            if (Simulator.taskType.getType()=="InfPhy"){
+            if (Simulator.taskType.getType()=="InfPhy" || Simulator.taskType.getType()=="IterableInfPhy"){
                 g.setColor(Color.BLUE);
                 g.drawLine(Params.divide+25+ Params.R,0, Params.divide+ Params.R+25, Params.height);
                 g.drawString("INFORMATION CLUSTER",30,30);

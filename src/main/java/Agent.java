@@ -20,6 +20,7 @@ public class Agent {
     private int wrongActionNum=0;
     private int badCenterTime=0;
     private boolean detected=false;
+    private LogicType logicType;
 
     public Agent()
     {
@@ -223,7 +224,7 @@ public class Agent {
         }
         int delayOnGenerate = getDelayFromLen(msg);
         int delayOnSending = getDelayFromDist(a.getPos());
-        this.q.addToQueue(a, delayOnGenerate + delayOnSending, "SEND", msg);
+        this.q.addToQueue(a, 10, "SEND", msg);
     }
 
     public void getMessage(final Agent a, final Message msg)
@@ -236,7 +237,7 @@ public class Agent {
             return;
         }
 
-        this.q.addToQueue(a, getDelayFromLenWithAnalyze(msg), "GET", msg);
+        this.q.addToQueue(a, 10, "GET", msg);
         Simulator.taskType.onGetMessage(msg);
     }
 
@@ -274,5 +275,17 @@ public class Agent {
 
     public void setDetected(boolean detected) {
         this.detected = detected;
+    }
+
+    public LogicType getLogicType() {
+        return logicType;
+    }
+
+    public void setLogicType(LogicType logicType) {
+        this.logicType = logicType;
+    }
+
+    enum LogicType{
+        INF,PHY
     }
 }

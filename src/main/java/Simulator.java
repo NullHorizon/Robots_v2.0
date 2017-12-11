@@ -1,3 +1,5 @@
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,16 +42,19 @@ public class Simulator {
 
     private static void next(){
         simulationThread.setExpFinished(true);
-        if (taskType.getType().equals("InfPhy") && ((InfPhyTask)taskType).getIterationNum()<
-                ((InfPhyTask)taskType).getIterationForThisExp()){
+        if (taskType.getType().equals("IterableInfPhy") && ((IterableInfPhyTask)taskType).getIterationNum()<
+                ((IterableInfPhyTask)taskType).getIterationForThisExp()){
+            ((IterableInfPhyTask)taskType).nextIter();
             Generator.generateTasks();
-            ((InfPhyTask)taskType).nextIter();
-            fr.setIterNum(((InfPhyTask)taskType).getIterationNum());
+            fr.setIterNum(((IterableInfPhyTask)taskType).getIterationNum());
             return;
         }
         fr.reset();
         stats.calc();
         if (cur_exp< Params.EXPERIMENT_NUM){
+            if (taskType.getType().equals("IterableInfPhy")){
+                IterableInfPhyTask.setIterationNum(1);
+            }
             cur_exp++;
             Generator.generate();
             Generator.generateTasks();
@@ -63,20 +68,21 @@ public class Simulator {
     }
 
     static void go(){
-        Simulator.cur_exp=1;
         if (simulationThread!=null) {
             simulationThread.interrupt();
         }
         try {
-            Thread.sleep(100);
+            Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Simulator.cur_exp=1;
         Params.initFromFrame();
         Generator.generate();
         Generator.generateTasks();
         simulationThread=new SimulationThread();
         simulationThread.start();
+
     }
 
     static class SimulationThread extends Thread{
@@ -88,8 +94,9 @@ public class Simulator {
         public void run(){
             while (!isInterrupted()){
                 if (fr.getDrawable()) {
+                    fr.repaint();
                     try {
-                        Thread.sleep(1);
+                        Thread.sleep(70);
                     } catch (InterruptedException e) {
 
                     }

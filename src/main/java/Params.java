@@ -41,14 +41,20 @@ public class Params {
     public static int CLUSTERS_NUM=3;
     public static int FRIENDS_PAIR_NUM=10;
 
-    public static int N=20;
+    public static int N=30;
     public static int SABOTEUR_PERSENT=15;
     public static int MESSAGE_CHECK_PERCENT=0;
     public static int AGENT_CHECK_PERCENT=0;
     public static int divide=width/2;
+    public static int SUB_GROUP_NUM;
 
     public static void initFromFrame(){
         View f=Simulator.fr;
+        N=f.getAgentsNum();
+        ITERATION_NUM=f.getIterationNum();
+        SABOTEUR_PERSENT=f.getSuboteurPercent();
+        SUB_GROUP_NUM=f.getSubGroupsNum();
+
         LOGIC_TYPE=f.getLogic();
         MAX_AGENTS=f.getMaxAgent();
         MIN_AGENTS=f.getMinAgent();

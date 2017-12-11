@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Generator {
     public static void generate(){
-        if (Params.MAX_AGENTS==0){
+       /* if (Params.MAX_AGENTS==0){
             Params.N=Params.MIN_AGENTS;
         } else {
             Params.N = StRandom.nextInt(Params.MAX_AGENTS - Params.MIN_AGENTS) + Params.MIN_AGENTS;
@@ -13,7 +13,8 @@ public class Generator {
         } else {
             Params.SABOTEUR_PERSENT = StRandom.nextInt(Params.SABOTEUR_PERSENT_MAX - Params.SABOTEUR_PERSENT_MIN)
                     + Params.SABOTEUR_PERSENT_MIN;
-        }
+        }*/
+
         Params.MESSAGE_CHECK_PERCENT=StRandom.nextInt(Params.MESSAGE_CHECK_PERCENT_MAX-Params.MESSAGE_CHECK_PERCENT_MIN)
                 + Params.MESSAGE_CHECK_PERCENT_MIN;
         Params.AGENT_CHECK_PERCENT=StRandom.nextInt(Params.MAX_CENTER_CHECK-Params.MIN_CENTER_CHECK)
@@ -29,6 +30,7 @@ public class Generator {
             case "LEADER": Simulator.taskType= new LeadTask(); break;
             case "CLUSTER": Simulator.taskType=new ClusterTask(); break;
             case "InfPhy": Simulator.taskType=new InfPhyTask(); break;
+            case "IterableInfPhy": Simulator.taskType=new IterableInfPhyTask(); break;
         }
 
         switch (Simulator.taskType.getType()){
@@ -36,6 +38,7 @@ public class Generator {
             case "leader": leaderGenerate(); break;
             case "cluster": clusterGenerate(); break;
             case "InfPhy": infPhyGenerate(); break;
+            case "IterableInfPhy": iterableInfPhyGenerate(); break;
         }
         Simulator.setStatus(Simulator.Status.GENERATED);
     }
@@ -44,7 +47,7 @@ public class Generator {
         Simulator.setAgents(new ArrayList<Agent>());
         for (int i = 0; i< Params.N; i++){
             Agent a = new Agent();
-            if (Simulator.taskType.getType()=="InfPhy") {
+            if (Simulator.taskType.getType()=="InfPhy" || Simulator.taskType.getType()=="IterableInfPhy") {
                 double R = Params.width / 2 - 60;
                 int x = Params.width / 2;
                 int y = Params.height / 2;
@@ -58,10 +61,10 @@ public class Generator {
             }*/
             Simulator.getAgents().add(a);
         }
-        int sub=Params.N*Params.SABOTEUR_PERSENT/100;
-        for (int i=0; i<sub;i++){
-            Simulator.getAgents().get(StRandom.nextInt(Simulator.getAgents().size())).setSaboteur(true);
-            Simulator.stats.addStartSaboteur();
+        for (Agent a: Simulator.getAgents()){
+            if (StRandom.nextInt(100)<Params.SABOTEUR_PERSENT){
+                a.setSaboteur(true);
+            }
         }
 
     }
@@ -138,12 +141,50 @@ public class Generator {
         }
     }
 
+    private static void iterableInfPhyGenerate(){
+        IterableInfPhyTask iterableInfPhyTaskType=(IterableInfPhyTask) Simulator.taskType;
+        iterableInfPhyTaskType.setIterationForThisExp(Params.ITERATION_NUM);
+        commonGenerate();
+        Clusterator.setClNum(2);
+        Clusterator.infPhyClusterisation();
+        for (Agent a:Clusterator.getClusters().get(1).getAgents()){
+            Agent ta=Clusterator.getClusters().get(0).getAgents().get(StRandom.nextInt(Clusterator.getClusters().
+                    get(0).getAgents().size()));
+            ta.addTarget(a);
+            a.setTargeted(ta);
+        }
+        for (Agent a:Clusterator.getClusters().get(1).getAgents()){
+            a.setLogicType(Agent.LogicType.PHY);
+        }
+        for (Agent a:Clusterator.getClusters().get(0).getAgents()){
+            a.setLogicType(Agent.LogicType.INF);
+        }
+        if (Params.SUB_GROUP_NUM==0){
+            iterableInfPhyTaskType.setSubGroups(Clusterator.getClusters().get(0).getAgents().size());
+        } else {
+            iterableInfPhyTaskType.setSubGroups(Params.SUB_GROUP_NUM);
+        }
+        Clusterator.setClNum(iterableInfPhyTaskType.getSubGroups());
+        Clusterator.iterableInfPhyClusterisation();
+        Simulator.fr.setMaxIter(iterableInfPhyTaskType.getIterationForThisExp());
+        Simulator.fr.setIterNum(0);
+        Simulator.fr.repaint();
+    }
+
     public static  void generateTasks(){
         Simulator.tasks=new ArrayList<Task>();
-        if (Simulator.taskType.getType()=="InfPhy") {
-            Clusterator.randIPLead();
+        if (Simulator.taskType.getType()=="InfPhy" || Simulator.taskType.getType()=="IterableInfPhy") {
+            if (Simulator.taskType.getType()=="InfPhy") {
+                Clusterator.randIPLead();
+            }
             int j = 0;
-            for (Agent a : Clusterator.getClusters().get(0).getAgents()) {
+            ArrayList<Agent> infAgents=new ArrayList<>();
+            for (Agent a: Simulator.getAgents()){
+                if (a.getLogicType()== Agent.LogicType.INF){
+                    infAgents.add(a);
+                }
+            }
+            for (Agent a : infAgents) {
                 for (Agent tar : a.getTargets()) {
                     String msg = generateMessage(j);
                     j++;

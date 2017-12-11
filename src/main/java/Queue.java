@@ -122,16 +122,6 @@ public class Queue {
             Simulator.logging(owner.getId() + " SENDING MESSAGE " + firstElement.getMessage().getContent() + " TO " + firstElement.getAgent().getId());
         }
         Simulator.fr.addLine(owner.getPos(), firstElement.getAgent().getPos(), Color.red);
-//
-//        Timer tmr = new Timer();
-//        tmr.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                this.cancel();
-//                removeFromQueue(firstElement);
-//                Work();
-//            }
-//        }, firstElement.getDelay());
     }
 
     public void step(){
