@@ -8,12 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7ad8baf4-9602-4e62-acc6-a9f17e080032" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Agent.java" afterPath="$PROJECT_DIR$/src/main/java/Agent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Clusterator.java" afterPath="$PROJECT_DIR$/src/main/java/Clusterator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Generator.java" afterPath="$PROJECT_DIR$/src/main/java/Generator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Params.java" afterPath="$PROJECT_DIR$/src/main/java/Params.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Queue.java" afterPath="$PROJECT_DIR$/src/main/java/Queue.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Simulator.java" afterPath="$PROJECT_DIR$/src/main/java/Simulator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/View.java" afterPath="$PROJECT_DIR$/src/main/java/View.java" />
     </list>
     <ignored path="RobotsCommunication.iws" />
@@ -54,12 +50,12 @@
       <file leaf-file-name="Generator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Generator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="166" column="68" lean-forward="false" selection-start-line="166" selection-start-column="68" selection-end-line="166" selection-end-column="68" />
+            <state relative-caret-position="169">
+              <caret line="161" column="32" lean-forward="false" selection-start-line="161" selection-start-column="32" selection-end-line="161" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1512951545765" expanded="false" signature="4540:4546" ph="&lt;~&gt;" />
-                <marker date="1512951545765" expanded="false" signature="5584:5590" ph="&lt;~&gt;" />
+                <marker date="1513417252797" expanded="false" signature="4540:4546" ph="&lt;~&gt;" />
+                <marker date="1513417252797" expanded="false" signature="5584:5590" ph="&lt;~&gt;" />
               </folding>
             </state>
           </provider>
@@ -68,23 +64,13 @@
       <file leaf-file-name="IterableInfPhyTask.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/IterableInfPhyTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="81" column="5" lean-forward="true" selection-start-line="81" selection-start-column="5" selection-end-line="81" selection-end-column="5" />
+            <state relative-caret-position="33">
+              <caret line="352" column="13" lean-forward="false" selection-start-line="352" selection-start-column="13" selection-end-line="352" selection-end-column="13" />
               <folding>
-                <element signature="e#149#150#0" expanded="true" />
-                <element signature="e#207#208#0" expanded="true" />
-                <element signature="e#463#464#0" expanded="true" />
-                <element signature="e#500#501#0" expanded="true" />
-                <element signature="e#2953#2954#0" expanded="true" />
-                <element signature="e#2988#2989#0" expanded="true" />
                 <element signature="e#3048#3049#0" expanded="true" />
                 <element signature="e#3110#3111#0" expanded="true" />
-                <element signature="e#3346#3347#0" expanded="true" />
-                <element signature="e#3388#3389#0" expanded="true" />
-                <element signature="e#3421#3422#0" expanded="true" />
-                <element signature="e#3453#3454#0" expanded="true" />
-                <element signature="e#14106#14107#0" expanded="true" />
-                <element signature="e#14148#14149#0" expanded="true" />
+                <element signature="e#14163#14164#0" expanded="true" />
+                <element signature="e#14205#14206#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -93,7 +79,7 @@
       <file leaf-file-name="Message.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Message.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1722">
+            <state relative-caret-position="34">
               <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
               <folding />
             </state>
@@ -103,8 +89,8 @@
       <file leaf-file-name="Queue.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Queue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="73" column="21" lean-forward="true" selection-start-line="73" selection-start-column="16" selection-end-line="73" selection-end-column="26" />
+            <state relative-caret-position="816">
+              <caret line="73" column="21" lean-forward="false" selection-start-line="73" selection-start-column="16" selection-end-line="73" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -113,7 +99,7 @@
       <file leaf-file-name="Clusterator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Clusterator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-430">
+            <state relative-caret-position="288">
               <caret line="210" column="23" lean-forward="false" selection-start-line="210" selection-start-column="23" selection-end-line="210" selection-end-column="23" />
               <folding />
             </state>
@@ -123,7 +109,7 @@
       <file leaf-file-name="Simulator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Simulator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
+            <state relative-caret-position="306">
               <caret line="23" column="16" lean-forward="false" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="16" />
               <folding>
                 <marker date="1512951498339" expanded="true" signature="1715:2006" ph="{...}" />
@@ -135,11 +121,13 @@
       <file leaf-file-name="View.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/View.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="148" column="36" lean-forward="true" selection-start-line="148" selection-start-column="36" selection-end-line="148" selection-end-column="36" />
+            <state relative-caret-position="231">
+              <caret line="95" column="61" lean-forward="false" selection-start-line="95" selection-start-column="61" selection-end-line="95" selection-end-column="61" />
               <folding>
-                <element signature="e#10999#11000#0" expanded="true" />
-                <element signature="e#11063#11064#0" expanded="true" />
+                <element signature="e#18303#18304#0" expanded="true" />
+                <element signature="e#18350#18351#0" expanded="true" />
+                <element signature="e#18392#18393#0" expanded="true" />
+                <element signature="e#18444#18445#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -148,7 +136,7 @@
       <file leaf-file-name="Task.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Task.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
+            <state relative-caret-position="425">
               <caret line="25" column="25" lean-forward="false" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
               <folding />
             </state>
@@ -158,7 +146,7 @@
       <file leaf-file-name="Agent.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Agent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
+            <state relative-caret-position="3077">
               <caret line="226" column="31" lean-forward="false" selection-start-line="226" selection-start-column="31" selection-end-line="226" selection-end-column="31" />
               <folding />
             </state>
@@ -168,8 +156,8 @@
       <file leaf-file-name="Params.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Params.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="39" column="30" lean-forward="true" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="35" />
+            <state relative-caret-position="220">
+              <caret line="78" column="38" lean-forward="false" selection-start-line="78" selection-start-column="38" selection-end-line="78" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -266,11 +254,11 @@
         <option value="$PROJECT_DIR$/src/main/java/ClusterTask.java" />
         <option value="$PROJECT_DIR$/src/main/java/Clusterator.java" />
         <option value="$PROJECT_DIR$/src/main/java/Queue.java" />
-        <option value="$PROJECT_DIR$/src/main/java/View.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Params.java" />
         <option value="$PROJECT_DIR$/src/main/java/Agent.java" />
-        <option value="$PROJECT_DIR$/src/main/java/IterableInfPhyTask.java" />
         <option value="$PROJECT_DIR$/src/main/java/Simulator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Params.java" />
+        <option value="$PROJECT_DIR$/src/main/java/View.java" />
+        <option value="$PROJECT_DIR$/src/main/java/IterableInfPhyTask.java" />
         <option value="$PROJECT_DIR$/src/main/java/Generator.java" />
       </list>
     </option>
@@ -312,9 +300,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -345,6 +330,9 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -873,7 +861,8 @@
       <workItem from="1508315593832" duration="29000" />
       <workItem from="1511228250787" duration="487000" />
       <workItem from="1512905791781" duration="10492000" />
-      <workItem from="1512936384694" duration="15155000" />
+      <workItem from="1512936384694" duration="15276000" />
+      <workItem from="1513415881813" duration="1349000" />
     </task>
     <task id="LOCAL-00001" summary="stats collection">
       <created>1494927614669</created>
@@ -1001,11 +990,18 @@
       <option name="project" value="LOCAL" />
       <updated>1512906040773</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="it works!">
+      <created>1512951562234</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1512951562234</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="168281000" />
+    <option name="totallyTimeSpent" value="169751000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1028,21 +1024,20 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24222586" sideWeight="0.53025717" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25040916" sideWeight="0.4697428" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11456628" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290469" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25040916" sideWeight="0.4697428" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19213313" sideWeight="0.4942717" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19515885" sideWeight="0.4942717" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17512275" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22094926" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19667171" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32242227" sideWeight="0.48184568" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17170954" sideWeight="0.5057283" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32242227" sideWeight="0.48184568" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1050,6 +1045,7 @@
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290469" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1106,7 +1102,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="39" />
+      <option name="time" value="40" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1153,8 +1149,8 @@
           <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1512951545765" expanded="false" signature="4540:4546" ph="&lt;~&gt;" />
-            <marker date="1512951545765" expanded="false" signature="5584:5590" ph="&lt;~&gt;" />
+            <marker date="1513417252797" expanded="false" signature="4540:4546" ph="&lt;~&gt;" />
+            <marker date="1513417252797" expanded="false" signature="5584:5590" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -1211,8 +1207,8 @@
           <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1512951545765" expanded="false" signature="4540:4546" ph="&lt;~&gt;" />
-            <marker date="1512951545765" expanded="false" signature="5584:5590" ph="&lt;~&gt;" />
+            <marker date="1513417252797" expanded="false" signature="4540:4546" ph="&lt;~&gt;" />
+            <marker date="1513417252797" expanded="false" signature="5584:5590" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -1368,10 +1364,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="16" lean-forward="false" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
-          <folding>
-            <element signature="e#113#114#0" expanded="false" />
-            <element signature="e#145#146#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1387,7 +1379,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1459,17 +1450,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Clusterator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-430">
-          <caret line="210" column="23" lean-forward="false" selection-start-line="210" selection-start-column="23" selection-end-line="210" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Task.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
+        <state relative-caret-position="425">
           <caret line="25" column="25" lean-forward="false" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
           <folding />
         </state>
@@ -1477,7 +1460,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Message.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1722">
+        <state relative-caret-position="34">
           <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
           <folding />
         </state>
@@ -1485,67 +1468,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Queue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="73" column="21" lean-forward="true" selection-start-line="73" selection-start-column="16" selection-end-line="73" selection-end-column="26" />
+        <state relative-caret-position="816">
+          <caret line="73" column="21" lean-forward="false" selection-start-line="73" selection-start-column="16" selection-end-line="73" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Agent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
+        <state relative-caret-position="3077">
           <caret line="226" column="31" lean-forward="false" selection-start-line="226" selection-start-column="31" selection-end-line="226" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/View.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="148" column="36" lean-forward="true" selection-start-line="148" selection-start-column="36" selection-end-line="148" selection-end-column="36" />
-          <folding>
-            <element signature="e#10999#11000#0" expanded="true" />
-            <element signature="e#11063#11064#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Params.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="39" column="30" lean-forward="true" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/IterableInfPhyTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="81" column="5" lean-forward="true" selection-start-line="81" selection-start-column="5" selection-end-line="81" selection-end-column="5" />
-          <folding>
-            <element signature="e#149#150#0" expanded="true" />
-            <element signature="e#207#208#0" expanded="true" />
-            <element signature="e#463#464#0" expanded="true" />
-            <element signature="e#500#501#0" expanded="true" />
-            <element signature="e#2953#2954#0" expanded="true" />
-            <element signature="e#2988#2989#0" expanded="true" />
-            <element signature="e#3048#3049#0" expanded="true" />
-            <element signature="e#3110#3111#0" expanded="true" />
-            <element signature="e#3346#3347#0" expanded="true" />
-            <element signature="e#3388#3389#0" expanded="true" />
-            <element signature="e#3421#3422#0" expanded="true" />
-            <element signature="e#3453#3454#0" expanded="true" />
-            <element signature="e#14106#14107#0" expanded="true" />
-            <element signature="e#14148#14149#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Simulator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
+        <state relative-caret-position="306">
           <caret line="23" column="16" lean-forward="false" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="16" />
           <folding>
             <marker date="1512951498339" expanded="true" signature="1715:2006" ph="{...}" />
@@ -1553,14 +1492,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Generator.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Params.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="166" column="68" lean-forward="false" selection-start-line="166" selection-start-column="68" selection-end-line="166" selection-end-column="68" />
+        <state relative-caret-position="220">
+          <caret line="78" column="38" lean-forward="false" selection-start-line="78" selection-start-column="38" selection-end-line="78" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1512951545765" expanded="false" signature="4540:4546" ph="&lt;~&gt;" />
-            <marker date="1512951545765" expanded="false" signature="5584:5590" ph="&lt;~&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/View.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="95" column="61" lean-forward="false" selection-start-line="95" selection-start-column="61" selection-end-line="95" selection-end-column="61" />
+          <folding>
+            <element signature="e#18303#18304#0" expanded="true" />
+            <element signature="e#18350#18351#0" expanded="true" />
+            <element signature="e#18392#18393#0" expanded="true" />
+            <element signature="e#18444#18445#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Clusterator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="210" column="23" lean-forward="false" selection-start-line="210" selection-start-column="23" selection-end-line="210" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/IterableInfPhyTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="33">
+          <caret line="352" column="13" lean-forward="false" selection-start-line="352" selection-start-column="13" selection-end-line="352" selection-end-column="13" />
+          <folding>
+            <element signature="e#3048#3049#0" expanded="true" />
+            <element signature="e#3110#3111#0" expanded="true" />
+            <element signature="e#14163#14164#0" expanded="true" />
+            <element signature="e#14205#14206#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Generator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="161" column="32" lean-forward="false" selection-start-line="161" selection-start-column="32" selection-end-line="161" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1513417252797" expanded="false" signature="4540:4546" ph="&lt;~&gt;" />
+            <marker date="1513417252797" expanded="false" signature="5584:5590" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>

@@ -159,7 +159,7 @@ public class Generator {
         for (Agent a:Clusterator.getClusters().get(0).getAgents()){
             a.setLogicType(Agent.LogicType.INF);
         }
-        if (Params.SUB_GROUP_NUM==0){
+        if (Params.NOSUBGROUPS){
             iterableInfPhyTaskType.setSubGroups(Clusterator.getClusters().get(0).getAgents().size());
         } else {
             iterableInfPhyTaskType.setSubGroups(Params.SUB_GROUP_NUM);

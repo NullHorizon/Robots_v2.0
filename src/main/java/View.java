@@ -17,7 +17,7 @@ public class View extends JFrame {
             message_filter_percent_min, message_filter_percent_max, center_filter_percent_min, center_filter_percent_max,
     len_koef, dist_koef, analys_koef, experiment_num, seed, min_msg_len, max_msg_len, task_num, agent_num,
     iteration_num, sub_groups_num,suboteur_percent;
-    private JCheckBox draw;
+    private JCheckBox draw, reclusterisation, nosubgroups;
 
     public View(){
         //------------------настройки окна---------------------
@@ -93,7 +93,7 @@ public class View extends JFrame {
 
         //------------------------общие настройки-----------------
         JPanel common_panel=new CastomPanel();
-        common_panel.setPreferredSize(new Dimension(panel_w,200));
+        common_panel.setPreferredSize(new Dimension(panel_w,300));
         draw=new JCheckBox("Отрисовка");
         draw.setSelected(true);
         experiment_num=new EntryField();
@@ -125,6 +125,11 @@ public class View extends JFrame {
         suboteur_percent=new EntryField();
         suboteur_percent.setText("30");
         common_panel.add(suboteur_percent);
+        reclusterisation=new JCheckBox("Перегруппировка на итерации");
+        reclusterisation.setSelected(true);
+        common_panel.add(reclusterisation);
+        nosubgroups=new JCheckBox("Без подгрупп");
+        common_panel.add(nosubgroups);
         /*common_panel.add(new JLabel("Минимальная длина сообщения:"));
         common_panel.add(min_msg_len);
         common_panel.add(new JLabel("Максимальная длина сообщения:"));
@@ -479,5 +484,13 @@ public class View extends JFrame {
                 return false;
             }
         }
+    }
+
+    public boolean isNoSubGroups(){
+        return nosubgroups.isSelected();
+    }
+
+    public boolean isReclusterisation(){
+        return reclusterisation.isSelected();
     }
 }

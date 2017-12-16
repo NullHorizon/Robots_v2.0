@@ -48,6 +48,9 @@ public class Params {
     public static int divide=width/2;
     public static int SUB_GROUP_NUM;
 
+    public static boolean RECLUSTERISATION=true;
+    public static boolean NOSUBGROUPS=false;
+
     public static void initFromFrame(){
         View f=Simulator.fr;
         N=f.getAgentsNum();
@@ -72,6 +75,8 @@ public class Params {
         TASK_NUM=f.getTaskNum();
         MAX_CENTER_CHECK=f.getMaxCenterFilterPercent();
         MIN_CENTER_CHECK=f.getMinCenterFilterPercent();
+        RECLUSTERISATION=f.isReclusterisation();
+        NOSUBGROUPS=f.isNoSubGroups();
         if (f.getDrawable()){
             DRAW="true";
         } else {
